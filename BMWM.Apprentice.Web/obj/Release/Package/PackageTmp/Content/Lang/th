@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources language="th">
+	<!-- Login -->
+	<resource id="Login">เข้าสู่ระบบ</resource>
+	<resource id="Username">ชื่อผู้ใช้</resource>
+	<resource id="Password">รหัสผ่าน</resource>
+  <resource id="LDAPAccount">บัญชี LDAP</resource>
+	  
+	<!--layout-->
+	<resource id="Language">ภาษา</resource>
+	<resource id="InventorySystem">ระบบจัดการคลังสินค้า</resource>
+	<resource id="ChangePassword">เปลี่ยนรหัสผ่าน</resource>
+	<resource id="LicenseInfo">ข้อมูลลิขสิทธิ์</resource>
+	<resource id="Logout">ออกจากระบบ</resource>
+
+	<!--menu-->
+  <resource group="Menu" id="Dashboard">แผงควบคุม</resource>
+  <resource group="Menu" id="Inventory">สินค้าคงคลัง</resource>
+  <resource group="Menu" id="SalesAndDistribution">การขายและการจัดจำหน่าย</resource>
+  <resource group="Menu" id="SalesOrder">ใบสั่งขาย</resource>  
+  
+	<resource group="Menu" id="Production">การผลิต</resource>
+	<resource group="Menu" id="WorkOrder">ใบสั่งงาน</resource>
+	<resource group="Menu" id="UsageConfirmation">ยืนยันการใช้วัตถุดิบ</resource>  
+  
+	<resource group="Menu" id="GoodsReceipt">การรับสินค้า</resource>
+	<resource group="Menu" id="Receipt">รับสินค้า</resource>
+	<resource group="Menu" id="ImportReceipt">นำเข้าสินค้า</resource>
+  
+	<resource group="Menu" id="IncomingInspection">ตรวจสอบการรับสินค้า</resource>
+  
+	<resource group="Menu" id="Container">แท็กบาร์โค้ด</resource>
+	<resource group="Menu" id="Assign">สร้างแท็กบาร์โค้ด</resource>
+	<resource group="Menu" id="Split">แบ่งแท็กบาร์โค้ด</resource>
+  <resource group="Menu" id="Transfer">โอนย้าย</resource>
+  <resource group="Menu" id="SplitConvert">แบ่งและแปลงสินค้า</resource>
+  <resource group="Menu" id="ScanIn">สแกนเข้าคลัง</resource>
+  <resource group="Menu" id="Pick">จัดเตรียมสินค้า</resource>
+	<resource group="Menu" id="PartIssue">ใบเบิกจ่าย</resource>
+	<resource group="Menu" id="ScanOut">สแกนออกคลัง</resource>
+	<resource group="Menu" id="Packing">การบรรจุภัณฑ์</resource>
+	<resource group="Menu" id="Pack">บรรจุภัณฑ์</resource>
+	<resource group="Menu" id="Shipment">การส่งออก</resource>
+	<resource group="Menu" id="Shipping">ส่งออก</resource>
+	<resource group="Menu" id="Manage">จัดการแท็ก</resource>
+  <resource group="Menu" id="ReverseGR">ยกเลิกการรับสินค้า</resource>
+  
+	<resource group="Menu" id="Reports">รายงาน</resource>
+	<resource group="Menu" id="CurrentInventory">สินค้าคงคลัง</resource>
+	<resource group="Menu" id="CurrentInventoryWithBBE">สินค้าคงคลัง (BBE)</resource>
+	<resource group="Menu" id="GoodsReceipt">การรับสินค้า</resource>
+  <resource group="Menu" id="GRItem">แท็กบาร์โค๊ดสินค้า</resource>
+	<resource group="Menu" id="PartIssue">การเบิกสินค้า</resource>
+	<resource group="Menu" id="PackingHistory">ประวัติการบรรจุ</resource>
+	<resource group="Menu" id="InventoryCount">การนับสินค้า</resource>
+	<resource group="Menu" id="SkippedFIFO">การเบิกข้าม FIFO</resource>
+  <resource group="Menu" id="LocationStatus">สถานที่เก็บของสินค้า</resource>
+  <resource group="Menu" id="AvailabilityLocation">สถานะที่เก็บของสินค้า</resource>
+  <resource group="Menu" id="Movement">ความคลื่อนไหวสต็อก</resource>
+  <resource group="Menu" id="ContainerHistory">ประวัติแท๊ก</resource>
+  <resource group="Menu" id="InventorySummary">Inventory Summary</resource>
+  <resource group="Menu" id="PackDetail">Pack Detail</resource>
+  <resource group="Menu" id="BomStructure">BOM Structure</resource>
+  <resource group="Menu" id="ContainerInLocation">Container In Location</resource>
+  <resource group="Menu" id="MovementSummary">Movement Summary</resource>
+  <resource group="Menu" id="PickingItem">Picking Item</resource>
+  <resource group="Menu" id="PartSalesOrder">Sales Order</resource>
+  <resource group="Menu" id="WorkOrderHistory">ประวัติการสั่งงาน</resource>
+  <resource group="Menu" id="UsageConfirm">Usage Confirm</resource>
+  
+	<resource group="Menu" id="Settings">ตั้งค่า</resource>  
+	<resource group="Menu" id="MasterData">ข้อมูลหลัก</resource>  
+	<resource group="Menu" id="Part">รหัสสินค้า</resource>
+	<resource group="Menu" id="BOM">สูตรการผลิต</resource>
+	<resource group="Menu" id="StorageType">ประเภทบรรจุภัณฑ์</resource>
+	<resource group="Menu" id="Client">ผู้ที่เกี่ยวข้อง</resource>
+	<resource group="Menu" id="Customer">ลูกค้า</resource>
+	<resource group="Menu" id="Carrier">ผู้ให้บริการ</resource>
+	<resource group="Menu" id="Supplier">ผู้ผลิต</resource>
+	<resource group="Menu" id="Company">บริษัท</resource>
+	<resource group="Menu" id="Incoterm">ข้อกําหนด</resource>
+	<resource group="Menu" id="mPartCategory">หมวดหมู่สินค้า</resource>
+  <resource group="Menu" id="mPartType">ประเภทสินค้า</resource>
+  <resource group="Menu" id="mPartGroup">กลุ่มสินค้า</resource>
+	<resource group="Menu" id="PartIssueType">ประเภทการนำออก</resource>
+	<resource group="Menu" id="ReceiptType">ประเภทการรับสินค้า</resource>
+	<resource group="Menu" id="ProductionLine">สายการผลิต</resource>
+	<resource group="Menu" id="Currency">สกุลเงิน</resource>
+	<resource group="Menu" id="UOM">หน่วย</resource>
+	<resource group="Menu" id="WarehouseType">ประเภทคลังสินค้า</resource>
+  <resource group="Menu" id="MovementType">ประเภทการเคลื่อนไหว</resource>	
+	
+	<resource group="Menu" id="LabelPrinting">การพิมพ์แท็กบาร์โค้ด</resource>  
+	<resource group="Menu" id="Label">แท็กบาร์โค้ด</resource>  
+	<resource group="Menu" id="RDLCTemplate">เทมเพลต RDLC</resource>  
+	<resource group="Menu" id="Location">ตำแหน่งเก็บ</resource>  
+	
+	<resource group="Menu" id="StorageLocations">ที่จัดเก็บ</resource>
+	<resource group="Menu" id="Warehouse">คลังสินค้า</resource> 
+	<resource group="Menu" id="Zone">โซน</resource> 
+	<resource group="Menu" id="Rack">ชั้น</resource> 
+	
+	<resource group="Menu" id="CustomFields">ฟิลด์ที่กำหนดเอง</resource>
+	<resource group="Menu" id="Email">อีเมล์</resource>  
+	<resource group="Menu" id="UserAccount">บัญชีผู้ใช้</resource>
+  <resource group="Menu" id="Developer">Developer</resource>
+  <resource group="Menu" id="Custom">กำหนดเอง</resource>
+
+  <!--common-->
+	<resource group="Button" id="New">สร้างใหม่</resource>
+	<resource group="Button" id="Edit">แก้ไข</resource>
+	<resource group="Button" id="Refresh">รีเฟรช</resource>
+	<resource group="Button" id="Search">ค้นหา</resource>
+	<resource group="Button" id="Active">ใช้งาน</resource>
+	<resource group="Button" id="Inactive">ไม่ใช้งาน</resource>
+	<resource group="Button" id="Upload">อัปโหลด</resource>
+	<resource group="Button" id="Save">บันทึก</resource>
+	<resource group="Button" id="Cancel">ยกเลิก</resource>
+	<resource group="Button" id="Delete">ลบ</resource>
+	<resource group="Button" id="Reset">รีเซ็ต</resource>
+  <resource group="Button" id="Refresh">รีเฟรช</resource>
+	<resource group="Button" id="Back">ย้อนกลับ</resource>
+	<resource group="Button" id="Print">พิมพ์</resource>
+	<resource group="Button" id="PrinterName">เครื่องพิมพ์</resource>
+  <resource group="Button" id="PrintLabel">พิมพ์ลาเบล</resource>
+	<resource group="Button" id="Scan">สแกน</resource>
+	<resource group="Button" id="OK">ตกลง</resource>
+	<resource group="Button" id="Submit">นำเสนอ</resource>
+	<resource group="Button" id="CompleteBox">กล่องสมบูรณ์</resource>
+	<resource group="Button" id="CompleteReceipt">ยืนยันการรับสินค้า</resource>
+	<resource group="Button" id="Reopen">เปิดใหม่</resource>
+	<resource group="Button" id="Auto">อัตโนมัติ</resource>
+	<resource group="Button" id="Close">ปิด</resource>
+	<resource group="Button" id="Block">บล็อค</resource>
+	<resource group="Button" id="Unblock">ยกเลิกบล็อค</resource>
+	<resource group="Button" id="ViewReport">แสดงรายงาน</resource>
+  <resource group="Button" id="EditInvoice">แก้ไขใบส่งของ</resource>
+  <resource group="Button" id="Summary">สรุป</resource>
+  <resource group="Button" id="GetTag">รับแท็ก</resource>
+  <resource group="Button" id="Add">Add</resource>
+  <resource group="Button" id="TransferTo">โอนไป</resource>
+  <resource group="Button" id="ShowMap">แผนที่</resource>
+  <resource group="Button" id="HideMap">ซ่อนแผนที่</resource>
+  <resource group="Button" id="Calculate">คำนวณ</resource>
+  <resource group="Button" id="Remove">ลบ</resource>
+  <resource group="Button" id="UseSNasTag">ใช้ SN เป็นแท็ก</resource>
+  <resource group="Button" id="ConfirmLocation">ยืนยันสถานที่</resource>
+  <resource group="Button" id="Render">ปฏิบัติ</resource>
+  <resource group="Button" id="SetDefault">ตั้งค่าเริ่มต้น</resource>
+  <resource group="Button" id="Approve">อนุมัติ</resource>
+  <resource group="Button" id="Release">ปลด</resource>
+  <resource group="Button" id="Convert">แปลง</resource>
+  <resource group="Button" id="AutoPick">เลือกอัตโนมัติ</resource>
+  <resource group="Button" id="Reverse">ยกเลิกการรับสินค้า</resource>
+  <resource group="Button" id="UsageCal">คำนวณการใช้งาน</resource>
+  <resource group="Button" id="Change">เปลี่ยน</resource>
+  
+  <resource id="Name">ชื่อ</resource>
+  <resource id="Surname">นามสกุล</resource>
+  <resource id="Sex">เพศ</resource>
+  <resource id="Age">อายุ</resource>
+  <resource id="Description">รายละเอียด</resource>
+	<resource id="Picture">รูปภาพ</resource>
+  <resource id="CreatedOn">วันที่สร้าง</resource>
+	<resource id="UpdatedOn">แก้ไขล่าสุด</resource>  
+	<resource id="Type">ประเภท</resource>
+	<resource id="QTY">จำนวน</resource>
+	<resource id="Remark">หมายเหตุ</resource>
+	<resource id="Sequence">ลำดับ</resource>
+	<resource id="Level">ชั้น</resource>
+	<resource id="Status">สถานะ</resource>
+	<resource id="Date">วันที่</resource>
+  <resource id="NoData">ไม่มีข้อมูล</resource>
+	<resource id="SelectFile">เลือกไฟล์</resource>
+	<resource id="Preview">ดูตัวอย่าง</resource>
+	<resource id="DowndloadTemplate">ดาวน์โหลดเทมเพลต</resource>	
+	<resource id="DateFrom">วันที่เริ่ม</resource>
+	<resource id="DateTo">วันที่สิ้นสุด</resource>
+  <resource id="RowNo">ลำดับ</resource>
+  <resource id="Total">รวม</resource>
+  <resource id="TransDate">วันที่ดำเนินการ</resource>
+  <resource id="Lists">รายการ</resource>
+  <resource id="BroughtForward">ยอดยกมา</resource>
+  <resource id="Id">รหัส</resource>
+  <resource id="ClickToSearch">คลิกเพื่อค้นหา</resource>
+  <resource group="" id="ddlPlaceholder">---เลือก---</resource>
+  <resource group="Common" id="CanNotDelBefore">ไม่สามารถลบข้อมูล [</resource>
+  <resource group="Common" id="CanNotDelAfter">] เนื่องจขากมีการใช้งาน!</resource>
+  <resource group="Common" id="Normal">ธรรมดา</resource>
+  <resource group="Common" id="RefQTY">จำนวนอ้างอิง</resource>
+  <resource group="Common" id="RefUoM">หน่วยอ้างอิง</resource>
+  <resource group="Common" id="dFrom">เริ่มต้น</resource>
+  <resource group="Common" id="dTo">สิ้นสุด</resource>
+  <resource group="Common" id="SelectWarehouse">เลือกคลังสินค้า</resource>
+  <resource group="Common" id="Year">ปี</resource>
+  <resource group="Common" id="Week">สัปดาห์</resource>
+
+  <!--Part-->
+	<resource id="PartInformation">ข้อมูลสินค้า</resource>
+	<resource id="PartList">รายการสินค้า</resource>
+  <resource id="PN">รหัสสินค้า</resource>
+	<resource id="CustomerPart">รหัสสินค้าของลูกค้า</resource>
+	<resource id="UnitPrice">ราคาต่อหน่วย</resource>
+  <resource id="UnitPriceCurrency">สกุลเงิน</resource>
+  <resource id="StandardPack">จำนวนมาตราการบรรจุ</resource>
+  <resource id="StandardPackUom">หน่วยจำนวนมาตราการบรรจุ</resource>
+	<resource id="Manufacturer">โรงงานผู้ผลิต</resource>
+	<resource id="RequiredSN">ต้องการหมายเลขซีเรียล</resource>
+	<resource id="ControlExpiryDate">ควบคุมวันหมดอายุ</resource>
+  <resource id="AssignPart">กำหนดสินค้า</resource>
+  <resource id="EditPart">แก้ไขสินค้า</resource>
+  <resource id="PartCategory">หมวดหมู่สินค้า</resource>
+	<resource id="PartType">ประเภทสินค้า</resource>
+  <resource id="PartGroup">กลุ่มสินค้า</resource>
+  <resource id="FinishGoods">สินค้าสำเร็จรูป</resource>
+	<resource id="Semi">กึ่ง</resource>
+	<resource id="RawMaterial">วัตถุดิบ</resource>
+	<resource id="Consumable">วัสดุสิ้นเปลือง</resource>
+  <resource id="Other">อื่นๆ</resource>
+	
+	<resource id="PartMapping">ตั้งค่าผูกกับรหัสสินค้า</resource>
+	<resource id="BillOfMaterial">สูตรการผลิต</resource>
+	<resource id="PartName">ชื่อสินค้า</resource>
+  <resource id="PN">ชื่อสินค้า</resource>
+	<resource id="PartDescription">รายละเอียด</resource>  
+	
+	<resource id="PartUnitOfMeasurement">การแปลงค่าหน่วย</resource>
+	<resource id="FromUnit">หน่วยเริ่มต้น</resource>
+	<resource id="Rate">อัตรา</resource>
+	<resource id="ToUnit">หน่วย</resource>
+	<resource id="UploadPart">อัพโหลดสินค้า</resource>
+
+  <resource id="Dimension">ขนาด</resource>
+  <resource id="Width">กว้าง</resource>
+  <resource id="Length">ยาว</resource>
+  <resource id="Height">สูง</resource>
+  <resource id="StrokeColor">สีเส้นขอบ</resource>
+  <resource id="FillColor">สีพื้น</resource>
+  <resource group="Part" id="OriginalPart">สินค้าแรกเริ่ม</resource>
+  <resource group="Part" id="EqualTo">เท่ากับ</resource>
+  <resource group="Part" id="LocationMapping">การแมปตำแหน่ง</resource>
+	
+	<!--BOM-->  
+	<resource id="Revision">ข้อมูลแก้ไข</resource>
+	<resource id="BOMsDetail">รายละเอียดสูตรการผลิต</resource>
+	<resource id="AddBOMDetail">เพิ่มข้อมูลสูตรการผลิต</resource>	
+	<resource id="UsageQuantity">จำนวนที่ใช้</resource>	
+	<resource id="RefDes">ข้อมูลอ้างอิง</resource>
+	<resource id="EffectiveFrom">มีผลตั้งแต่</resource>
+	<resource id="EffectiveTo">ถึง</resource>	
+	<resource id="AddSubBOMDetail">เพิ่มข้อมูลย่อยสูตรการผลิต</resource>
+	<resource id="EditBOMDetail">เแก้ไขสูตรการผลิต</resource>
+	<resource id="UploadBOM">อัพโหลดสูตรการผลิต</resource>
+	<resource id="SubPartNumber">ส่วนประกอบย่อย</resource>
+  <resource id="Barcode">บาร์โค้ด</resource>
+  <resource id="PartWhereUsed">Part:Where-used</resource>
+  <resource group="BOM" id="TopLevelPN">Top-Level-PN</resource>
+  <resource group="BOM" id="BOMSeq">BOM Seq.</resource>
+ 
+  <!--Storage Type-->
+  <resource id="Weight">กว้าง</resource>
+  <resource id="Length">ลึก</resource>
+  <resource id="Height">สูง</resource>
+  <resource id="NetWeight">น้ำหนัก</resource>
+  <resource id="GrossWeight">น้ำหนักรวม</resource>
+  <resource id="StackQty">จำนวนสแต็ค</resource>
+  <resource id="cm">ซม.</resource>
+  <resource id="kg">กก.</resource>
+  <resource id="Default">ค่าเริ่มต้น</resource>
+  <resource id="Method">กระบวนการ</resource>
+  <resource id="StroageMapping">การทำแผนที่การจัดเก็บข้อมูล</resource>
+	
+	<!--Client-->
+	<resource id="CustomerCode">รหัสลูกค้า</resource>
+	<resource id="CustomerName">ชื่อลูกค้า</resource>
+	<resource id="CustomerPartDescription">ชื่อลูกค้า</resource>	
+	<resource id="TaxNo">เลขภาษี</resource>
+	<resource id="Address">ที่อยู่</resource>
+	<resource id="Phone">โทรศัพท์</resource>
+	<resource id="Fax">แฟกซ์</resource>
+  <resource id="UploadClient">อัพโหลด</resource>
+  <resource id="Code">รหัส</resource>
+	
+	<resource id="ClientAddress">ที่อยู่ของลูกค้า</resource>	
+	<resource id="AssignClientAddress">สร้างที่อยู่ของลูกค้า</resource>
+	<resource id="ClientAddressType">ประเภท</resource>
+	<resource id="EditClientAddress">แก้ไขที่อยู่ลูกค้า</resource>
+  <resource id="ClientAddrName">สาขา</resource>
+  
+	<!--Receipt Type-->
+	<resource id="InternalMove">เคลือนย้ายภายใน</resource>
+	<resource id="Return">นำกลับมาใช้</resource>
+	
+	<!--Label-->
+	<resource id="Template">แบบ</resource>
+	<resource id="PrintEngine">รูปแบบการพิมพ์</resource>
+	<resource id="CustomerLabel">บาร์โค้ดของลูกค้า</resource>
+	<resource id="LabelInformation">ข้อมูลบาร์โค้ด</resource>
+	<resource id="SubStringName">ชื่อข้อมูลย่อย</resource>
+	<resource id="SubStringValueFormat">รูปแบบ ค่าข้อมูลย่อย</resource>
+	<resource id="AssignUsage">กำหนดการใช้งาน</resource>
+  <resource id="PrintName">ชื่อเครื่องพิมพ์</resource>
+	
+	<!--warehouse-->
+	<resource id="ContactDetails">รายละเอียดการติดต่อ</resource>
+	<resource id="GoodsReceiptwithScanIn">การรับสินค้าพร้อมด้วยการสแกน</resource>
+	<resource id="GoodsIn">สินค้าภายใน</resource>
+	<resource id="GoodsOut">สินค้าภายนอก</resource>
+  <resource id="IsPickOverReqQty">เบิกเกินค่าที่กำหนด</resource>
+  <resource id="IsPartialPick">เบิกครบจำนวน</resource>
+
+  <!--zone-->
+  <resource id="ZoneType">ประเภท</resource>
+  
+  <!--Location-->  
+  <resource group="LOC" id="Staging">เริ่มต้น</resource>
+  <resource group="LOC" id="Seq.">ลำดับ</resource>
+
+  <!--sketch-->
+  <resource id="Sketch">Sketch</resource>
+  <resource id="SketchType">ประเภท</resource>
+	
+	<!--Custom Field-->
+	<resource id="TableName">ชื่อตาราง</resource>
+	<resource id="ColumnName">ชื่อคอลัมน์</resource>
+	<resource id="Required">ต้องการ</resource>
+	
+	<!--Email-->
+	<resource id="Action">กระทำ</resource>
+	<resource id="Subject">หัวข้อ</resource>
+	<resource id="To">ถึง</resource>
+	<resource id="CC">สำเนา</resource>
+  <resource group="Email" id="BCC">สำเนาลับ</resource>
+	<resource id="SQLScript">สคริปต์ SQL</resource>
+	<resource id="Header">ส่วนหัว</resource>
+	<resource id="Detail">รายละเอียด</resource>
+	<resource id="Footer">ส่วนท้าย</resource>
+  <resource group="Email" id="SMTPServer">เอสเอ็มทีพี เซอร์เวอร์</resource>
+  <resource group="Email" id="Sender">ผู้ส่ง</resource>
+  <resource group="Email" id="Host">โฮส</resource>
+  <resource group="Email" id="Port">พอร์ต</resource>
+  <resource group="Email" id="SSL">เอสเอสแอล</resource>
+
+
+  <!--Authorization-->
+	<resource id="FullName">ชื่อเต็ม</resource>
+	<resource id="AuthBy">วิธีการเข้าถึง</resource>
+	<resource id="AccountAuthenticateBy">วิธีการเข้าถึง</resource>
+	<resource id="LastLogon">เข้าระบบล่าสุด</resource>
+	<resource id="UserInformation">ช้อมูลผู้ใช้ระบบ</resource>
+	<resource id="AuthorizationRole">การให้สิทธิ์</resource>
+  <resource id="AuthorizationItem">การให้สิทธิ์</resource>
+	
+	<resource id="Sales Order">ใบสั่งขาย</resource>
+	<resource id="Goods Receipt">การรับสินค้า</resource>
+	<resource id="Incoming Inspection">ตรวจสอบการรับสินค้า</resource>
+	<resource id="Scan In">สแกนเข้า</resource>
+	<resource id="Part Issue">ปล่อยออก</resource>
+	<resource id="Scan Out">สแกนออก</resource>
+	<resource id="Report">รายงาน</resource>
+	<resource id="Setting">ตั้งค่า</resource>  
+	<resource id="Inventory Count">การนับสินค้าคงคลัง</resource>  
+	<resource id="User Account">บัญชีผู้ใช้</resource>  
+	
+	<!--Sales Order-->
+	<resource id="SalesOrderName">เลขที่ใบสั่งขาย</resource>
+	<resource id="Received">ที่ได้รับ</resource>
+	<resource id="Complete">สมบูรณ์</resource>
+  <resource id="Incoterms">ข้อกําหนด</resource>
+	<resource id="VAT">ภาษีมูลค่าเพิ่ม</resource>
+  <resource id="CustomerPO">ใบสั่งซื้อจากลูกค้า</resource>
+  <resource id="Reference">การอ้างอิง</resource>
+	<resource id="PORemark">หมายเหตุ</resource>
+  <resource id="PODate">วันที่ออกใบสั่งซื้อ</resource>
+  <resource id="PONumber">เลขที่ใบสั่งซื้อ</resource>
+	<resource id="BillToShipTo">ส่งบิล / ส่งของ</resource>
+	<resource id="BillTo">ส่งบิล</resource>
+	<resource id="ContactPerson">บุคคลที่ติดต่อ</resource>
+	<resource id="ShipTo">ส่งของ</resource>
+	<resource id="SalesOrderDetails">รายละเอียดใบสั่งซื้อ</resource>
+	<resource id="LineNo">ลำดับ</resource>
+	<resource id="ShippedQTY">จำนวนที่จัดส่ง</resource>	
+	<resource id="TotalPrice">ราคารวม</resource>
+	<resource id="DeliveryDate">วันที่จัดส่ง</resource>
+	<resource id="AddSalesOrderDetails">เพิ่มรายการสั่งซื้อ</resource>
+	<resource id="EditSalesOrderDetails">แก้ไขรายการสั่งซื้อ</resource>
+  <resource group="SO" id="SalesContactPerson">ผู้ติดต่อฝ่ายขาย</resource>
+  <resource group="SO" id="SOType">ประเภทใบสั่งขาย</resource>
+  <resource group="SO" id="SODate">วันที่สั่งขาย</resource>
+  <resource group="SO" id="S/O">ใบสั่งขาย</resource>
+  <resource group="SO" id="SalesOrderStatus">สถานะใบสั่งขาย</resource>
+  <resource group="SO" id="SONo">ใบสั่งขาย</resource>
+  <resource group="SO" id="SOLineNo">ลำดับใบสั่งขาย</resource>
+  <resource group="SO" id="SOQTY">จำนวนที่สั่ง</resource>
+
+  <!--Work Order-->
+	<resource id="Start">เริ่ม</resource>
+	<resource id="Open">เปิด</resource>
+	<resource id="InProcess">อยู่ในขั้นตอน</resource>
+	<resource id="Closed">ปิด</resource>
+	<resource id="StartDate">วันที่เริ่ม</resource>
+  <resource id="StopDate">วันที่สิ้นสุด</resource>
+	<resource id="CompleteDate">วันที่เสร็จ</resource>
+	<resource id="Packaging">บรรจุภัณฑ์</resource>
+	<resource id="InventoryLocation">พื้นที่คงคลัง</resource>
+  <resource id="UsedBy">นำไปใช้ที่</resource>
+  
+  <!--Containerusage-->
+  <resource id="ConfirmationID">หมายเลขแท็ก</resource>
+  <resource id="W/ONo">เลขเวิร์คออเดอร์</resource>
+  <resource id="ContainerUsageDetails">รายละเอียดการยืนยันการใช้วัตถุดิบ</resource>
+  <resource id="Confirm">ยืนยัน</resource>
+	
+	<!--Receipt-->
+	<resource id="ReceiptName">หมายเลขการรับ</resource>
+	<resource id="InvoiceNo">หมายเลขใบแจ้งหนี้</resource>
+	<resource id="RefNo">หมายเลขอ้างอิง</resource>
+	<resource id="ReceiptDate">วันที่รับ</resource>
+	<resource id="ReceiptDetails">รายการสินค้าที่รับ</resource>
+	<resource id="BatchNo">หมายเลข Batch</resource>
+	<resource id="Amount">ปริมาณ</resource>
+  <resource id="ContainerDetails">รายละเอียดแท็ก</resource>
+  <resource id="ConfirmQty">จำนวนยืนยัน</resource>
+  <resource group="Receipt" id="ReceiptStatus">สถานะการรับสินค้า</resource>
+  
+	<!--Inspection-->
+	<resource id="ReceiptDateFrom">วันที่เริ่มรับสินค้า</resource>
+	<resource id="ReceiptDateTo">วันสุดท้ายที่รับสินค้า</resource>
+	<resource id="InspectedStatus">สถานะการตรวจสอบ</resource>			
+	<resource id="ReceiptLineNo">ลำดับรายการรับสินค้า</resource>
+	<resource id="LotNo">เลขที่ล็อต</resource>
+	<resource id="LotSize">ขนาดล็อต</resource>
+	<resource id="SampleSize">ขนาดตัวอย่าง</resource>
+	<resource id="ofDefective">ของชำรุด</resource>
+	<resource id="AcceptedQTY">จำนวนยอมรับ</resource>
+	<resource id="RejectedQTY">จำนวน Reject</resource>
+	<resource id="RejectedLot">ล็อต ที่ถูก Reject</resource>
+	<resource id="QtyHasBeenAssignedToContainers">ได้รับการกำหนดให้กับแท็กบาร์โค้ดแล้ว</resource>
+	
+	<!--Container-->
+	<resource id="Pending">สถานะรอดำเนินการ</resource>
+	<resource id="AssignContainer">สร้างแท็กบาร์โค้ด</resource>
+	<resource id="AutoPrintContainerLabel">พิมพ์บาร์โค้ดอัตโนมัติ</resource>	
+	<resource id="Accepted">ยอมรับ</resource>
+  <resource id="AssignedQTY">เสร็จแล้ว</resource>
+	<resource id="ContainerName">หมายเลขแท็ก</resource>
+	<resource id="SN">ซีเรียล</resource>
+  <resource group="Container" id="SerialNumber">ซีเรียลนำเบอร์</resource>
+	<resource id="CreateContainer">สร้างคอนเทนเนอร์</resource>
+	<resource id="AssignParameter">กำหนดพารามิเตอร์</resource>
+	<resource id="AssignLocation">กำหนดที่จัดเก็บ</resource>
+	<resource id="ReceiptAcceptedQTY">จำนวนที่ยอมรับ</resource>
+	<resource id="ReceiptAcceptedQTY">จำนวนที่ยอมรับ</resource>
+	<resource id="NumberOfContainer">จำนวนแท็กบาร์โค้ด</resource>
+	<resource id="QtyPerContainer">จำนวนต่อแท็กบาร์โค้ด</resource>
+  <resource group="Container" id="Force">บังคับ</resource>
+  <resource id="ForceLocation">บังคับสถานที่เก็บ</resource>
+  <resource group="Container" id="PutLocation">เลือกสถานที่</resource>
+  <resource group="Container" id="RecLoc">สถานที่รับสินค้า</resource>
+  <resource group="Container" id="SugLoc">สถานที่แนะนำ</resource>
+  <resource id="ExpiryDate">วันหมดอายุ</resource>
+	<resource id="ContainerParent">บรรพบุรุษคอนเทนเนอร์</resource>
+  <resource id="TabTag">แท็ก</resource>
+  <resource id="TabPutAway">การจัดเก็บ</resource>
+  <resource id="TabSimulation">การจำลอง</resource>
+  <resource id="FromLocation">จากตำแหน่ง</resource>
+  <resource id="NewLocation">ตำแหน่งใหม่</resource>
+  <resource id="ChildContainer">ลูกของแท็ก</resource>
+  <resource id="Log">ประวัติ</resource>
+  <resource group="Container" id="OriginalTag">แท็กเดิม</resource>
+  
+  <!--Order-->
+	<resource id="SlipNo">สลิปนัมเบอร์</resource>
+	<resource id="IssueFor">เบิกสำหรับ</resource>
+  <resource id="OrderRefDesc">Sales/Work Order Number</resource>
+	<resource id="OrderNumber">คำสั่งซื้อ</resource>  
+  <resource group="Order" id="OrderType">ประเภทการนำออก</resource>
+  <resource group="Order" id="OrderDate">วันที่นำออก</resource>
+  <resource group="Order" id="OrderStatus">สถานะการนำออก</resource>    
+	<resource id="OnHand">จำนวนทั้งหมด</resource>
+	<resource id="Reserved">จอง</resource>
+	<resource id="Balance">คงเหลือ</resource>
+	<resource id="ReqQTY">จำนวนที่ต้องการ</resource>
+	<resource id="RequiredQTY">จำนวนที่ต้องการ</resource>
+	<resource id="PickingItem">เลือกแท็ค</resource>
+	<resource id="PickedItem">แท็คที่เลือก</resource>
+	<resource id="SlipDetails">รายละเอียดใบเบิกจ่าย</resource>
+  <resource id="FIFO">FIFO</resource>
+  <resource id="Delivery">การจัดส่งสินค้า</resource>
+  <resource id="PickedBy">เบิกโดย</resource>
+  <resource id="StoredTag">จำนวนแท็ก</resource>
+  
+	<!--Scan Out-->
+	<resource id="AutoWithdraw">สแกนออกอัตโนมัติ</resource>
+  <resource id="Withdraw">สแกนออก</resource>
+	<resource id="Success">สำเร็จ</resource>
+  <resource id="TotalQTY">จำนวนทั้งหมด</resource>
+  <resource id="ViewContainerList">รายการแท็ก</resource>
+  <resource group="ScanOut" id="ScanBarcode">สแกนบาร์โค้ด</resource>
+	
+	<!--Pack-->
+	<resource id="PackId">เลขแพ็ค</resource>
+	<resource id="SubPack">แพ็คย่อย</resource>
+	<resource id="PackSummary">ข้อมูลสรุปการแพ็ค</resource>
+	<resource id="PackDate">วันที่แพ็ค</resource>
+	<resource id="PackDetails">รายละเอียดการแพ็ค</resource>
+	<resource id="Datetime">วัน-เวลา</resource>
+  <resource id="PackCount">จำนวนแพ็ค</resource>
+  
+	<!--Ship-->
+	<resource id="ShipName">เลขที่ขนส่ง</resource>
+	<resource id="ShippedDate">วันที่ขนส่ง</resource>
+	<resource id="ETD">อีทีดี</resource>
+	<resource id="ETA">อีทีเอ</resource>
+	<resource id="SalesOrderLine">ลำดับเลขที่ใบสั่งซื้อ</resource>
+	
+	<resource id="AdvancedSearch">การค้นหาขั้นสูง</resource>	
+	<resource id="AssignDate">วันที่สร้าง</resource>
+	<resource id="ContainerInformation">ข้อมูลแท็กบาร์โค้ด</resource>
+	<resource id="EPC">อีพีซี</resource>
+	<resource id="OriginalContainer">แท็กบาร์โค้ดเดิม</resource>
+	<resource id="ParentContainer">แท็กบาร์โค้ดหลัก</resource>
+	<resource id="QTYTotalReserved">จำนวน (ทั้งหมด/จอง)</resource>
+	<resource id="PutAway">เอาออกไป</resource>
+	<resource id="Printed">ถูกพิมพ์</resource>
+	<resource id="PrintedBy">พิมพ์โดย</resource>
+	<resource id="By">โดย</resource>
+	
+	<!--Report-->
+	<resource id="InventoryDate">วันที่เก็บสินค้า</resource>
+	<resource id="Parameter">พารามิเตอร์</resource>
+	<resource id="Profile">ข้อมูลส่วนตัว</resource>
+	<resource id="Filter">กรอง</resource>
+	<resource id="MissedItem">รายการที่พบ</resource>
+	<resource id="FoundItem">รายการที่พบ</resource>
+	<resource id="ExtraItem">รายการที่เกิน</resource>
+	<resource id="IssueDate">วันที่นำออก</resource>
+	<resource id="ExpireDate">วันหมดอายุ</resource>
+
+  <!--Invoice-->
+  <resource group="Invoice" id="Invoice">ใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="InvoiceDate">วันที่ในใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="DeliveryDate">วันที่จัดส่ง</resource>
+  <resource group="Invoice" id="InvoiceName">ใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="InvoiceType">ประเภทใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="Source">อ้างอิง</resource>
+  <resource group="Invoice" id="ClosedDate">วันที่ปิด</resource>
+  <resource group="Invoice" id="InvoiceDetails">รานละเอียดใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="CustomerPONumber">เลขที่ PO ลูกค้า</resource>
+  <resource group="Invoice" id="CustomerPODate">วันที่ออก PO ลูกค้า</resource>
+  <resource group="Invoice" id="CustomerPOLineNumber">P/O L/N ลูกค้า</resource>
+  <resource group="Invoice" id="INVNo">ใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="INVLineNo">ลำดับใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="InvoiceStatus">สถานะใบแจ้งหนี้</resource>
+  <resource group="Invoice" id="InvoiceQTY">จำนวนในใบแจ้งหนี้</resource>
+
+  <!--TruckLoad-->
+  <resource id="TruckLoad">การส่ง</resource>
+  <resource id="ScanedQTY">จำนวนที่แสกนแล้ว</resource> 
+  
+  <!--Geometry-->
+  <resource id="Geometry">Geometry</resource>  
+  <resource id="Map">แผนที่</resource>
+
+  <!--InventoryCountFrofile-->
+  <resource id="LaunchDate">Launch Date</resource>
+  <resource id="ClientConfiguration">Client Configuration</resource>
+
+  <!--Dashboard-->
+  <resource id="LastMonth">เดือนที่แล้ว</resource>
+  <resource id="LastWeek">สัปดาห์ที่แล้ว</resource>
+  <resource id="ThisWeek">สัปดาห์นี้</resource>
+  <resource id="Today">วันนี้</resource>
+  <resource id="SKU">SKU</resource>
+  <resource id="TotalInventories">รวมสินค้าคงเหลือ</resource>
+  <resource id="StockIn">สินค้านำเข้า</resource>
+  <resource id="StockOut">สินค้านำออก</resource>
+  <resource id="RECENT">ล่าสุด</resource>
+  <resource id="Activities">กิจกรรม</resource>
+  <resource id="MonthlySalesOrder">ใบสั่งขายรายเดือน</resource>
+  <resource id="MonthlyDelivery">จัดส่งรายเดือน</resource>
+  <resource id="MonthlyShpping">ช็อปปิ้งประจำเดือน</resource>
+  <resource id="MonthlyInvoices">ใบแจ้งหนี้รายเดือน</resource>
+  <resource id="OpenSalesOrder">เปิดคำสั่งขาย</resource>
+  <resource id="OpenInvoices">เปิดใบแจ้งหนี้</resource>
+
+  <!--Movement Type-->
+  <resource id="Increase">ค่าบวก</resource>
+  <resource id="StockAffect">มีผลต่อสต็อก</resource>
+
+  <!--PurchaseOrder-->
+  <resource id="PurchaseOrder">ใบสั่งซื้อ</resource>
+  <resource id="PaymentMethod">ช่องทางการชำระเงิน</resource>
+  <resource id="PurchaseOrderDetails">รายละเอียดใบสั่งซื้อ</resource>
+  <resource id="POLineNo">ลำดับพีโอ</resource>
+  <resource id="POType">ประเภทใบสั่งซื้อ</resource>
+  <resource id="PORef">อ้างอิงเอกสาร</resource>
+  <resource id="PurchasePerson">บุคคลที่สั่งซื้อ</resource>
+  <resource id="PurchaseBranch">สาขาผู้ซื้อ</resource>
+  <resource id="PurchaseAddress">ที่อยู่ผู้ซื้อ</resource>
+  <resource id="SupplierBranch">สาขาผู้ผลิต</resource>  
+
+  <resource id="BTO">สั่งจากสลิปนัมเบอร์</resource>
+  <resource id="WOType">ประเภทใบสั่งงาน</resource>
+  <resource id="FinishQty">จำนวนที่สำเร็จ</resource>
+
+  <!--BarcodePrint-->
+  <resource group="BaPRT" id="BarcodePrint">Barcode Print</resource>
+
+  <!--WOMR-->
+  <resource group="WOMR" id="MaterialRequirement">ความต้องการวัสดุ</resource>
+
+  <!--EventLog-->
+  <resource group="EventLog" id="EventLog">บันทึกเหตุการณ์</resource>
+  <resource group="EventLog" id="Event">เหตุการณ์</resource>
+  <resource group="EventLog" id="Process">ขั้นตอน</resource>
+  <resource group="EventLog" id="Result">ผลลัพธ์</resource>
+  <resource group="EventLog" id="IP">ไอ.พี.</resource>
+
+  <!--Stock-->  
+  <resource group="Stock" id="StockCloseFrequency">วันที่ปิดยอด</resource>
+  <resource group="Stock" id="VerifyStockSummary">ตรวจสอบยอดสต๊อก</resource>
+</resources>

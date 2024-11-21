@@ -1,0 +1,29 @@
+﻿@model List<ApplicationForm.Models.MsgBoxHD>
+
+
+@foreach (var MsgBoxHD in Model)
+{
+<div class="message-item message-unread">
+    @*<label class="inline">
+        <input type="checkbox" class="ace" />
+        <span class="lbl"></span>
+    </label>*@
+
+    <i class="message-star ace-icon fa fa-star orange2"></i>
+    <span title="" class="sender">@MsgBoxHD.SenderUserName </span>
+    <span class="time" style="width:150px">@MsgBoxHD.TimeLine</span>
+    @*<span class="attachment"><i class="ace-icon fa fa-paperclip"></i></span>*@
+
+ 
+        <span class="summary">
+            @* <span class="badge badge-pink mail-tag"></span>*@
+            <span class="message-flags"> <i class="ace-icon fa fa-reply light-grey"></i> </span>
+            <span class="text">
+                @Ajax.ActionLink("Click to open this message", "Details", "MessageBox", new { SenderUserId = MsgBoxHD.SenderUserId }, new AjaxOptions { HttpMethod = "POST" })
+
+            </span>
+        </span>
+    
+    </div>
+}
+

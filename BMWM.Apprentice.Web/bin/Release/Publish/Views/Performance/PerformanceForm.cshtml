@@ -1,0 +1,828 @@
+﻿@model ApplicationForm.Models.Evaluation
+@{
+    ViewBag.Title = "Performance Form";
+    ViewBag.ActiveMenuId = "Performance";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+<div class="page-header">
+    <h1>
+        Performance Evaluation Form
+    </h1>
+</div>
+@section Style {
+    <style type="text/css">
+        .txt-dte {
+            padding: 2px !important;
+            height: 24px;
+            width: 80px;
+            font-size: 12px !important;
+            text-align: center;
+        }
+
+        .breadcrumbs.sitemap {
+            display: none;
+        }
+
+        #divBtnAction {
+            display: none;
+        }
+
+        .modal-body {
+            height: 500px;
+            overflow-y: scroll;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        @using (Html.BeginForm("PerformanceForm", "Performance", FormMethod.Post, new { @id = "main-form", @class = "form-horizontal", @role = "form", @enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="col-xs-12 col-sm-12">
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">แบบฟอร์มการประเมินผลการปฏิบัติงาน</h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.Half, new { htmlAttributes = new { @type = "hidden" } })
+                                            <label class="col-sm-3 control-label no-padding-right"> Name – Surname: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "input-large", @type = "text", placeholder = "FullName", @readonly = "readonly" } })
+                                                @*@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "input-large", @type = "text", placeholder = "Surname", @readonly = "readonly" } })*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> ID No:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "input-large input-sm", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Start date: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.Startdate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Department: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.Department, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Evaluate from date:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.EvaluateFdate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Evaluate to date:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.EvaluateTdate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right" id="lbServicesInYear">Services in 20xx (days): </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.ServicesInYear, new { htmlAttributes = new { @class = "input-small", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                                @Html.ValidationMessageFor(model => model.ServicesInYear, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Process Manager: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.ProcessManager, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    ข้อมูลเกี่ยวกับการปฏิบัติตามข้อบังคับในการทำงาน (ตามรอบการประเมินข้างต้น)<br />
+                                    Work regulations record (with reference an evaluation period above)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <h5 class="col-sm-4 "> PPA (Positive Performance action)</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> เรื่อง Subject </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.PPASubject, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> วันที่ออกเอกสาร Issue date:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.PPAIssuedate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <h5 class="col-sm-4 ">Disciplinary action</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> ระดับของการดำเนินการ Level of action: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.DiscActionLevel, new { htmlAttributes = new { @class = "input-xxlarge input-sm", @type = "text", rows = "4", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> วันที่ออกเอกสาร Issue date:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.DiscActionIssuedate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    การประเมินผลการปฏิบัติงานโดยผู้จัดการกระบวนการ (Performance evaluation by Process Manager)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <h5 class="col-sm-3 control-label no-padding-right">
+                                                ปัจจัยประเมิน (Criteria):
+                                            </h5>
+                                            <h5 class="col-sm-6 control-label no-padding-left">
+                                                รายละเอียดในแต่ละปัจจัย(Descriptions)
+                                            </h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                1.Quality of job:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>ความถูกต้องและการปฏิบัติงานตามขั้นตอนการปฏิบัติงาน รวมถึงความละเอียดรอบคอบและความเรียบร้อยของงานตรงตามที่กำหนดไว้ (Follow up the work instruction and thorough and complete work on specification)</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJRank, 1)1 BR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJRank, 2)2 PR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJRank, 3)3 MR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJRank, 4)4 ER
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJRank, 5)5 ERF
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.QOJRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.QOJRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Record)" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                2.Quantity of job accomplishment:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>จำนวนผลงานที่ทำได้เสร็จตามเวลาที่กำหนด โดยคำนึงถึงการใช้อุปกรณ์ทรัพยากรหรือชิ้นส่วนต่างๆ ในการทำงาน อย่างเหมาะสม (Output compare with lead time & awareness of resources or tools to work)</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJARank, 1)1 BR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJARank, 2)2 PR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJARank, 3)3 MR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJARank, 4)4 ER
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QOJARank, 5)5 ERF
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.QOJARank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.QOJARecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Record)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                3.Skilled to work:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>ความรู้ ความเข้าใจในหลักและวิธีการปฏิบัติงานในหน้าที่ รวมทั้งความสามารถในการปฏิบัติงานได้หลายกระบวนการ (Knowledge and understanding in work instruction and able to as multi-skilled)</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.STWRank, 1)1 BR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.STWRank, 2)2 PR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.STWRank, 3)3 MR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.STWRank, 4)4 ER
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.STWRank, 5)5 ERF
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.STWRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.STWRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Record)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                4.Work regulations:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>ปฏิบัติตนตามระเบียบข้อบังคับในการทำงาน และเชื่อฟังคำสั่งอันชอบธรรมของผู้บังคับบัญชา (Behave in accordance with company regulations and obey superiors)</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.WRRank, 1)1 BR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.WRRank, 2)2 PR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.WRRank, 3)3 MR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.WRRank, 4)4 ER
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.WRRank, 5)5 ERF
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.WRRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.WRRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Record)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                5.Teamwork:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>การให้ความร่วมมือในการทำงาน, ช่วยเหลือซึ่งกันและกันในการแก้ไขปัญหาหรือความขัดแย้งในหน่วยงาน (To cooperate for working and help each other about the common resolve the conflict in organization)</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TWRank, 1)1 BR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TWRank, 2)2 PR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TWRank, 3)3 MR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TWRank, 4)4 ER
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TWRank, 5)5 ERF
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.TWRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.TWRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Record)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                6.Punctuality:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="3" readonly>การตรงต่อเวลาในการเข้าทำงานและเลิกงานตามเวลาที่กำหนด และรวมถึงการใช้เวลาพักอย่างถูกต้อง ตามที่ระบุในข้อบังคับเกี่ยวกับการทำงาน (On time to start and finished work including comply with work regulation regarding break time)</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PTRank, 1)1 BR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PTRank, 2)2 PR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PTRank, 3)3 MR
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PTRank, 4)4 ER
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PTRank, 5)5 ERF
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.PTRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.PTRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Record)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                    </div>
+                                    <div class="widget-box">
+                                        <div class="widget-header">
+                                            <h4 class="widget-title">
+                                                สถิติการมาทำงาน(Attendance)
+                                            </h4>
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+
+                                                <div class="form-horizontal" role="form">
+                                                    @*<div class="col-sm-8">*@
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right"> วันทำงานจริง (หลังจากหักวันลาที่ไม่นำมาคำนวณ (Actual working day after deduct leave day that do not calculate) - Days :</label>
+                                                        <div class="col-sm-1">
+                                                            @Html.EditorFor(model => model.ATTActwork, new { htmlAttributes = new { @class = "input-small", @type = "text", placeholder = "" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.ATTActwork, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right"> วันลาที่นำมาคำนวณ (Leave day that calculate) - Days :</label>
+                                                        <div class="col-sm-1">
+                                                            @Html.EditorFor(model => model.ATTLeave, new { htmlAttributes = new { @class = "input-small", @type = "text", placeholder = "" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.ATTLeave, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right"> คงเหลือวันทำงานจริง (Actual working day left) -Days :</label>
+                                                        <div class="col-sm-1">
+                                                            @Html.EditorFor(model => model.ATTActworkLeft, new { htmlAttributes = new { @class = "input-small", @type = "text", placeholder = "" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.ATTActworkLeft, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right">คิดเป็นสถิติการมาทำงาน (% Attendance) :</label>
+                                                        <div class="col-sm-1">
+                                                            @Html.EditorFor(model => model.ATTRate, new { htmlAttributes = new { @class = "input-small", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.ATTRate, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right">ระดับ (Performance rating) :</label>
+                                                        <div class="col-sm-3">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.ATTRank, 1)1
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.ATTRank, 2)2
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.ATTRank, 3)3
+                                                            </label>
+                                                            @Html.ValidationMessageFor(model => model.ATTRank, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    @*</div>*@
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-box">
+                                        <div class="widget-header">
+                                            <h4 class="widget-title">
+                                                สรุปผลการประเมินผลในภาพรวม (Overall evaluation)
+                                            </h4>
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-horizontal" role="form">
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right fa-font bigger-150">คะแนนรวมที่ได้รับ Total score :</label>
+                                                        <div class="col-sm-1">
+                                                            @Html.EditorFor(model => model.ATTTotal, new { htmlAttributes = new { @class = "input-small", @type = "text", placeholder = "" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.ATTTotal, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            ต่ำกว่าที่ความคาดหวัง Below Requirement (BR) :
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallEvaluation, 1)<12
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            ตรงความคาดหวังบางส่วน Partly Requirement (PR) :
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallEvaluation, 2)<17
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            ตรงตามความคาดหวังทุกประการ Meet Requirement (MR) :
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallEvaluation, 3)<24
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            สูงกว่าความคาดหวัง Exceed Requirement (ER) :
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallEvaluation, 4)>=24
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    ความเห็นของผู้ประเมิน (Comment of appraiser)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">จุดเด่น Topic of strength :</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.TopicStr, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", rows = "4", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">จุดที่ควรปรับปรุง Area for improvement :</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.AreaImp, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", rows = "4", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    หัวข้อการฝึกอบรมและพัฒนาที่พนักงานควรได้รับ (Training Plan for associate)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> หลักสูตร (Course) :</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.Course, new { htmlAttributes = new { @class = "input-xxlarge input-sm", @type = "text", rows = "4", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">ระบุเวลาที่ควรได้รับการฝึกอบรม (Plan to get training):</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.PlanGetdate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    การพิจารณาโดยหน่วยงานต้นสังกัด (Original department confirm)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-6 control-label no-padding-right">เปลี่ยนให้ปฏิบัติงานในหน้าที่ที่ลดลง (Change to lower function level) :</div>
+                                            <div class="col-sm-3">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.OriginalDeptConf, 1)Down
+                                                </label>
+                                                 @Html.ValidationMessageFor(model => model.OriginalDeptConf, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-6 control-label no-padding-right">ปฏิบัติงานในตำแหน่งหน้าที่เดิม (Retain function level) :</div>
+                                            <div class="col-sm-3">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.OriginalDeptConf, 2)Nomal
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-6 control-label no-padding-right">เปลี่ยนให้ปฏิบัติงานในหน้าที่ที่สูงขึ้น (Change to higher function level) :</div>
+                                            <div class="col-sm-3">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.OriginalDeptConf, 3)Up
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    ความเห็นของพนักงาน (Associate’s feedback)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.AssociateFeedback, new { htmlAttributes = new { @class = "input-xxlarge input-sm", @type = "text", rows = "4", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    สำหรับฝ่ายทรัพยากรบุคคล (Human Resources use only)
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.HumanResources, new { htmlAttributes = new { @class = "input-xxlarge input-sm", @type = "text", rows = "4", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1"style="padding-left:0">
+                            <button id="btnSubmit" class="btn btn-info" type="submit">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        }
+
+    </div><!-- /.row -->
+</div>
+@section Script {
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+
+        //--------------------------------------------------------------------------------
+        //$('#btnSave').click(function () {
+        //    $("#main-form").submit();
+        //});
+
+        //$(() => {
+        //    $('#btnReset').click(() => {
+        //        $(':input', '#main-form')
+        //            .not(':button, :submit, :reset, :hidden')
+        //            .val('')
+        //            .removeAttr('checked')
+        //            .removeAttr('selected');
+        //    });
+        //});
+        $("#main-form").validate({
+            rules: {
+                // simple rule, converted to {required:true}
+                name: "required",
+                // compound rule
+                '.radio-inline': {
+                    required: true,
+                    maxlength: 2
+                },
+                messages: {
+                    '.radio-inline': {
+                        required: "You must check at least 1 box",
+                        maxlength: "Check no more than {0} boxes"
+                    }
+                },
+                email: {
+                    required: true,
+                    email: true
+                }
+            }
+        });
+        //$(() => {
+        //    $("#lbServicesInYear").val(new Date().getFullYear());
+        //});
+        $('#EvaluateFdate').change(() => {
+
+            var dEvaluateFdate = new Date($("#EvaluateFdate").val());
+            var dEvaluateTdate = new Date($("#EvaluateTdate").val());
+            var nDiff = dEvaluateTdate.getDayOfYear() - dEvaluateFdate.getDayOfYear();
+            var sDiff = nDiff.toString();
+            $("#ServicesInYear").val(sDiff);
+            $("#lbServicesInYear").text("Services in " + dEvaluateFdate.getFullYear() +" (days):");           
+        });
+        $('#EvaluateTdate').change(() => {
+
+            var dEvaluateFdate = new Date($("#EvaluateFdate").val());
+            var dEvaluateTdate = new Date($("#EvaluateTdate").val());
+            var nDiff = dEvaluateTdate.getDayOfYear() - dEvaluateFdate.getDayOfYear();
+            var sDiff = nDiff.toString();
+            $("#ServicesInYear").val(sDiff);
+            $("#lbServicesInYear").text("Services in " + dEvaluateFdate.getFullYear() + " (days):"); 
+        });
+        $('#ATTActworkLeft').change(() => {
+            if ($("#ATTActwork").val() != "") {
+                var nATTActworkLeft = parseInt($("#ATTActworkLeft").val());
+                var nATTActwork = parseInt($("#ATTActwork").val());
+                var nATTRate = nATTActworkLeft *( 100/nATTActwork) ;
+                $("#ATTRate").val(nATTRate.toFixed(2));
+            }
+        });
+        $('#ATTActwork').change(() => {
+            if ($("#ATTActworkLeft").val() != "") {
+                var nATTActworkLeft = parseInt($("#ATTActworkLeft").val());
+                var nATTActwork = parseInt($("#ATTActwork").val());
+                var nATTRate = nATTActworkLeft * (100 / nATTActwork);
+                $("#ATTRate").val(nATTRate.toFixed(2));
+            }
+        });
+        $('#ATTTotal').click(() => {
+
+            var nQOJRank = parseInt($('[name="QOJRank"]:checked').val());
+            var nQOJARank = parseInt($('[name="QOJARank"]:checked').val());
+            var nSTWRank = parseInt($('[name="STWRank"]:checked').val());
+            var nWRRank = parseInt($('[name="WRRank"]:checked').val());
+            var nTWRank = parseInt($('[name="TWRank"]:checked').val());
+            var nPTRank = parseInt($('[name="PTRank"]:checked').val());
+            var nATTRank = parseInt($('[name="ATTRank"]:checked').val());
+            var nATTTotal = (nQOJRank ? nQOJRank : 0 )+ (nQOJARank ? nQOJARank : 0 )+ (nSTWRank ? nSTWRank : 0 )+ (nWRRank ? nWRRank : 0) + (nTWRank ? nTWRank : 0 )+ (nPTRank ? nPTRank : 0 )+ (nATTRank ? nATTRank:0);
+            $("#ATTTotal").val(nATTTotal);
+            var nGrade = 0;
+            if (nATTTotal<12) {
+                nGrade = 1;
+            } else if (nATTTotal < 17){
+                nGrade = 2;
+            } else if (nATTTotal < 24) {
+                nGrade = 3;
+            } else if (nATTTotal >=24) {
+                nGrade = 4;
+            }
+            $("input[name=OverallEvaluation][value=" + nGrade + "]").prop('checked', true);
+        });
+    </script>
+}
+

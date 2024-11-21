@@ -1,0 +1,212 @@
+﻿@using Toptier.Web.Resource;
+@{
+    Layout = null;
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+    var appVersion = typeof(ApplicationForm.MvcApplication).Assembly.GetName().Version;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")" />
+    @*<link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")" />*@
+    <link rel="stylesheet" href="@Url.Content("~/Content/font-awesome-4.7.0/css/font-awesome.min.css")" />
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="@Url.Content("~/css/ace-fonts.css")" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/css/ace.min.css")" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/DP/css/ace-part2.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="@Url.Content("~/css/ace-rtl.min.css")" />
+    <link href="~/css/loginStyle.css" rel="stylesheet" />
+</head>
+<body class="login-layout" style="background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
+ background-blend-mode: multiply,multiply;  font-family:Century Gothic">
+
+    <div class="slider">
+        @*<div class='slide1'></div>
+        <div class='slide2'></div>
+        <div class='slide3'></div>
+        <div class='slide4'></div>*@
+
+        <div class="main-container">
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="login-container">
+
+                            <div class="position-relative">
+                                <div id="login-box" class="login-box visible widget-box no-border" style="padding:0px; ">
+                                    <div class="widget-body" style="border-radius:4px">
+                                        <div class="widget-main" style="padding-left:30px;
+										padding-right:30px;
+										border-radius:4px;
+										background-color:#ffffff;
+									/*	border-top:3px solid #006FA4;*/
+										box-shadow: 0px 3px 22px #253963;
+										margin:100px 0 auto 0;
+										">
+
+                                            <div class="space-4"></div>
+
+                                            <div class="column text-center"><img src="../images/bmw.png" style="width: 100px; align-content: center; padding-right: 15px"></div>
+
+                                            <div class="column text-center"><img src="../images/Apprentice.png" style="width:60%; margin-bottom:10px"></div>
+
+                                            <span style="font-size:14px; color:#AFAFAF">LOGIN</span>
+
+                                            <div class="space-6"></div>
+
+                                            <form action="@Url.Action("login","home")" id="login-form" class="form-horizontal" method="post">
+                                                <input type="hidden" id="hdLicense" value="@ViewBag.license" />
+
+                                                <fieldset>
+                                                    @if (ViewBag.license == "InvalidLicense")
+                                                    {
+                                                        <div class="alert alert-danger">
+                                                            <button type="button" class="close" data-dismiss="alert">
+                                                                <i class="ace-icon fa fa-times"></i>
+                                                            </button>
+
+                                                            <strong>
+                                                                <i class="ace-icon fa fa-minus-circle"></i>
+                                                                @ViewBag.licenseMsg
+                                                            </strong>
+                                                            <br>
+                                                        </div>
+                                                    }
+
+                                                    @if (ViewBag.login != "")
+                                                    {
+                                                        <div class="alert alert-danger">
+                                                            <button type="button" class="close" data-dismiss="alert">
+                                                                <i class="ace-icon fa fa-times"></i>
+                                                            </button>
+
+                                                            <strong>
+                                                                <i class="ace-icon fa fa-minus-circle"></i>
+                                                                Login fail!
+                                                            </strong>
+
+                                                            @ViewBag.login
+                                                            <br>
+                                                        </div>
+                                                    }
+
+                                                    @if (ViewBag.license != "InvalidLicense")
+                                                    {
+                                                        <label class="block clearfix">
+                                                            <span class="block input-icon input-icon-left">
+                                                                <input type="text" class="form-control" placeholder="Username" style="padding-left:40px" id="username" name="username" />
+                                                                <img class="ace-icon" src="../images/ccw.png" style=" height:20px; margin-top:5px; padding-left:8px">
+                                                            </span>
+                                                        </label>
+
+                                                        <label class="block clearfix">
+                                                            <span class="block input-icon input-icon-left">
+                                                                <input type="password" class="form-control" placeholder="Password" style="padding-left:40px" id="password" name="password" />
+                                                                <img class="ace-icon" src="../images/cce.png" style=" height:20px; margin-top:5px; padding-left:9px">
+                                                            </span>
+                                                        </label>                                                      
+
+                                                        <div class="clearfix" style="text-align:right">
+                                                            <button type="submit" class="width-100 pull-right btn btn-sm btn-warning" id="btn-submit">
+                                                                <span class="bigger-110">Login</span>
+                                                            </button>
+                                                            <font color="#AFAFAF" size="1">Version @appVersion</font>
+                                                        </div>
+                                                    }
+
+                                                    <div class="space-8"></div>
+
+                                                    <label style="font-size:11px; font-weight:bold">@Html.Raw(ViewBag.Conn)</label>
+
+                                                    <div class="space-2"></div>
+
+                                                    <div class="clearfix">
+                                                        <label class="inline pull-left">
+                                                            <span class="lbl" style="font-size:11px; color:#006DA1"> Copyright &#169; 2021 Toptier Innovation. All rights reserved.</span>
+                                                        </label>
+                                                    </div>
+
+                                                </fieldset>
+                                            </form>
+
+                                        </div><!-- /.widget-main -->
+
+                                    </div><!-- /.widget-body -->
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        @ViewBag.licenseRequestCode
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='@Url.Content("~/js/jquery.min.js")'>" + "<" + "/script>");
+
+          var junction_font = new FontFace('CenturyGothic-Regular', 'url(../font/CenturyGothic-Regular.ttf)');
+              junction_font.load().then(function(loaded_face) {
+             document.fonts.add(loaded_face);
+               document.body.style.fontFamily = '"CenturyGothic-Regular"';
+              }).catch(function(error) {
+             // error occurred
+              });
+    </script>
+
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='@Url.Content("~/js/jquery.mobile.custom.min.js")'>" + "<" + "/script>");
+    </script>
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        jQuery(function ($) {
+            if ($('html').is('.ie6, .ie7, .ie8')) {
+                alert('Your browser is not supported. Please use Internet Explorer version 9 or higher or Google Chrome.');
+                window.location = '~/closepage.html';
+            }
+
+            if ($("#hdLicense").val() == "InvalidLicense") {
+                $('#username').prop('readonly', true);
+                $('#password').prop('readonly', true);
+                $('#btn-submit').prop('disabled', true);
+            }
+
+            $('#username').focus();
+            $("#username").keypress(function (event) {
+                if (event.which == 13) {
+                    $('#password').select();
+                    event.preventDefault();
+                    return false;
+                }
+            });
+            $("#password").keypress(function (event) {
+                if (event.which == 13) {
+                    $('#btn-submit').click();
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>

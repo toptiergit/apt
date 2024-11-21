@@ -1,0 +1,665 @@
+﻿@using Toptier.WMS.Web.Helpers;
+@using Toptier.Web.Resource;
+@{
+    bool popupMode = (ViewBag.LayoutPopupMode != null ? (bool)ViewBag.LayoutPopupMode : false);
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+    var appVersion = typeof(ApplicationForm.MvcApplication).Assembly.GetName().Version;
+
+    var CurrentController = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue;
+    var CurrentAction = ViewContext.Controller.ValueProvider.GetValue("action").RawValue;
+
+    var BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+    if (string.IsNullOrEmpty(BaseUrl))
+    {
+        BaseUrl = @"/";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/font-awesome-4.7.0/css/font-awesome.min.css")" />
+
+    <!-- page specific plugin styles -->
+    @RenderSection("Style", required: false)
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="@Url.Content("~/css/ace-fonts.css")" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/css/ace.min.css")" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="@Url.Content("~/css/ace-part2.min.css")" />
+    <![endif]-->
+    <link rel="stylesheet" href="@Url.Content("~/css/ace-skins.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/ace-rtl.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/jquery.gritter/css/jquery.gritter.min.css")" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="@Url.Content("~/css/ace-ie.min.css")" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="@Url.Content("~/js/ace-extra.min.js")"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="@Url.Content("~/js/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/js/respond.min.js")"></script>
+    <![endif]-->
+    <!-- custom style -->
+    <link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+    @RenderSection("StyleImportant", required: false)
+    <style>
+        .dataTables_processing {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            width: 200px;
+            height: 30px;
+            margin-left: -125px;
+            margin-top: -15px;
+            padding: 5px 0 5px 0;
+            text-align: center;
+            background-color: white;
+            /*border: 1px solid #ddd;
+            color: #999;
+            font-size: 14px;*/
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        .help-block {
+            color: #D16E6C !important;
+        }
+
+        .table th {
+            text-align: center !important;
+        }
+
+        #liGroupNameSales a {
+            color: white;
+            background-color: #87B87F !important;
+        }
+
+        #liGroupNameProduction a {
+            color: white;
+            background-color: #6FB3E0 !important;
+        }
+
+        #liGroupNameInventory a {
+            color: white;
+            background-color: #303030 !important;
+        }
+
+        #liGroupNameSetting a {
+            color: white;
+            background-color: #9585BF !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var BaseUrl = "@BaseUrl";
+        var CurrentController = "@CurrentController";
+        var CurrentAction = "@CurrentAction";
+
+        var GlobalGetdGeometryUrl = "@Url.Action("CreateGeometry", "OLMap")";
+        var GlobalGetGeometryUrl = "@Url.Action("GetGeometry", "OLMap")";
+        var GlobalSaveGeometryFeatureCoordinatesUrl = "@Url.Action("SaveGeometryFeatureCoordinates", "OLMap")";
+        var GlobalDeleteGeometryUrl = "@Url.Action("DeleteGeometry", "OLMap")";
+        var GlobalGetGeometryByRefKeyUrl = "@Url.Action("GetGeometryByRefKey", "OLMap")";
+        var GlobalGetActiveGeoMarkerUrl = "@Url.Action("GetActiveGeoMarker", "OLMap")";
+        var GlobalRenderGeometryByLocationUrl = "@Url.Action("GetGeometryByType", "OLMap")";
+        var GlobalGetGeometryStorageLocationsUrl = "@Url.Action("GetGeometryStorageLocations", "OLMap")";
+        var GlobalUpdateGeoPropertiesUrl = "@Url.Action("UpdateGeoProperties", "OLMap")";
+        var GlobalSetGeoMarkerLngLatUrl = "@Url.Action("SetGeoMarkerLngLat", "OLMap")";
+        var GlobalRenderSketchGeometryUrl = "@Url.Action("RenderSketchGeometry", "OLMap")";
+        var GlobalGetPopupSketchGeometryUrl = "@Url.Action("GetPopupSketchGeometry", "OLMap")";
+        var GlobalGetSketchGeometryUrl = "@Url.Action("GetSketchGeometry", "OLMap")";
+        var GlobalSaveSketchGeometryFeatureCoordinatesUrl = "@Url.Action("SaveSketchGeometryFeatureCoordinates", "OLMap")";
+        var GlobalDeleteSketchGeometryUrl = "@Url.Action("DeleteSketchGeometry", "OLMap")";
+        var GlobalGetInitialSketchGeometryLocationUrl = "@Url.Action("GetInitialSketchGeometryLocation", "OLMap")";
+        var GlobalSetSketchGeometryMvtLngLatUrl = "@Url.Action("SetSketchGeometryMvtLngLat", "OLMap")";
+        var GlobalGetSketchContainerInvUrl = "@Url.Action("GetSketchContainerInv", "OLMap")";
+        var GlobalGetLocationMvToLngLatUrl = "@Url.Action("GetLocationMvToLngLat", "OLMap")";
+        var GlobalGetMvToLngLatInLocationTableUrl = "@Url.Action("GetMvToLngLatInLocationTable", "OLMap")";
+        var GlobalSetLocationMvtLngLatUrl = "@Url.Action("SetLocationMvtLngLat", "OLMap")";
+        var GlobalSetGeometryMvtLngLatUrl = "@Url.Action("SetGeometryMvtLngLat", "OLMap")";
+        var GlobalGetAnonymousPartGroupUrl = "@Url.Action("GetAnonymousPartGroup", "OLMap")";
+        var GlobalTransferConfirmUrl = "@Url.Action("TransferConfirm", "OLMap")";
+        var GlobalGetPendingTransferConfirmUrl = "@Url.Action("GetPendingTransferConfirm", "OLMap")";
+        var GlobalSetPartDimensionUrl = "@Url.Action("SetPartDimension", "OLMap")";
+        var GlobalCreateOrUpdatePartDimensionUrl = "@Url.Action("CreateOrUpdatePartDimension", "OLMap")";
+        var GlobalCreateOrUpdateDrawUrl = "@Url.Action("CreateOrUpdateDraw", "OLMap")";
+        var GlobalSaveGeometryDescUrl = "@Url.Action("SaveGeometryDesc", "OLMap")";
+        var GlobalGetMarkerCenterUrl = "@Url.Action("GetMarkerCenter", "OLMap")";
+        var GlobalGetWarehouserMarkerUrl = "@Url.Action("GetWarehouserMarker", "OLMap")";
+        var GlobalConfirmLocationByListContainerUrl = "@Url.Action("ConfirmLocationByListContainer", "Inventory")";
+    </script>
+
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='@Url.Content("~/js/jquery.min.js")'>" + "<" + "/script>");
+                    if ('ontouchstart' in document.documentElement) document.write("<script src='@Url.Content("~/js/jquery.mobile.custom.min.js")'>" + "<" + "/script>");
+    </script>
+
+    <!-- basic scripts -->
+    <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
+
+    <!-- ace scripts -->
+    <script src="@Url.Content("~/js/ace-elements.min.js")"></script>
+    <script src="@Url.Content("~/js/ace.min.js")"></script>
+
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/date.js")"></script>
+    <script src="@Url.Content("~/js/bootbox.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery.number.min.js")"></script>
+    <script src="@Url.Content("~/js/autosize.min.js")"></script>
+
+    <script src="@Url.Content("~/Content/jquery.blockUI/jquery.blockUI.js")"></script>
+    <script src="@Url.Content("~/Content/jquery.blockUI/jquery.blockUI.custom.js")"></script>
+    <script src="@Url.Content("~/Content/jquery.gritter/js/jquery.gritter.min.js")"></script>
+
+    <link href="@Url.Content("~/Scripts/nprogress/nprogress.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/nprogress/nprogress.js")"></script>
+</head>
+<body class="no-skin">
+    <!-- #section:basics/navbar.layout -->
+    <div id="navbar" class="navbar navbar-default"  style="border-bottom: 1px solid #D9D9D9;">
+        <script type="text/javascript">
+            try { ace.settings.check('navbar', 'fixed') } catch (e) { }
+        </script>
+
+        <div class="navbar-container" id="navbar-container">
+            <!-- #section:basics/sidebar.mobile.toggle -->
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- /section:basics/sidebar.mobile.toggle -->
+            <div class="navbar-header pull-left">
+                <!-- #section:basics/navbar.layout.brand -->
+                <a href="#" class="navbar-brand">
+                    <small>
+                        @*<img src="~/images/bmw.png" style="width:30px" />*@
+                        <strong class="bold" style="color:black">APPRENTICE</strong>
+                        <br />
+                        <small style="color:black"> Program</small>
+                    </small>
+                </a>
+
+                @*<img src="~/images/bmw.png" style="width:50px" />
+                    <img src="~/images/mini.png" style="width:50px" />*@
+
+                @*<a href="@Url.Action("index","dashboard")" class="navbar-brand" style="padding-left: 0">
+                        <img src="~/images/wms3-logo.png" style="width:105px" />
+                    </a>*@
+
+                <!-- /section:basics/navbar.layout.brand -->
+                <!-- #section:basics/navbar.toggle -->
+                <!-- /section:basics/navbar.toggle -->
+            </div>
+
+            @if (!popupMode)
+            {
+                <!-- #section:basics/navbar.dropdown -->
+                <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                    <ul class="nav ace-nav">
+                        <li class="light-blue">
+                            <img src="~/images/bmw.png" style="width:50px" />
+                        </li>
+
+                        @*<li class="light-blue">
+                                <a href="@Url.Action("index","dashboard")">
+                                    <i class="ace-icon fa fa-tachometer"></i>
+                                    @lang.GetValue("Dashboard")
+                                </a>
+
+                            </li>*@
+                        <!-- #section:basics/navbar.language -->
+                        @*<li class="light-blue dropdown-modal">
+                                <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                    <i class="ace-icon fa fa-globe"></i>
+                                    @(Toptier.Web.Resource.ResourceManager.CurrentLanguage == "en" ? "English" : "ภาษาไทย")
+
+                                    <i class="ace-icon fa fa-caret-down"></i>
+                                </a>
+
+                                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                                    <li>
+                                        <a href="@Url.Action("changelanguage", "home")?lang=en&url=@Request.Url.PathAndQuery">
+                                            <img src="~/images/flags/United-States.png" />
+                                            English
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("changelanguage", "home")?lang=th&url=@Request.Url.PathAndQuery">
+                                            <img src="~/images/flags/Thailand.png" />
+                                            ภาษาไทย
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>*@
+
+                        <!-- #section:basics/navbar.notification -->
+                        <!-- #section:basics/navbar.user_menu -->
+                        <li class="light-white">
+
+                            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                <span class="" style="font-size:14px">
+                                    @*<small>Welcome,</small>*@
+                                    @if (Toptier.Authentication.Web.UserAuthentication.UserId != null)
+                                    {
+                                        <i class="ace-icon fa fa-user"></i>
+                                        @: @(((Toptier.Authentication.Web.UserAuthentication.User.DisplayName)))
+                                    }
+                                </span>
+
+                                <i class="ace-icon-black fa fa-caret-down"></i>
+                            </a>
+
+                            @*right user menu*@
+                            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                                <li>
+                                    <a href="@Url.Action("ChangePassword", "Home", new { area = "" })">
+                                        <i class="ace-icon fa fa-key"></i>
+                                        Change Password
+                                    </a>
+                                </li>
+
+                                <li class="divider"></li>
+
+                                <li>
+                                    <a href="@Url.Action("Logout", "Home", new { area = "" })">
+                                        <i class="ace-icon fa fa-power-off"></i>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                        <!-- /section:basics/navbar.user_menu -->
+                    </ul>
+                </div>
+
+                <!-- /section:basics/navbar.dropdown -->
+            }
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <!-- /section:basics/navbar.layout -->
+    <div class="main-container" id="main-container">
+        @if (!popupMode)
+        {
+            <!-- #section:basics/sidebar -->
+            <div id="sidebar" class="sidebar responsive">
+                <script type="text/javascript">
+                    try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+                </script>
+
+                @*<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                            <!-- #section:basics/sidebar.layout.shortcuts -->
+                            <button class="btn btn-info" title="Inventory" onclick="layout.showGroupMenu('inventory')">
+                                <i class="ace-icon fa fa-cubes"></i>
+                            </button>
+
+                            <button class="btn btn-warning" title="Production" onclick="layout.showGroupMenu('production')">
+                                <i class="ace-icon fa fa-cogs"></i>
+                            </button>
+
+                            <button class="btn btn-success" title="Sales & Purchasing" onclick="layout.showGroupMenu('sales')">
+                                <i class="ace-icon fa fa-shopping-cart"></i>
+                            </button>
+
+                            <button class="btn btn-purple" title="Settings" onclick="layout.showGroupMenu('setting')">
+                                <i class="ace-icon fa fa-wrench"></i>
+                            </button>
+
+                            <!-- /section:basics/sidebar.layout.shortcuts -->
+                        </div>
+
+                        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                            <span class="btn btn-info"></span>
+                            <span class="btn btn-warning"></span>
+                            <span class="btn btn-success"></span>
+                            <span class="btn btn-purple"></span>
+                        </div>
+                    </div><!-- /.sidebar-shortcuts -->*@
+
+                <ul id="menu-items" class="nav nav-list">
+                    @*<li class="group-menu-inventory hide">
+                        <a style="color:white; background-color:#6FB3E0">
+                            <i class="menu-icon fa fas fa-cubes"></i> <span class="menu-text"> BMW-Apprentice</span>
+                        </a>
+                    </li>
+                    <li class="group-menu-production hide">
+                        <a style="color:white; background-color:#F89406">
+                            <i class="menu-icon fa fa-cogs"></i> <span class="menu-text"> Production</span>
+                        </a>
+                    </li>
+                    <li class="group-menu-sales hide">
+                        <a style="color:white; background-color:#87B87F">
+                            <i class="menu-icon fa fa-shopping-cart"></i> <span class="menu-text"> Sales & Purchasing</span>
+                        </a>
+                    </li>
+                    <li class="group-menu-setting hide">
+                        <a style="color:white; background-color:#9585BF">
+                            <i class="menu-icon fa fa-wrench"></i> <span class="menu-text"> Settings</span>
+                        </a>
+                    </li>*@
+
+                    <!-- #section:custom menu(App_Data/MenuConfig.xml) -->
+                    @*@WMSHtml.CustomMenu()*@
+                    <!-- /section:custom menu -->
+                    <!-- #section:munu -->
+                    @WMSHtml.MainMenu()
+                    <!-- ./section:munu -->
+
+                </ul><!-- /.nav-list -->
+                <!-- #section:basics/sidebar.layout.minimize -->
+                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                    <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                </div>
+
+                <!-- /section:basics/sidebar.layout.minimize -->
+                <script type="text/javascript">
+                    try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+                </script>
+            </div>
+        }
+
+        <!-- /section:basics/sidebar -->
+        <div class="main-content">
+            <div class="breadcrumbs sitemap">
+                <!-- breadcrumbs goes here -->
+                <script type="text/javascript">
+                    try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+                </script>
+                @if (IsSectionDefined("Breadcrumb"))
+                {
+                    @RenderSection("Breadcrumb", false)
+                }
+                else
+                {
+                    <ul class="breadcrumb breadcrumb-auto"></ul>
+                }
+            </div>
+            <div class="breadcrumbs" style="padding-left:20px;" id="divBtnAction">
+                @RenderSection("ButtonAction", false)
+            </div>
+            <div class="page-content">
+                <div class="page-content-area">
+                    <!-- PAGE CONTENT BEGINS -->
+                    @RenderBody()
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.page-content-area -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+        <div class="footer hidden-xs">
+            <div class="footer-inner">
+                <!-- #section:basics/footer -->
+                <div class="footer-content text-left">Version @appVersion</div>
+                <div class="footer-content text-right">
+                    <span>
+                        &copy;2021 Toptier Innovation Co.,Ltd. All rights reserved.
+                    </span>
+                </div>
+
+                <!-- /section:basics/footer -->
+            </div>
+        </div>
+
+        @*
+            <!-- scroll up button -->
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-xs btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        *@
+
+    </div><!-- /.main-container -->
+
+    <script type="text/javascript">
+        var validatorInputDateFormat = 'dd/MM/yyyy';
+        function handleAjaxErrorResult(obj) {
+            var error = null;
+            if (obj.hasOwnProperty('error')) {
+                if (!obj.success)
+                    error = obj.error;
+            } else {
+                error = obj;
+            }
+
+            if (error != null) {
+                if (error.code == "" && error.message == "") {
+                    bootbox.alert('The operation failed. Please try again.');
+                } else {
+                    bootbox.alert(error.code + ' ' + error.message);
+                }
+            }
+        }
+
+        //about menu from kitti 20170131
+        jQuery(function ($) {
+            //remove empty menu
+            $('#menu-items li:empty').remove();
+            for (var l = 1; l <= 3; l++) { //support max 4 level menu
+                $('#menu-items ul.submenu').each(function (i, ul) {
+                    if ($(ul).html().trim() == '') {
+                        $(ul).closest('li').remove();
+                    }
+                });
+            }
+        });
+        //end menu
+
+        $(function () {
+            //Set input format number
+            $('.jq-currency').number(true, 2); //Used: UnitPrice, VatRate, Rate, Amount
+            $('.jq-number').number(true, 2); //Used: Qty, Weight, Height, Length
+            $('.jq-number0').number(true, 0); //Used: Seq, CustomField-Int
+            $('.jq-number4').number(true, 4); //Used: CustomField-Decimal
+
+            $('[data-rel=tooltip]').tooltip();
+			$('[data-rel=popover]').popover({html:true});
+
+            autosize($('textarea[class*=autosize]'));
+
+            jQuery.ajaxSetup({
+                statusCode: {
+                    419: function () {
+                        window.location.replace("@Url.Action("authenticationtimeout", "home", new { area = "" })");
+                    },
+                    401: function () {
+                        window.location.replace("@Url.Action("unauthorized", "home", new { area = "" })");
+                    },
+                    500: function () {
+                        alert('500 Internal Server Error.');
+                    }
+                }
+            });
+            //handle active menu
+            var breadcrumbList = [];
+            var activeMenuId = "@ViewBag.ActiveMenuId";
+            var menu = $("#menu-items #menu-item-" + activeMenuId).closest("li");
+            if (menu.length) {
+                $(menu).addClass("active");
+                breadcrumbList.push($(menu).find('a').eq(0).find('span').eq(0).html());
+                $(menu).parentsUntil("#menu-items", "li").each(function () {
+                    $(this).addClass("active open");
+                    breadcrumbList.push($(this).find('a').eq(0).find('span').eq(0).html());
+                });
+            }
+            //auto breadcrumb
+            var autoBreadcrumb = $(".breadcrumb-auto");
+            if (autoBreadcrumb.length) {
+                var groupname = "";
+                $(autoBreadcrumb).empty();
+                $.each(breadcrumbList.reverse(), function (index, value) {
+                    if (index == 0) {
+                        //get root icon class
+                        var faroot = "";
+                        $.each($('#menu-items').children('.active').eq(0).find('a').eq(0).find('i').eq(0).attr("class").split(' '), function (i, e) {
+                            if (e.match("^fa-"))
+                                faroot = e;
+                        });
+
+                        //var groupname = "";
+                        $.each($('#menu-items').children('.active').attr("class").split(' '), function (i, e) {
+                            if (e.match("^group-menu-"))
+                                groupname = e;
+                        });
+
+                        var gnDisplay = (groupname == "group-menu-sales" ? "Sales & Purchasing" :
+                            (groupname == "group-menu-production" ? "Production" :
+                                (groupname == "group-menu-inventory" ? "Inventory" :
+                                    (groupname == "group-menu-setting" ? "Settings" : ""))));
+
+                        $(autoBreadcrumb).append("<li><i class='ace-icon fa " + faroot + "'></i> &nbsp;" + gnDisplay + "</li>");
+                        $(autoBreadcrumb).append("<li>" + value + "</li>");
+                    } else {
+                        $(autoBreadcrumb).append("<li class='active'><a href='" + $('#menu-item-@ViewBag.ActiveMenuId').attr('href') + "'>" + value + "</a></li>");
+                    }
+                });
+                layout.showGroupMenu(groupname.replace("group-menu-",""));
+            }
+        });
+
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+        var layout = {
+            blockUI: function (disAutoUnblockUI) {
+                if (typeof disAutoUnblockUI === 'undefined') { disAutoUnblockUI = false; }
+                disableAutoUnblockUI = disAutoUnblockUI;
+                $.blockUI();
+            },
+            unblockUI: function () {
+                disableAutoUnblockUI = false;
+                $.unblockUI();
+            },
+            showGritterSaveComplete: function () {
+                $.gritter.add({
+                    title: '<i class="fa fa-check bigger-110"></i> Save successfully',
+                    before_open: function () {
+                        if ($('.gritter-formaction').length > 0) //remove existing first
+                            $('.gritter-formaction').remove();
+                    },
+                    class_name: 'gritter-success gritter-light gritter-formaction',
+                    time: 2000,
+                });
+            },
+            showGritterInvalid: function () {
+                $.gritter.add({
+                    title: '<i class="fa fa-exclamation-triangle"></i> Validation error',
+                    text: 'There are some invalid data in form. Please check and try again.',
+                    class_name: 'gritter-error gritter-light tuigt',
+                    before_open: function () {
+                        if ($('.gritter-formaction').length > 0) //remove existing first
+                            $('.gritter-formaction').remove();
+                    },
+                    time: 2000,
+                });
+            },
+            showGroupMenu: function (name) {
+                if(name == "")
+                    name = "inventory";
+
+                jQuery('#menu-items li').each(function() {
+                    if( $(this).is("[class^='group-menu']") )
+                    {
+                        $('.group-menu-sales').removeClass('open');
+                        $('.group-menu-production').removeClass('open');
+                        $('.group-menu-inventory').removeClass('open');
+                        $('.group-menu-setting').removeClass('open');
+
+                        $('.group-menu-sales').removeClass('show').addClass('hide');
+                        $('.group-menu-production').removeClass('show').addClass('hide');
+                        $('.group-menu-inventory').removeClass('show').addClass('hide');
+                        $('.group-menu-setting').removeClass('show').addClass('hide');
+
+                        $('.group-menu-' + name).removeClass('hide').addClass('show');
+                        $('.sub').removeClass('hide').addClass('show');
+                    }
+                });
+            }
+        };
+
+        // Start nprogress code.
+        var $overlay = $('<div class="ui-widget-overlay ui-front" style="z-index: 1039;"></div>').hide().appendTo('body');
+        $('body').show();
+        //$overlay.fadeIn();
+        NProgress.configure({ showSpinner: false });
+        NProgress.start();
+
+        window.onload = function () {
+            NProgress.done();
+            //$overlay.fadeOut();
+        }
+
+        function ajaxindicatorstart() {
+            NProgress.start();
+            $overlay.fadeIn();
+        }
+
+        function ajaxindicatorstop() {
+            setTimeout(function () {
+                NProgress.done();
+                $('.fade').removeClass('out');
+                $overlay.fadeOut();
+            }, 100);
+        }
+
+        // End nprogress code.
+         function CollapseSearch() {
+            if ($('.widget-box').hasClass('collapsed')) {
+                $('.widget-box').removeClass('collapsed');
+                $('.widget-toolbar').find('a').eq(0).find('i').eq(0).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                $('.widget-body').css('display', 'block');
+            } else {
+                $('.widget-box').addClass('collapsed');
+                $('.widget-toolbar').find('a').eq(0).find('i').eq(0).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                $('.widget-body').css('display', 'none');
+            }
+        }
+    </script>
+
+    @RenderSection("Script", required: false)
+</body>
+</html>

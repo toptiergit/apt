@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources language="en">
+	<!-- Login -->
+	<resource id="Login">Login</resource>
+	<resource id="Username">Username</resource>
+	<resource id="Password">Password</resource>
+  <resource id="LDAPAccount">LDAP Account</resource>
+	  
+	<!--layout-->
+	<resource id="Language">Language</resource>
+	<resource id="InventorySystem">Inventory System</resource>
+	<resource id="ChangePassword">Change Password</resource>
+	<resource id="LicenseInfo">License Info</resource>
+	<resource id="Logout">Logout</resource>
+
+	<!--menu-->
+	<resource group="Menu" id="Dashboard">Dashboard</resource>	
+  <resource group="Menu" id="Inventory">Inventory</resource>
+  <resource group="Menu" id="SalesAndDistribution">Sales &amp; Purchasing</resource>
+  <resource group="Menu" id="SalesOrder">Sales Order</resource>
+
+  <resource group="Menu" id="Production">Production</resource>
+	<resource group="Menu" id="WorkOrder">Work Order</resource>
+	<resource group="Menu" id="UsageConfirmation">Usage Confirmation</resource>  
+  
+	<resource group="Menu" id="GoodsReceipt">Goods Receipt</resource>
+	<resource group="Menu" id="Receipt">Receipt</resource>
+	<resource group="Menu" id="ImportReceipt">Import Receipt</resource>
+  
+	<resource group="Menu" id="IncomingInspection">Inspection</resource>
+  
+	<resource group="Menu" id="Container">Tag</resource>
+	<resource group="Menu" id="Assign">Assign</resource>
+	<resource group="Menu" id="Split">Split</resource>
+  <resource group="Menu" id="Transfer">Transfer</resource>
+  <resource group="Menu" id="SplitConvert">Split &amp; Convert</resource>
+
+  <resource group="Menu" id="ScanIn">Scan In</resource>
+  <resource group="Menu" id="Pick">Pick</resource>
+	<resource group="Menu" id="PartIssue">Picking</resource>
+	<resource group="Menu" id="ScanOut">Scan Out</resource>
+	<resource group="Menu" id="Packing">Pack</resource>
+	<resource group="Menu" id="Pack">Pack</resource>
+	<resource group="Menu" id="Shipment">Shipment</resource>
+	<resource group="Menu" id="Shipping">Shipping</resource>
+	<resource group="Menu" id="Manage">Manage</resource>
+  <resource group="Menu" id="ReverseGR">Reverse-GR</resource>
+
+  <resource group="Menu" id="Reports">Reports</resource>
+	<resource group="Menu" id="CurrentInventory">Current Inventory</resource>
+	<resource group="Menu" id="CurrentInventoryWithBBE">Current Inventory With BBE</resource>
+	<resource group="Menu" id="GoodsReceipt">Goods Receipt</resource>
+  <resource group="Menu" id="GRItem">GR-Item</resource>
+  <resource group="Menu" id="PartIssue">Picking</resource>
+	<resource group="Menu" id="PackingHistory">Packing History</resource>
+	<resource group="Menu" id="InventoryCount">Inventory Count</resource>
+	<resource group="Menu" id="SkippedFIFO">Skipped FIFO</resource>
+  <resource group="Menu" id="LocationStatus">Location Availability</resource>
+  <resource group="Menu" id="AvailabilityLocation">Part Location</resource>
+  <resource group="Menu" id="Movement">Movement</resource>
+  <resource group="Menu" id="ContainerHistory">Tag History</resource>
+  <resource group="Menu" id="InventorySummary">Inventory Summary</resource>
+  <resource group="Menu" id="PackDetail">Pack Detail</resource>
+  <resource group="Menu" id="BomStructure">BOM Structure</resource>
+  <resource group="Menu" id="ContainerInLocation">Container In Location</resource>
+  <resource group="Menu" id="MovementSummary">Movement Summary</resource>
+  <resource group="Menu" id="PickingItem">Picking</resource>
+  <resource group="Menu" id="PartSalesOrder">Sales Order</resource>
+  <resource group="Menu" id="WorkOrderHistory">Work Order History</resource>
+  <resource group="Menu" id="UsageConfirm">Usage Confirm</resource>
+            
+  <resource group="Menu" id="Settings">Settings</resource>  
+	<resource group="Menu" id="MasterData">Master Data</resource>  
+	<resource group="Menu" id="Part">Part</resource>
+	<resource group="Menu" id="BOM">BOM</resource>
+	<resource group="Menu" id="StorageType">Storage Type</resource>
+	<resource group="Menu" id="Client">Client</resource>
+	<resource group="Menu" id="Customer">Customer</resource>
+	<resource group="Menu" id="Carrier">Carrier</resource>
+	<resource group="Menu" id="Supplier">Supplier</resource>
+	<resource group="Menu" id="Company">Company</resource>
+	<resource group="Menu" id="Incoterm">Incoterm</resource>
+	<resource group="Menu" id="mPartCategory">Part Category</resource>
+  <resource group="Menu" id="mPartType">Part Type</resource>
+  <resource group="Menu" id="mPartGroup">Part Group</resource>
+	<resource group="Menu" id="PartIssueType">Picking Type</resource>
+	<resource group="Menu" id="ReceiptType">Receipt Type</resource>
+	<resource group="Menu" id="ProductionLine">Production Line</resource>
+	<resource group="Menu" id="Currency">Currency</resource>
+	<resource group="Menu" id="UOM">UoM</resource>
+	<resource group="Menu" id="WarehouseType">Warehouse Type</resource>
+	<resource group="Menu" id="MovementType">Movement Type</resource>
+	
+	<resource group="Menu" id="LabelPrinting">Label Printing</resource>  
+	<resource group="Menu" id="Label">Label</resource>  
+	<resource group="Menu" id="RDLCTemplate">RDLC Template</resource>  
+	<resource group="Menu" id="Location">Location</resource>  
+	
+	<resource group="Menu" id="StorageLocations">Storage Locations</resource>
+	<resource group="Menu" id="Warehouse">Warehouse</resource> 
+	<resource group="Menu" id="Zone">Zone</resource> 
+	<resource group="Menu" id="Rack">Rack</resource> 
+	
+	<resource group="Menu" id="CustomFields">Custom Fields</resource>
+	<resource group="Menu" id="Email">Email</resource>  
+	<resource group="Menu" id="UserAccount">User Account</resource>
+  <resource group="Menu" id="Developer">Developer</resource>
+  <resource group="Menu" id="Custom">Custom</resource>
+
+  <!--button-->
+	<resource group="Button" id="New">New</resource>
+	<resource group="Button" id="Edit">Edit</resource>
+	<resource group="Button" id="Refresh">Refresh</resource>
+	<resource group="Button" id="Search">Search</resource>
+	<resource group="Button" id="Active">Active</resource>
+	<resource group="Button" id="Inactive">Inactive</resource>
+	<resource group="Button" id="Upload">Upload</resource>
+	<resource group="Button" id="Save">Save</resource>
+	<resource group="Button" id="Cancel">Cancel</resource>
+	<resource group="Button" id="Delete">Delete</resource>
+	<resource group="Button" id="Reset">Reset</resource>
+  <resource group="Button" id="Refresh">Refresh</resource>
+	<resource group="Button" id="Back">Back</resource>
+	<resource group="Button" id="Print">Print</resource>
+	<resource group="Button" id="PrinterName">Printer</resource>
+  <resource group="Button" id="PrintLabel">Print Label</resource>
+	<resource group="Button" id="Scan">Scan</resource>
+	<resource group="Button" id="OK">OK</resource>
+	<resource group="Button" id="Submit">Submit</resource>
+	<resource group="Button" id="CompleteBox">Complete Box</resource>
+	<resource group="Button" id="CompleteReceipt">Complete</resource>
+	<resource group="Button" id="Reopen">Re-Open</resource>
+	<resource group="Button" id="Auto">Auto</resource>
+	<resource group="Button" id="Close">Close</resource>
+	<resource group="Button" id="Block">Block</resource>
+	<resource group="Button" id="Unblock">Unblock</resource>
+	<resource group="Button" id="ViewReport">View Report</resource>
+  <resource group="Button" id="EditInvoice">Edit Invoice</resource>
+  <resource group="Button" id="Summary">Summary</resource>
+  <resource group="Button" id="GetTag">Get Tag</resource>
+  <resource group="Button" id="Add">Add</resource>
+  <resource group="Button" id="TransferTo">Transfer To</resource>
+  <resource group="Button" id="ShowMap">Show Map</resource>
+  <resource group="Button" id="HideMap">Hide Map</resource>
+  <resource group="Button" id="Calculate">Calculate</resource>
+  <resource group="Button" id="Remove">Remove</resource>
+  <resource group="Button" id="UseSNasTag">Use SN as Tag</resource>
+  <resource group="Button" id="ConfirmLocation">Confirm Location</resource>
+  <resource group="Button" id="Render">Render</resource>
+  <resource group="Button" id="SetDefault">Set Default</resource>
+  <resource group="Button" id="Approve">Approve</resource>
+  <resource group="Button" id="Release">Release</resource>
+  <resource group="Button" id="Convert">Convert</resource>
+  <resource group="Button" id="AutoPick">Auto Pick</resource>
+  <resource group="Button" id="Reverse">Reverse</resource>
+  <resource group="Button" id="UsageCal">Usage Cal.</resource>
+  <resource group="Button" id="Change">Change</resource>
+  
+  <!--common-->
+	<resource id="Name">Name</resource>
+	<resource id="Surname">Surname</resource>
+	<resource id="Sex">Sex</resource>
+  <resource id="Age">Age</resource>
+  <resource id="Description">Description</resource>
+	<resource id="Picture">Picture</resource>
+  <resource id="CreatedOn">Created</resource>
+  <resource id="UpdatedOn">Updated</resource>
+	<resource id="Type">Type</resource>
+	<resource id="QTY">QTY</resource>
+	<resource id="Remark">Remark</resource>
+	<resource id="Sequence">Sequence</resource>
+	<resource id="Level">Level</resource>
+	<resource id="Status">Status</resource>
+	<resource id="Date">Date</resource>
+  <resource id="NoData">No Data</resource>
+	<resource id="SelectFile">Select File</resource>
+	<resource id="Preview">Preview</resource>
+	<resource id="DowndloadTemplate">Downdload Template</resource>	
+	<resource id="DateFrom">Date From</resource>
+	<resource id="DateTo">Date To</resource>
+  <resource id="RowNo">No.</resource>
+  <resource id="Total">Total</resource>
+  <resource id="TransDate">Trans Date</resource>
+  <resource id="Lists">Lists</resource>
+  <resource id="BroughtForward">Brought Forward</resource>
+  <resource id="Id">Id</resource>
+  <resource id="ClickToSearch">Click to add search criteria</resource>
+  <resource id="ddlPlaceholder">---Select---</resource>
+  <resource group="Common" id="CanNotDelBefore">Can't delete item [</resource>
+  <resource group="Common" id="CanNotDelAfter">] because they are in use!</resource>
+  <resource group="Common" id="Normal">Normal</resource>
+  <resource group="Common" id="RefQTY">Ref.QTY</resource>  
+  <resource group="Common" id="RefUoM">Ref.UoM</resource>
+  <resource group="Common" id="dFrom">From</resource>  
+  <resource group="Common" id="dTo">To</resource>
+  <resource group="Common" id="SelectWarehouse">Select Warehouse</resource>
+  <resource group="Common" id="Year">Year</resource>  
+  <resource group="Common" id="Week">Week</resource>  
+
+  <!--Part-->
+	<resource id="PartInformation">Part Information</resource>
+	<resource id="PartList">Part List</resource>  
+	<resource id="CustomerPart">Cust.Part</resource>
+	<resource id="UnitPrice">Unit Price</resource>
+  <resource id="UnitPriceCurrency">Unit Price Currency</resource>
+	<resource id="StandardPack">Standard Pack</resource>
+  <resource id="StandardPackUom">Standard Pack UoM</resource>
+	<resource id="Manufacturer">Manufacturer</resource>
+	<resource id="RequiredSN">Required SN</resource>
+	<resource id="ControlExpiryDate">Control Expiry Date</resource>
+  <resource id="AssignPart">Assign Part</resource>
+  <resource id="EditPart">Edit Part</resource>
+  <resource id="PartCategory">Category</resource>
+  <resource id="PartType">Type</resource>
+  <resource id="PartGroup">Group</resource>
+		
+	<resource id="FinishGoods">Finish Goods</resource>
+	<resource id="Semi">Semi</resource>
+	<resource id="RawMaterial">Raw Material</resource>
+	<resource id="Consumable">Consumable</resource>
+  <resource id="Other">Other</resource>
+	
+	<resource id="PartMapping">Part Mapping</resource>
+	<resource id="BillOfMaterial">Bill of Material</resource>
+	<resource id="PartName">Part Number</resource>
+  <resource id="PN">PN</resource>
+	<resource id="PartDescription">Part Description</resource>
+	
+	<resource id="PartUnitOfMeasurement">Part Unit of Measurement</resource>
+	<resource id="FromUnit">From Unit</resource>
+	<resource id="Rate">Rate</resource>
+	<resource id="ToUnit">To Unit</resource>
+	<resource id="UploadPart">Upload Part</resource>
+  
+  <resource id="Dimension">Dimension</resource>
+  <resource id="Width">Width</resource>
+  <resource id="Length">Length</resource>
+  <resource id="Height">Height</resource>
+  <resource id="StrokeColor">Stroke Color</resource>
+  <resource id="FillColor">Fill Color</resource>
+  <resource group="Part" id="OriginalPart">Original Part</resource>
+  <resource group="Part" id="EqualTo">Equal To</resource>
+  <resource group="Part" id="LocationMapping">Location Mapping</resource>
+
+  <!--BOM-->  
+	<resource id="Revision">Revision</resource>
+	<resource id="BOMsDetail">BOMs Detail</resource>
+	<resource id="AddBOMDetail">Add BOM Detail</resource>	
+	<resource id="UsageQuantity">Usage QTY</resource>	
+	<resource id="RefDes">Ref.Des.</resource>
+	<resource id="EffectiveFrom">Effective From</resource>
+	<resource id="EffectiveTo">Effective To</resource>	
+	<resource id="AddSubBOMDetail">Add Sub BOM Detail</resource>
+	<resource id="EditBOMDetail">Edit BOM Detail</resource>
+	<resource id="UploadBOM">Upload BOM</resource>
+	<resource id="SubPartNumber">Sub Part Number</resource>
+  <resource id="Barcode">Barcode</resource>
+  <resource id="PartWhereUsed">Part - Where used</resource>
+  <resource group="BOM" id="TopLevelPN">Top-Level-PN</resource>
+  <resource group="BOM" id="BOMSeq">BOM Seq.</resource>
+
+  <!--Storage Type-->
+  <resource id="Weight">Weight</resource>
+  <resource id="Length">Length</resource>
+  <resource id="Height">Height</resource>
+	<resource id="NetWeight">Net Weight</resource>
+  <resource id="GrossWeight">Gross Weight</resource>
+  <resource id="StackQty">Stack Qty</resource>
+	<resource id="cm">cm</resource>
+	<resource id="kg">kg</resource>
+  <resource id="Default">Default</resource>
+  <resource id="Method">Method</resource>
+  <resource id="StroageMapping">Stroage Mapping</resource>
+	
+	<!--Client-->
+	<resource id="CustomerCode">Customer Code</resource>
+	<resource id="CustomerName">Customer Name</resource>
+	<resource id="CustomerPartDescription">Customer Part Description</resource>	
+	<resource id="TaxNo">Tax No.</resource>
+	<resource id="Address">Address</resource>
+	<resource id="Phone">Phone</resource>
+	<resource id="Fax">Fax</resource>
+  <resource id="UploadClient">Upload</resource>
+  <resource id="Code">Code</resource>
+
+  <resource id="ClientAddress">Client Address</resource>	
+	<resource id="AssignClientAddress">Assign Client Address</resource>
+	<resource id="ClientAddressType">Client Address Type</resource>
+	<resource id="EditClientAddress">Edit Client Address</resource>
+  <resource id="ClientAddrName">Branch</resource>
+	
+	<!--Receipt Type-->
+	<resource id="InternalMove">Internal Move</resource>
+	<resource id="Return">Return</resource>
+	
+	<!--Label-->
+	<resource id="Template">Template</resource>
+	<resource id="PrintEngine">Print Engine</resource>
+	<resource id="CustomerLabel">Customer Label</resource>
+	<resource id="LabelInformation">Label Information</resource>
+	<resource id="SubStringName">Sub String Name</resource>
+	<resource id="SubStringValueFormat">Sub String Value Format</resource>
+	<resource id="AssignUsage">Assign Usage</resource>
+  <resource id="PrintName">Printer Name</resource>
+	
+	<!--warehouse-->
+	<resource id="ContactDetails">Contact Details</resource>
+	<resource id="GoodsReceiptwithScanIn">GR with ScanIn</resource>
+	<resource id="GoodsIn">Goods In</resource>
+	<resource id="GoodsOut">Goods Out</resource>
+  <resource id="IsPickOverReqQty">Allow Pick Over Req.QTY</resource>
+  <resource id="IsPartialPick">Allow Partial Pick</resource>
+
+  <!--zone-->
+  <resource id="ZoneType">Type</resource>
+
+  <!--Location-->
+  <resource group="LOC" id="Staging">Staging</resource>
+  <resource group="LOC" id="Seq.">Seq.</resource>
+
+  <!--sketch-->
+  <resource id="Sketch">Sketch</resource>
+  <resource id="SketchType">Type</resource>
+
+  <!--Custom Field-->
+	<resource id="TableName">Table Name</resource>
+	<resource id="ColumnName">Column Name</resource>
+	<resource id="Required">Required</resource>
+	
+	<!--Email-->
+	<resource id="Action">Action</resource>
+	<resource id="Subject">Subject</resource>
+	<resource id="To">To</resource>
+	<resource id="CC">CC</resource>
+  <resource group="Email" id="BCC">BCC</resource>
+  <resource id="SQLScript">SQL Script</resource>
+	<resource id="Header">Header</resource>
+	<resource id="Detail">Detail</resource>
+	<resource id="Footer">Footer</resource>
+  <resource group="Email" id="SMTPServer">SMTP Server</resource>
+  <resource group="Email" id="Sender">Sender</resource>
+  <resource group="Email" id="Host">Host</resource>
+  <resource group="Email" id="Port">Port</resource>
+  <resource group="Email" id="SSL">SSL</resource>
+
+  <!--Authorization-->
+	<resource id="FullName">Full Name</resource>
+	<resource id="AuthBy">Auth By</resource>
+	<resource id="AccountAuthenticateBy">Account Authenticate By</resource>
+	<resource id="LastLogon">Last Logon</resource>
+	<resource id="UserInformation">User Information</resource>
+	<resource id="AuthorizationRole">Authorization Role</resource>
+  <resource group="AUTH" id="AuthorizationItem">Authorization Item</resource>
+  
+  <resource id="Sales Order">Sales Order</resource>
+	<resource id="Goods Receipt">Goods Receipt</resource>
+	<resource id="Incoming Inspection">Inspection</resource>
+	<resource id="Scan In">Scan In</resource>
+	<resource id="Part Issue">Picking</resource>
+	<resource id="Scan Out">Scan Out</resource>
+	<resource id="Report">Report</resource>
+	<resource id="Setting">Setting</resource>  
+	<resource id="Inventory Count">Inventory Count</resource>  
+	<resource id="User Account">User Account</resource>  
+	
+	<!--Sales Order-->
+	<resource id="SalesOrderName">Sales Order No.</resource>
+	<resource id="Received">Received</resource>
+	<resource id="Complete">Complete</resource>
+  <resource id="Incoterms">Incoterms</resource>
+  <resource id="VAT">VAT</resource>
+  <resource id="CustomerPO">Customer P/O</resource>
+  <resource id="Reference">Reference</resource>
+	<resource id="PORemark">PO.Remark</resource>
+  <resource id="PODate">PO.Date</resource>
+  <resource id="PONumber">P/O No.</resource>
+	<resource id="BillToShipTo">Bill To/Ship To</resource>
+	<resource id="BillTo">Bill To</resource>
+	<resource id="ContactPerson">Contact Person</resource>
+	<resource id="ShipTo">Ship To</resource>
+	<resource id="SalesOrderDetails">Sales Order Details</resource>
+	<resource id="LineNo">Line No.</resource>
+	<resource id="ShippedQTY">Shipped QTY</resource>	
+	<resource id="TotalPrice">Total Price</resource>
+	<resource id="DeliveryDate">Delivery Date</resource>
+	<resource id="AddSalesOrderDetails">AddSales Order Details</resource>
+	<resource id="EditSalesOrderDetails">Edit Sales Order Details</resource>
+  <resource group="SO" id="SalesContactPerson">Sales Contact Person</resource>
+  <resource group="SO" id="SOType">SO.Type</resource>
+  <resource group="SO" id="SODate">SO.Date</resource>
+  <resource group="SO" id="S/O">S/O</resource>
+  <resource group="SO" id="SalesOrderStatus">Sales Order Status</resource>
+  <resource group="SO" id="SONo">S/O No.</resource>  
+  <resource group="SO" id="SOLineNo">S/O Line No.</resource>
+  <resource group="SO" id="SOQTY">S/O QTY</resource>
+
+  <!--Work Order-->
+	<resource id="Start">Start</resource>
+	<resource id="Open">Open</resource>
+	<resource id="InProcess">In Process</resource>
+	<resource id="Closed">Closed</resource>
+	<resource id="StartDate">Start Date</resource>
+  <resource id="StopDate">Stop Date</resource>
+	<resource id="CompleteDate">Complete Date</resource>
+	<resource id="Packaging">Packaging</resource>
+	<resource id="InventoryLocation">Inventory Location</resource>
+  <resource id="UsedBy">Used By</resource>
+  
+  <!--Containerusage-->
+  <resource id="ConfirmationID">Confirmation ID</resource>
+  <resource id="W/ONo">W/O No.</resource>
+  <resource id="ContainerUsageDetails">Container Usage Details</resource>
+  <resource id="Confirm">Confirm</resource>
+
+  <!--Receipt-->
+	<resource id="ReceiptName">Receipt No.</resource>
+	<resource id="InvoiceNo">Invoice No.</resource>
+	<resource id="RefNo">Ref.No.</resource>
+	<resource id="ReceiptDate">Receipt Date</resource>
+	<resource id="ReceiptDetails">Receipt Details</resource>
+	<resource id="BatchNo">Batch No.</resource>
+	<resource id="Amount">Amount</resource>
+  <resource id="ContainerDetails">Tag Details</resource>
+  <resource id="ConfirmQty">Confirm QTY</resource>
+  <resource group="Receipt" id="ReceiptStatus">Receipt Status</resource>
+
+  <!--Inspection-->
+	<resource id="ReceiptDateFrom">Receipt Date From</resource>
+	<resource id="ReceiptDateTo">Receipt Date To</resource>
+	<resource id="InspectedStatus">Inspected Status</resource>			
+	<resource id="ReceiptLineNo">Receipt Line No.</resource>
+	<resource id="LotNo">Lot No.</resource>
+	<resource id="LotSize">Lot Size</resource>
+	<resource id="SampleSize">Sample Size</resource>
+	<resource id="ofDefective">of Defective</resource>
+	<resource id="AcceptedQTY">Accepted QTY</resource>
+	<resource id="RejectedQTY">Rejected QTY</resource>
+	<resource id="RejectedLot">Rejected Lot</resource>
+	<resource id="QtyHasBeenAssignedToContainers">QTY has been assigned to Tags</resource>
+	
+	<!--Container-->
+	<resource id="Pending">Pending</resource>
+	<resource id="AssignContainer">Assign Tag</resource>
+	<resource id="AutoPrintContainerLabel">Auto print tag label</resource>	
+	<resource id="Accepted">Accepted</resource>
+  <resource id="AssignedQTY">Assigned QTY</resource>
+	<resource id="ContainerName">Tag</resource>
+	<resource id="SN">SN</resource>
+  <resource group="Container" id="SerialNumber">Serial Number</resource>
+  <resource id="CreateContainer">Create Tag</resource>
+	<resource id="AssignParameter">Assign Parameter</resource>
+	<resource id="AssignLocation">Assign Location</resource>
+	<resource id="ReceiptAcceptedQTY">Receipt Accepted QTY</resource>
+	<resource id="ReceiptAcceptedQTY">Receipt Accepted QTY</resource>
+	<resource id="NumberOfContainer">Number of Tag</resource>
+	<resource id="QtyPerContainer">QTY Per Tag</resource>
+  <resource group="Container" id="Force">Force</resource>
+  <resource id="ForceLocation">Force Location</resource>
+	<resource group="Container" id="PutLocation">Put Location</resource>
+  <resource group="Container" id="RecLoc">Rec. Loc.</resource>
+  <resource group="Container" id="SugLoc">Sug. Loc.</resource>
+  <resource id="ExpiryDate">Expiry Date</resource>
+	<resource id="ContainerParent">Split Result</resource>
+  <resource id="SplitConvertResult">Split &amp; Convert Result</resource>
+  <resource id="TabTag">Tag</resource>
+  <resource id="TabPutAway">Put Away</resource>
+  <resource id="TabSimulation">Simulation</resource>
+  <resource id="FromLocation">From Location</resource>
+  <resource id="NewLocation">New Location</resource>
+  <resource id="ChildContainer">Child Tag</resource>
+  <resource id="Log">Log</resource>
+  <resource group="Container" id="OriginalTag">Original Tag</resource>
+
+  <!--Order-->
+	<resource id="SlipNo">Slip No.</resource>
+	<resource id="IssueFor">Issue For</resource>
+  <resource id="OrderRefDesc">Sales/Work Order Number</resource>
+  <resource id="OrderNumber">Order Number</resource>  
+  <resource id="OrderType">Picking Type</resource>
+  <resource id="OrderDate">Picking Date</resource>
+  <resource id="OrderStatus">Picking Status</resource>
+	<resource id="OnHand">On-Hand</resource>
+	<resource id="Reserved">Reserved</resource>
+	<resource id="Balance">Balance</resource>
+	<resource id="ReqQTY">Req.QTY</resource>
+	<resource id="RequiredQTY">Required QTY</resource>
+	<resource id="PickedItem">Picked Item</resource>
+	<resource id="SlipDetails">Slip Details</resource>
+  <resource id="FIFO">FIFO</resource>
+  <resource id="Delivery">Delivery</resource>
+  <resource id="PickedBy">Picked By</resource>
+  <resource id="StoredTag">Stored Tag</resource>
+  
+	<!--Scan Out-->
+	<resource id="AutoWithdraw">Auto withdraw</resource>
+  <resource id="Withdraw">Withdraw</resource>
+	<resource id="Success">Success</resource>
+  <resource id="TotalQTY">Total QTY</resource>
+  <resource id="ViewContainerList">View Tag List</resource>
+  <resource group="ScanOut" id="ScanBarcode">Scan Barcode</resource>
+
+  <!--Pack-->
+	<resource id="PackId">Pack ID</resource>
+	<resource id="SubPack">Sub Pack</resource>
+	<resource id="PackSummary">Pack Summary</resource>
+	<resource id="PackDate">Pack Date</resource>
+	<resource id="PackDetails">Pack Details</resource>
+	<resource id="Datetime">Datetime</resource>
+  <resource id="PackCount">Pack Count</resource>
+	
+	<!--Ship-->
+	<resource id="ShipName">Shipment No.</resource>
+	<resource id="ShippedDate">Shipped Date</resource>
+	<resource id="ETD">ETD</resource>
+	<resource id="ETA">ETA</resource>
+	<resource id="SalesOrderLine">Sales Order Line</resource>
+	
+	<resource id="AdvancedSearch">Advanced Search</resource>	
+	<resource id="AssignDate">Assign Date</resource>
+	<resource id="ContainerInformation">Tag Information</resource>
+	<resource id="EPC">EPC</resource>
+	<resource id="OriginalContainer">Original Tag</resource>
+	<resource id="ParentContainer">Parent Tag</resource>
+	<resource id="QTYTotalReserved">QTY(Total/Reserved)</resource>
+	<resource id="PutAway">Put Away</resource>
+	<resource id="Printed">Printed</resource>
+	<resource id="PrintedBy">PrintedBy</resource>
+	<resource id="By">By</resource>
+	
+	<!--Report-->
+	<resource id="InventoryDate">Inventory Date</resource>
+	<resource id="Parameter">Parameter</resource>
+	<resource id="Profile">Profile</resource>
+	<resource id="Filter">Filter</resource>
+	<resource id="MissedItem">Missed Item</resource>
+	<resource id="FoundItem">Found Item</resource>
+	<resource id="ExtraItem">Extra Item</resource>
+	<resource id="IssueDate">Issue Date</resource>
+	<resource id="ExpireDate">Expire Date</resource>
+
+  <!--Invoice-->
+  <resource group="Invoice" id="Invoice">Invoice</resource>
+  <resource group="Invoice" id="InvoiceDate">Invoice Date</resource>
+  <resource group="Invoice" id="DeliveryDate">Delivery Date</resource>
+  <resource group="Invoice" id="InvoiceName">Invoice</resource>
+  <resource group="Invoice" id="InvoiceType">Invoice Type</resource>
+  <resource group="Invoice" id="Source">Source</resource>
+  <resource group="Invoice" id="ClosedDate">Closed Date</resource>
+  <resource group="Invoice" id="InvoiceDetails">Invoice Details</resource>
+  <resource group="Invoice" id="CustomerPONumber">Cust.P/O</resource>
+  <resource group="Invoice" id="CustomerPODate">Cust.P/O Date</resource>
+  <resource group="Invoice" id="CustomerPOLineNumber">Customer P/O Line Number</resource>
+  <resource group="Invoice" id="INVNo">INV.No.</resource>  
+  <resource group="Invoice" id="INVLineNo">INV.Line No.</resource>
+  <resource group="Invoice" id="InvoiceStatus">Invoice Status</resource>
+  <resource group="Invoice" id="InvoiceQTY">Invoice QTY</resource>
+
+  <!--TruckLoad-->
+  <resource id="TruckLoad">Truck Load</resource>
+  <resource id="ScanedQTY">Scanned QTY</resource>
+
+  <!--Geometry-->
+  <resource id="Geometry">Geometry</resource>
+  <resource id="Map">Map</resource>
+
+  <!--InventoryCountFrofile-->
+  <resource id="LaunchDate">Launch Date</resource>
+  <resource id="ClientConfiguration">Client Configuration</resource>
+
+  <!--Dashboard-->
+  <resource id="LastMonth">Last Month</resource>
+  <resource id="LastWeek">Last Week</resource>
+  <resource id="ThisWeek">This Week</resource>
+  <resource id="Today">Today</resource>
+  <resource id="SKU">SKU</resource>
+  <resource id="TotalInventories">Total Inventories</resource>
+  <resource id="StockIn">Stock In</resource>
+  <resource id="StockOut">Stock Out</resource>  
+  <resource id="RECENT">RECENT</resource>
+  <resource id="Activities">Activities</resource>
+  <resource id="MonthlySalesOrder">Monthly Sales Order</resource>
+  <resource id="MonthlyDelivery">Monthly Delivery</resource>
+  <resource id="MonthlyShpping">Monthly Shpping</resource>
+  <resource id="MonthlyInvoices">Monthly Invoices</resource>
+  <resource id="OpenSalesOrder">Open Sales Order</resource>
+  <resource id="OpenInvoices">Open Invoices</resource>
+
+  <!--Movement Type-->
+  <resource id="Increase">Increase</resource>
+  <resource id="StockAffect">StockAffect</resource>
+
+  <!--PurchaseOrder-->
+  <resource id="PurchaseOrder">Purchase Order</resource>
+  <resource id="PaymentMethod">Payment Method</resource>
+  <resource id="PurchaseOrderDetails">Purchase Order Details</resource>
+  <resource id="PONo">PO.No.</resource>
+  <resource id="POLineNo">PO.Line No.</resource>
+  <resource id="POType">PO.Type</resource>
+  <resource id="PORef">PO.Ref.</resource>
+  <resource id="PurchasePerson">Purchase Person</resource>
+  <resource id="PurchaseBranch">Purchase Branch</resource>
+  <resource id="PurchaseAddress">Purchase Address</resource>
+  <resource id="SupplierBranch">Supplier Branch</resource> 
+
+  <resource id="BTO">Build to Order</resource>
+  <resource id="WOType">WO.Type</resource>
+  <resource id="FinishQty">Finish Qty</resource>
+
+  <!--BarcodePrint-->
+  <resource group="BaPRT" id="BarcodePrint">Barcode Print</resource>
+
+  <!--WOMR-->
+  <resource group="WOMR" id="MaterialRequirement">Material Requirement</resource>
+
+  <!--EventLog-->
+  <resource group="EventLog" id="EventLog">Event Log</resource>
+  <resource group="EventLog" id="Event">Event</resource>
+  <resource group="EventLog" id="Process">Process</resource>
+  <resource group="EventLog" id="Result">Result</resource>
+  <resource group="EventLog" id="IP">IP</resource>
+
+  <!--Stock-->
+  <resource group="Stock" id="StockCloseFrequency">Stock Close Frequency</resource>  
+  <resource group="Stock" id="VerifyStockSummary">Verify Stock</resource>
+
+</resources>

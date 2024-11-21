@@ -1,0 +1,81 @@
+﻿@model List<ApplicationForm.Models.MessageBox>
+
+<li id="MsgAlert" class="grey dropdown-modal">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+        <span class="badge badge-success">@Model.Count()</span>
+    </a>
+
+    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+        <li class="dropdown-header">
+            <i class="ace-icon fa fa-envelope-o"></i>
+            <span>@Model.Count() Messages</span>
+        </li>
+
+        <li class="dropdown-content ace-scroll" style="position: relative;">
+            <div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div><div class="scroll-content" style="max-height: 200px;">
+                <ul class="dropdown-menu dropdown-navbar">
+
+                    @for (int nI = 0; nI < Model.Count() && nI < 7; nI++)
+                    {
+                        var sImage = "../images/MessageBox/avatar" + (nI + 1) + ".png";
+                    <li>
+                        @*<a href="~/MessageBox/Details?SenderUserId=@Model[nI].SenderUserId &Image='~/images/MessageBox/avatar3.png'" class="clearfix">*@
+                        <a href="~/MessageBox/Details?SenderUserId=@Model[nI].SenderUserId &Image=@sImage" class="clearfix">
+                            <img src="~/images/MessageBox/avatar3.png" class="msg-photo" alt="Alex's Avatar" />
+                            <span class="msg-body">
+                                <span class="msg-title">
+                                    <span class="blue bolder">@Model[nI].SenderUserId:</span>
+                                    @if (@Model[nI].Message.Length >= 40)
+                                    {
+                                        @Model[nI].Message.Substring(0, 40)
+                                        <span>...</span>
+                                    }
+                                    else
+                                    {
+                                        @Model[nI].Message
+                                    }
+
+                                </span>
+
+                                <span class="msg-time">
+                                    <i class="ace-icon fa fa-clock-o"></i>
+                                    <span>@Model[nI].CreatedOn</span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+
+                    }
+                </ul>
+            </div>
+        </li>
+
+        <li class="dropdown-footer">
+            @*@Ajax.ActionLink("See all message", "MsgBoard", "MessageBox", new { SenderUserId = Session["SenderId"].ToString() }, new AjaxOptions { HttpMethod = "POST" })*@
+            @*<a href="inbox.html">
+
+            <i class="ace-icon fa fa-arrow-right"></i>
+        </a>*@
+
+            @Ajax.ActionLink("See all message", "MsgBoard", "MessageBox", new AjaxOptions { HttpMethod = "GET" })
+        </li>
+    </ul>
+</li>
+
+@*<script type="text/javascript">
+    $(() => {
+        $("#MsgAlert").click(() => {
+             $.ajax({
+                    type: 'GET',
+                    async: false,
+                    url: '@Url.Action("Index")',
+                    //success: function (res) {
+                    //    $('#dt').DataTable().ajax.reload(); //reload datatable
+                    //    $('#alert').show();
+                    //}
+                });
+        });
+    });
+</script>*@
+

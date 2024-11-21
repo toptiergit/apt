@@ -1,0 +1,236 @@
+.myLabel {
+    color: #336199;
+    background-color: #EDF3F4;
+    padding: 5px;
+}
+
+
+/*  Custom Chosen-Select plunging  */
+/*.chosen-container.chosen-container-single {
+    width: 100% !important;
+}
+
+.chosen-container-single .chosen-search input[type="text"] {
+    background: none;    
+}
+
+.chosen-container-single .chosen-single {
+    height: 28px;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    background: none;
+}*/
+
+/*.chosen-container-single .chosen-single abbr:after {
+    content: "\f00d";
+    display: inline-block;
+    color: #888;
+    font-family: FontAwesome;
+    font-size: 13px;
+    position: absolute;
+    right: 0;
+    top: -7px;
+}*/
+
+/*.chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    margin: 1px 0;
+    padding: 5px;
+    height: 25px;
+    outline: 0;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none;
+    color: #666;
+    font-size: 100%;
+    font-family: sans-serif;
+    line-height: normal;
+    border-radius: 0;
+}*/
+
+
+
+
+
+
+
+.contextMenu {
+    cursor: pointer;
+    background-color: #eee;
+    position: absolute;
+    border: solid 1px black;
+    width: 150px;
+}
+
+.contextMenu .menuItem {
+    padding: 5px;
+}
+
+.contextMenu .menuItem:hover {
+    background-color: #ccc;
+}
+
+.menuSeparator {
+    border-bottom: solid 1px black;
+}
+
+
+
+
+
+
+.ol-button i {
+    color: inherit;
+}
+
+.ol-button.red button,
+.ol-button.green button,
+.ol-button.blue button {
+    color: #f00;
+    background-color: currentColor;
+    border: 2px solid currentColor;
+    width: 1em;
+    height: 1em;
+    border-radius: 0;
+}
+
+.ol-button.green button {
+    color: #0f0;
+}
+
+.ol-button.blue button {
+    color: #00f;
+}
+
+.ol-button.red button:hover,
+.ol-button.green button:hover,
+.ol-button.blue button:hover {
+    background-color: currentColor !important;
+    border-color: #000;
+}
+
+
+
+/* popup style */
+.ol-popup {
+    max-width: 300px;
+    min-width: 100px;
+    min-height: 1em;
+}
+/* Image on popup */
+.ol-popup img {
+    float: left;
+    margin: 0 0.5em 0 0;
+    max-width: 100px;
+    max-height: 100px;
+}
+/* no image content tooltips */
+.ol-popup.tooltips img {
+    display: none;
+}
+
+/* Custom orange style (tips) */
+.ol-popup.tips.orange {
+    border-color: #da7;
+    background-color: #eca;
+}
+
+.ol-popup.tips.orange .anchor::before {
+    border-color: #da7 transparent;
+}
+
+.ol-popup-middle.tips.orange .anchor::before {
+    border-color: transparent #da7;
+}
+
+/* orange style (default) */
+.ol-popup.default.orange {
+    border: 4px solid #f96;
+}
+
+.ol-popup.default.orange .anchor {
+    margin: -15px 18px;
+}
+
+.ol-popup.default.orange .anchor::after {
+    margin: 6px /*border:4 +2 px */ -9px;
+}
+
+.ol-popup-middle.default.orange .anchor::after {
+    margin: -9px 6px /*border:4 +2 px */;
+}
+
+.ol-popup.default.orange .anchor::before {
+    border-color: #f96 transparent;
+}
+
+.ol-popup-middle.default.orange .anchor::before {
+    border-color: transparent #da7;
+}
+
+.ol-popup.default.orange .closeBox {
+    background-color: rgba(255, 153, 102, 0.7);
+}
+
+.ol-popup.default.orange .closeBox:hover {
+    background-color: rgba(255, 153, 102, 1);
+}
+
+.ol-dragbox {
+    background-color: rgba(255,255,255,0.4);
+    border-color: rgba(100,150,0,1);
+  }
+
+
+
+/* Set custom control bar location */
+.ol-control.ol-bar.ol-left.ol-group .ol-control:last-child > button, .ol-control.ol-bar.ol-right.ol-group .ol-control:last-child > button, .ol-control.ol-bar.ol-left .ol-group .ol-control:last-child > button, .ol-control.ol-bar.ol-right .ol-group .ol-control:last-child > button {
+    border-radius: 0 0 0px 0px;
+    width: 3em;
+}
+
+.ol-control.ol-bar.ol-top.ol-left, .ol-control.ol-bar.ol-top.ol-right {
+    top: 0.5em;
+    -webkit-transform: none;
+    transform: none;
+}
+
+
+
+
+.tooltip {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.tooltip-measure {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.tooltip-static {
+    background-color: #ffcc33;
+    color: black;
+    border: 1px solid white;
+}
+
+.tooltip-measure:before,
+.tooltip-static:before {
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    margin-left: -7px;
+    left: 50%;
+}
+
+.tooltip-static:before {
+    border-top-color: #ffcc33;
+}

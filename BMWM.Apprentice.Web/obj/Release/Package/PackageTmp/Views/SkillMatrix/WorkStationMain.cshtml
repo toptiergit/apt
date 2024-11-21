@@ -1,0 +1,120 @@
+﻿@*@using Toptier.WMS.Models;*@
+@using Toptier.WMS.Web;
+@*@using Tracesys.Authorization.Models;
+    @using Tracesys.Authorization.Web;*@
+@using Toptier.Web.Resource;
+@{
+    ViewBag.Title = "WorkStationMain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "Workstation";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+
+@section ButtonAction{
+    @*<div class="btn-group">
+        <button class="btn btn-xs" type="button" style="line-height:2;" onclick="window.location.href = '@Url.Action("index")';">
+            <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+            @lang.GetValue("Back")
+        </button>
+    </div>*@
+    <div class="btn-group">
+        <button class="btn btn-xs btn-info" type="button" style="line-height:2;" onclick="window.location.href = '@Url.Action("WorkStationMtn")';">
+            <i class="ace-icon fa fa-plus bigger-110"></i>
+            @lang.GetValue("New")
+        </button>
+    </div>
+
+}
+<style>
+    .txt-dte {
+        padding: 2px !important;
+        height: 24px;
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .breadcrumbs.sitemap {
+        display: block;
+    }
+
+    #divBtnAction {
+        display: block;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="dt" class="table table-striped table-bordered table-hover" data-selected-action-class="selected-action-dt" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Station</th>
+                            <th>Area</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+            </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.row -->
+
+@section Script {
+    <!-- page specific plugin scripts -->
+    @*<script src="@Url.Content("~/js/jquery.dataTables.min.js")"></script>
+        <script src="@Url.Content("~/js/jquery.dataTables.bootstrap.js")"></script>*@
+    @Scripts.Render("~/bundles/dataTable/js")
+    @Scripts.Render("~/bundles/dataTableFileExport/js")
+    <script>
+        $(function () {
+            $('#dt').dataTable({
+                "dom": '<"row"<"col-xs-2"l><"col-xs-3"B><"col-xs-7"f>r>t<"row"<"col-xs-5"i><"col-xs-7"p>>',
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "pageLength": 20,
+                "lengthMenu": [[20, 50, 100, 200, -1], [20, 50, 100, 200, "All"]],
+                "buttons": [
+                    { extend: 'excel', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-excel-o"></i> Excel' },
+                    //{ extend: 'pdf', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-pdf-o"></i> PDF' },
+                    //{ extend: 'print', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-print"></i> Print' },
+                ],
+                "ajax": {
+                    "url": "@Url.Action("GEToDataStation")",
+                    "type": "POST",
+                    "async": true
+                },
+                "columnDefs": [
+                    // Center align the header content of column 1
+                    { className: "dt-head-left", targets: [1,2] },
+                    // Center align the body content of columns 2, 3, & 4
+                   /* { className: "dt-body-center", targets: [1, 2, 3] }*/
+                ],
+                "columns": [
+                    { "class": "center", "width": 70, "orderable": false, "render": function (data, type, full, meta) { return (meta.row + 1) } }
+                    ,{
+                        "data": null,
+                        "orderable": false,
+                        "render": function (data, type, full, meta) {
+                            return "<a href='@Url.Action("WorkStationMtn")?id=" + full.Id + "'>" + full.Name + '</a>';
+                        }
+                    }
+                    //,{ "data": "Name", "name": "Name","class":"left"}
+                    ,{ "data": "Area", "name": "Area", "class": "left" }
+                ]
+            });
+        });
+
+
+        //$(() => {
+        //    console.log($('#AuthenticateBy'));
+        //    switch ($('#AuthenticateBy')) {
+        //        case "1": $('#AuthenticateBy').val("DB") ; break;
+        //    }
+        //});
+    </script>
+}
+

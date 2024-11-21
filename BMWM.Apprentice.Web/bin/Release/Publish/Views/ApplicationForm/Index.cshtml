@@ -1,0 +1,85 @@
+﻿@model ApplicationForm.Models.ApplicationForm
+@{
+    /**/
+
+    //Layout = null;
+    ViewBag.Title = "Application Form";
+    ViewBag.ActiveMenuId = "application-form";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+<div class="page-header">
+    <h1>
+        Application Form
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        @*<div id="notification" style="display: none;">
+                <span class="dismiss"><a title="dismiss this notification">x</a></span>
+            </div>
+            <input type="text"id="IsRegister"value="@(ViewBag.IsRegister)"hidden>*@
+        @if (ViewBag.IsRegister)
+        {
+            <div class="alert alert-block alert-success">
+                <button type="button" class="close" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times"></i>
+                </button>
+                <i class="ace-icon fa fa-adjust orange"></i>
+                Email นี้ได้ถูกลงทะเบียนไปแล้ว!!
+            </div>
+        }
+        @using (Html.BeginForm("Index", "ApplicationForm", FormMethod.Post))
+        {
+            <div class="widget-box">
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <form class="form-inline">
+                                <input type="email" id="email" name="email" class="input-xlarge" placeholder="Email" required>
+                                <button type="submit" class="btn btn-info btn-sm"style="margin-top:0">
+                                    <i class="ace-icon fa fa-key bigger-110"></i>Submit
+                                </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+@section Style {
+    <style type="text/css">
+        .txt-dte {
+            padding: 2px !important;
+            height: 24px;
+            width: 80px;
+            font-size: 12px !important;
+            text-align: center;
+        }
+
+        .breadcrumbs.sitemap {
+            display: none;
+        }
+
+        #divBtnAction {
+            display: none;
+        }
+    </style>
+}
+@section Script {
+    @Scripts.Render("~/bundles/dataTable/js")
+    @Scripts.Render("~/bundles/dataTableFileExport/js")
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+
+        $(() => {
+            //if ($('#IsRegister').val()=='True')
+            //{
+            //    $("#notification").fadeIn("slow").delay(1000).empty().append('Email นี้ได้ถูกลงทะเบียนไปแล้ว!!');
+            //    $("#notification").fadeOut("slow");
+
+            //} else {
+            //    /*$("#notification").fadeIn("slow").empty().append('Please Select User');*/
+            //}
+        });
+    </script>
+}

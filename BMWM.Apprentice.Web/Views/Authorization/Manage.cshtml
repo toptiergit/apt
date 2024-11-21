@@ -1,0 +1,564 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@model Toptier.WMS.Web.Models.Authorization.Manage
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "md-aut";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+
+@section ButtonAction
+{
+    <div class="btn-group">
+        <button class="btn btn-xs" type="button" style="line-height:2;" onclick="window.history.back();">
+            <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+            @lang.GetValue("Back")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-info" style="line-height:2;" type="button" id="btnSave">
+            <i class="ace-icon fa fa-save bigger-110"></i>
+            @lang.GetValue("Save")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs" style="line-height:2;" type="reset" onclick="location.reload()">
+            <i class="ace-icon fa fa-undo bigger-110"></i>
+            @lang.GetValue("Refresh")
+        </button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        @using (Html.BeginForm("manage", "authorization", new { area = "" }, FormMethod.Post, new { @id = "main-form", @class = "form-horizontal", @role = "form", @enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <input type="hidden" name="@(Model.action == "create" ? "create" : "update")" value="@(Model.action == "create" ? "create" : "update")" />
+                        @*<input type="hidden" name="AuthenticateBy" value="@Model.AuthenticateBy" />*@
+                        <input type="hidden" name="CreatedOn" value="@Model.AuthUser.CreatedOn.ToString(WMSSettings.InputDateTimeFormat)" />
+                        <input type="hidden" name="CreatedUserId" value="@Model.AuthUser.CreatedUserId" />
+
+                        <div class="widget-box" id="user-info-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@lang.GetValue("UserInformation")</h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-11">
+                                            <!-- right col -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Username")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Id" class="form-control noSpecialChars" value="@Model.AuthUser.Id" @(ViewBag.action == "update" ? "readonly" : "") required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("FullName")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="DisplayName" class="form-control" value="@Model.AuthUser.DisplayName" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Email")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Email" class="form-control" value="@Model.AuthUser.Email" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">Redirect Page</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="clearfix">
+                                                            @Html.DropDownList("RedirectPage", Model.RedirectPageSelectList, WMSSettings.DropDownListOptionLabel, new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1" style="padding-top: 2px;">
+                                                        <i class="ace-icon fa fa-info-circle bigger-200 text-primary" style="cursor:pointer" title="Click to display url." onclick="DisplayUrl()"></i>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            <!-- /.right col -->
+                                            <!-- left col -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("AccountAuthenticateBy")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="radio">
+                                                            @foreach (var item in Enum.GetNames(typeof(Toptier.Authentication.Models.UserAuthenticateBy)))
+                                                            {
+                                                                <label>
+                                                                    <input name="AuthenticateBy" type="radio" class="ace" onclick="AuthenChange('@item')" value="@item" @(Model.AuthUser.AuthenticateBy.ToString() == item ? "checked" : "")>
+                                                                    <span class="lbl"> @item</span>
+                                                                </label>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right" id="lblAuthenBy">@lang.GetValue("Password")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="password" name="Password" class="form-control" value="" id="txtPassword" pwd-strong="true" />
+                                                            <input type="text" name="LDAPUsername" class="form-control" id="txtLDAP" value="@Model.AuthUser.LDAPUsername" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Active")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <label>
+                                                                <input name="IsActive" id="IsActive" class="ace ace-switch ace-switch-5" type="checkbox" value="true" onchange="CheckLicense(this.checked);" @(Model.AuthUser.IsActive ? "checked" : "") />
+                                                                <span class="lbl"></span>
+                                                                <input type="hidden" id="hdIsActive" value="@(ViewBag.action == "create" ? "NO" : (Model.AuthUser.IsActive ? "YES" : "NO"))" />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (ViewBag.action == "update")
+                                                {
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Created")</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="clearfix">
+                                                                <label>
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                    @Model.AuthUser.CreatedOn.ToString(WMSSettings.DisplayDateTimeFormat)
+
+                                                                    <i class="fa fa-user"></i>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <!-- /.left col -->
+                                        </div>
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div>
+                        </div><!-- /.widget-box transparent -->
+
+                        <div class="widget-box" id="auth-role-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@lang.GetValue("AuthorizationItem")</h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-11">
+
+                                            <!-- #section:elements.tab -->
+                                            <div class="tabbable">
+                                                <ul class="nav nav-tabs" id="myTab">
+                                                    <li class="active">
+                                                        <a data-toggle="tab" href="#tabInventory" aria-expanded="true">
+                                                            <i class="blue ace-icon fa fa-cubes bigger-120"></i>
+                                                            @lang.GetValue("Inventory")
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <a data-toggle="tab" href="#tabProduction" aria-expanded="false">
+                                                            <i class="orange ace-icon fa fa-cogs bigger-120"></i>
+                                                            @lang.GetValue("Production")
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <a data-toggle="tab" href="#tabSales" aria-expanded="false">
+                                                            <i class="green ace-icon fa fa-shopping-cart bigger-120"></i>
+                                                            @lang.GetValue("SalesAndDistribution")
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <a data-toggle="tab" href="#tabSetting" aria-expanded="false">
+                                                            <i class="purple ace-icon fa fa-wrench bigger-120"></i>
+                                                            @lang.GetValue("Settings")
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <a data-toggle="tab" href="#tabCustom" aria-expanded="false">
+                                                            <i class="red ace-icon fa fa-user-o bigger-120"></i>
+                                                            @lang.GetValue("Custom")
+                                                        </a>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="tab-content">
+                                                    <div id="tabInventory" class="tab-pane fade in active">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6">
+                                                                @{
+                                                                    int rowInv = 1;
+
+                                                                    foreach (var item in Model.AuthItemInv.OrderBy(e => e.Code))
+                                                                    {
+                                                                        if (rowInv == 1 || rowInv == (Model.AuthItemInv.Count() / 2) + 1)
+                                                                        {
+                                                                            @Html.Raw(ViewBag.start);
+                                                                        }
+
+                                                                        var sel = Model.AuthUserItem.Where(e => e.Code == item.Code).FirstOrDefault();
+                                                                        string chk = (sel != null ? "checked" : "");
+
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                                <span class="lbl"> @item.Name</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        if (rowInv == Model.AuthItemInv.Count() / 2 || rowInv == Model.AuthItemInv.Count())
+                                                                        {
+                                                                            @Html.Raw(ViewBag.end);
+                                                                        }
+
+                                                                        rowInv++;
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="tabProduction" class="tab-pane fade">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6">
+                                                                @{
+                                                                    int rowProd = 1;
+
+                                                                    foreach (var item in Model.AuthItemProd)
+                                                                    {
+                                                                        if (rowProd == 1 || rowProd == (Model.AuthItemProd.Count() / 2) + 1)
+                                                                        {
+                                                                            @Html.Raw(ViewBag.start);
+                                                                        }
+
+                                                                        var sel = Model.AuthUserItem.Where(e => e.Code == item.Code).FirstOrDefault();
+                                                                        string chk = (sel != null ? "checked" : "");
+
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                                <span class="lbl"> @item.Name</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        if (rowProd == Model.AuthItemProd.Count() / 2 || rowProd == Model.AuthItemProd.Count())
+                                                                        {
+                                                                            @Html.Raw(ViewBag.end);
+                                                                        }
+
+                                                                        rowProd++;
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="tabSales" class="tab-pane fade">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6">
+                                                                @{
+                                                                    int rowSale = 1;
+
+                                                                    foreach (var item in Model.AuthItemSale)
+                                                                    {
+                                                                        if (rowSale == 1 || rowSale == (Model.AuthItemSale.Count() / 2) + 1)
+                                                                        {
+                                                                            @Html.Raw(ViewBag.start);
+                                                                        }
+
+                                                                        var sel = Model.AuthUserItem.Where(e => e.Code == item.Code).FirstOrDefault();
+                                                                        string chk = (sel != null ? "checked" : "");
+
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                                <span class="lbl"> @item.Name</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        if (rowSale == Model.AuthItemSale.Count() / 2 || rowSale == Model.AuthItemSale.Count())
+                                                                        {
+                                                                            @Html.Raw(ViewBag.end);
+                                                                        }
+
+                                                                        rowSale++;
+                                                                    }
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="tabSetting" class="tab-pane fade">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6">
+                                                                @{
+                                                                    int rowMas = 1;
+
+                                                                    foreach (var item in Model.AuthItemMas)
+                                                                    {
+                                                                        if (rowMas == 1 || rowMas == (Model.AuthItemMas.Count() / 2) + 1)
+                                                                        {
+                                                                            @Html.Raw(ViewBag.start);
+                                                                        }
+
+                                                                        var sel = Model.AuthUserItem.Where(e => e.Code == item.Code).FirstOrDefault();
+                                                                        string chk = (sel != null ? "checked" : "");
+
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                                <span class="lbl"> @item.Name</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        if (rowMas == Model.AuthItemMas.Count() / 2 || rowMas == Model.AuthItemMas.Count())
+                                                                        {
+                                                                            @Html.Raw(ViewBag.end);
+                                                                        }
+
+                                                                        rowMas++;
+                                                                    }
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="tabCustom" class="tab-pane fade">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6">
+                                                                @{
+                                                                    int rowCus = 1;
+
+                                                                    foreach (var item in Model.AuthItemCust)
+                                                                    {
+                                                                        if (rowCus == 1 || rowCus == (Model.AuthItemCust.Count() / 2) + 1)
+                                                                        {
+                                                                            @Html.Raw(ViewBag.start);
+                                                                        }
+
+                                                                        var sel = Model.AuthUserItem.Where(e => e.Code == item.Code).FirstOrDefault();
+                                                                        string chk = (sel != null ? "checked" : "");
+
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                                <span class="lbl"> @item.Name</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        if (rowCus == Model.AuthItemCust.Count() / 2 || rowCus == Model.AuthItemCust.Count())
+                                                                        {
+                                                                            @Html.Raw(ViewBag.end);
+                                                                        }
+
+                                                                        rowCus++;
+                                                                    }
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- ./section:elements.tab -->
+                                            @*<div class="form-group">
+                                                    <label class="col-sm-2"></label>
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            @{
+                                                                var obj = Toptier.Authentication.Services.ManagerService.GetAllRoles().Where(e => e.IsActive);
+                                                                int row = 1;
+                                                                foreach (var item in obj)
+                                                                {
+                                                                    string chk = "";
+                                                                    var model = Toptier.Authentication.Services.ManagerService.GetUserRoles(Model.AuthUser.Id);
+                                                                    foreach (var tmp in model)
+                                                                    {
+                                                                        if (item.Code == tmp.Code) { chk = "checked"; break; }
+                                                                    }
+
+                                                                    if (row == 1 || row == (obj.Count() / 2) + 1)
+                                                                    {
+                                                                        @Html.Raw(ViewBag.start);
+                                                                    }
+
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                            <span class="lbl"> @lang.GetValue(item.Name)</span>
+                                                                        </label>
+                                                                    </div>
+
+                                                                    if (row == obj.Count() / 2 || row == obj.Count())
+                                                                    {
+                                                                        @Html.Raw(ViewBag.end);
+                                                                    }
+
+                                                                    row++;
+                                                                }
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.widget-box -->
+
+                    </div>
+                </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+        }
+        <!-- PAGE CONTENT END -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.row -->
+
+@section Style {
+
+}
+
+@section Script {
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            //validation
+            $('#main-form').validate();
+            AuthenChange('@(Model.action == "update" ? Model.AuthUser.AuthenticateBy : Toptier.Authentication.Models.UserAuthenticateBy.DB)');
+
+            $.validator.addMethod("noSpecialChars", function (value, element) {
+                return this.optional(element) || /^[a-z0-9.\_]+$/i.test(value);
+            }, "Not allow specail characters.");
+        });
+
+        function CheckLicense(val) {
+            if (val == true && $("#hdIsActive").val() == "NO") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Action("CheckLicenseNumberOfEnabledUser")',
+                    data: null,
+                    success: function (res) {
+                        if (!res.success) {
+                            alert("Maximum number of enabled user over!");
+                            $('#IsActive').prop('checked', false);
+                        }
+                    }
+                });
+
+            }
+        }
+        //--------------------------------------------------------------------------------
+        $('#btnSave').click(function () {
+            if ($('input[name=AuthenticateBy]:checked').length <= 0) {
+                alert("Please select [Account Authenticate By!]");
+            } else {
+                $("#main-form").submit();
+            }
+        });
+
+        //--------------------------------------------------------------------------------
+        function AuthenChange(val)
+        {
+            $('#lblAuthenBy').html('');
+            $('#txtPassword').css("display", "none");
+            $('#txtLDAP').css("display", "none");
+            $('#AuthenticateBy').val(val);
+
+            if (val == '@Toptier.Authentication.Models.UserAuthenticateBy.LDAP' || val == '@Toptier.Authentication.Models.UserAuthenticateBy.CUSTOM') {
+                $('#lblAuthenBy').html('@lang.GetValue("LDAPAccount")');
+                $('#txtLDAP').css("display", "");
+            }
+            else {
+                $('#lblAuthenBy').html('@lang.GetValue("Password")');
+                $('#txtPassword').css("display", "");
+            }
+        }
+
+        //custom validation method
+        var pwdInvalidRoles;
+        $.validator.addMethod("pwd-strong", function (value, element) {
+            var ret = true;
+            if (value) {
+                $.ajax({
+                    type: 'GET',
+                    cache: false,
+                    async: false,
+                    url: '@Url.Action("StrongPasswordValidation", "Authorization")',
+                    data: { password: value, userId: '@Toptier.Authentication.Web.UserAuthentication.UserId' },
+                    success: function (res) {
+                        ret = res.Valid;
+                        pwdInvalidRoles = res.InvalidRoles;
+                    }
+                });
+            }
+            return ret;
+        }, function (params, element) {
+            return 'Password must:<ul><li>' + pwdInvalidRoles.join('</li><li>') + '</li></ul>';
+        });
+
+        function DisplayUrl()
+        {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("GetRedirectPage")',
+                data: { pageId : $("#RedirectPage").val() },
+                success: function (res) {
+                    if (res.success) {
+                        bootbox.alert(res.url);                        
+                    }
+                }
+            });
+        }
+    </script>
+}

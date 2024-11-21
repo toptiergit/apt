@@ -1,0 +1,337 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@model ApplicationForm.Models.SkillMatrixView
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "SkillMatrix";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+@section ButtonAction
+{
+    <div class="btn-group">
+        <button class="btn btn-xs" type="button" style="line-height:2;" onclick="window.history.back();">
+            <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+            @lang.GetValue("Back")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-info" style="line-height:2;" type="button" id="btnSave">
+            <i class="ace-icon fa fa-save bigger-110"></i>
+            @lang.GetValue("Save")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-warning" style="line-height:2;" type="reset" id="btnReset">
+            <i class="ace-icon fa fa-undo bigger-110"></i>
+            @lang.GetValue("Reset")
+        </button>
+    </div>
+}
+<style>
+    .txt-dte {
+        padding: 2px !important;
+        height: 24px;
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .breadcrumbs.sitemap {
+        display: block;
+    }
+
+    #divBtnAction {
+        display: block;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        @using (Html.BeginForm("Manage", "SkillMatrix", new { area = "" }, FormMethod.Post, new { @id = "main-form", @class = "form-horizontal", @role = "form", @enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <input type="hidden" name="@(ViewBag.action == "create" ? "create" : "update")" value="@(ViewBag.action == "create" ? "create" : "update")" />
+                        @*<input type="hidden" name="AuthenticateBy" value="@Model.AuthenticateBy" />*@
+
+                        <div class="widget-box" id="user-info-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@lang.GetValue("UserInformation")</h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-11">
+                                            <!-- right col -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Username")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Id" class="form-control" value="@Model.UserId" @(ViewBag.action == "update" ? "readonly" : "") required readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("FullName")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="DisplayName" class="form-control" value="@Model.UserName" required readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Email")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Email" class="form-control" value="@Model.Email" required readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- /.right col -->
+                                            <!-- left col -->
+                                            <!-- /.left col -->
+                                        </div>
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div>
+                        </div><!-- /.widget-box transparent -->
+
+                        <div class="widget-box" id="auth-role-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@lang.GetValue("AuthorizationRole")</h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-11">
+                                            <!-- #section:elements.tab -->
+                                            <div class="tabbable">
+                                                <ul class="nav nav-tabs" id="myTab">
+                                                    @{
+                                                        int nI = 1;
+                                                        var sStationArea = "";
+                                                        foreach (var oStation in Model.Station)
+                                                        {
+                                                            if (sStationArea != @oStation.Area)
+                                                            {
+                                                                <li class="@(nI == 1 ? "active" : "")">
+                                                                    <a data-toggle="tab" href="#@oStation.Area.Replace(" ", string.Empty)" aria-expanded="@(nI == 1 ? "true" : "false")">
+                                                                        @{
+                                                                            switch (nI)
+                                                                            {
+                                                                                case 1:<i class="blue ace-icon fa fa-cubes bigger-120"></i>; break;
+                                                                                case 2:<i class="orange ace-icon fa fa-cogs bigger-120"></i>; break;
+                                                                                case 3:<i class="green ace-icon fa fa-shopping-cart bigger-120"></i>; break;
+                                                                                case 4:<i class="purple ace-icon fa fa-wrench bigger-120"></i>; break;
+                                                                                case 5:<i class="red ace-icon fa fa-user-o bigger-120"></i>; break;
+                                                                                default:<i class="blue ace-icon fa fa-cubes bigger-120"></i>; ; break;
+                                                                            }
+                                                                        }
+
+                                                                        @oStation.Area
+                                                                    </a>
+
+                                                                </li>
+                                                                nI++;
+                                                            }
+                                                            sStationArea = @oStation.Area;
+
+                                                        }
+                                                    }
+                                                </ul>
+                                                <div class="tab-content">
+                                                    @{
+                                                        nI = 1;
+                                                        sStationArea = "";
+                                                        foreach (var oStation in Model.Station)
+                                                        {
+                                                            if (sStationArea != @oStation.Area)
+                                                            {
+                                                                sStationArea = @oStation.Area;
+                                                                <div id="@oStation.Area.Replace(" ", string.Empty)" class="@(nI == 1 ? "tab-pane fade in active" : "tab-pane fade")">
+                                                                    <div class="form-group">
+                                                                        @*<div class="col-sm-4">
+        <div class='control-group'>*@
+                                                                        @{
+                                                                            int row = 1;
+                                                                            int j = 0;
+                                                                            var StationCount = Model.Station.Where(e => e.Area == @oStation.Area).Count();
+                                                                            foreach (var oStationSub in Model.Station.Where(e => e.Area == @oStation.Area))
+                                                                            {
+                                                                         
+                                                                                var mod = StationCount % 3;
+                                                                                if (StationCount > 3)
+                                                                                {
+                                                                                    switch (mod)
+                                                                                    {
+                                                                                        case 0:
+                                                                                            if (row == (StationCount / StationCount) || row == (StationCount / 2) || row == (StationCount - 1))
+                                                                                            {
+                                                                                                @Html.Raw(ViewBag.start);
+                                                                                            }
+                                                                                            break;
+                                                                                        case 1:
+                                                                                            if (row == (StationCount / StationCount) || row == (StationCount / 2) + 1 || row == (StationCount))
+                                                                                            {
+                                                                                                @Html.Raw(ViewBag.start);
+                                                                                            }
+                                                                                            break;
+                                                                                        case 2:
+                                                                                            if (row == (StationCount / StationCount) || row == (StationCount / 2) + 1 || row == (StationCount))
+                                                                                            {
+                                                                                                @Html.Raw(ViewBag.start);
+                                                                                            }
+                                                                                            break;
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    @Html.Raw(ViewBag.start);
+                                                                                }
+
+                                                                                var InputId = @oStationSub.Id;
+                                                                                var InputName = @oStationSub.Name.Replace(" ", string.Empty);
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-sm-8" for=""> @oStationSub.Name :</label>
+                                                                                    <div class="col-sm-4">
+                                                                                        <div class="input-group spinner">
+                                                                                            <input id="@InputId" name="@InputName@InputId" type="text" class="form-control" value="1" readonly>
+                                                                                            <div class="input-group-btn-vertical">
+                                                                                                <button class="btn btn-default" type="button" value="@InputId"><i class="fa fa-caret-up"></i></button>
+                                                                                                <button class="btn btn-default" type="button" value="@InputId"><i class="fa fa-caret-down"></i></button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                if (StationCount > 3)
+                                                                                {
+                                                                                    switch (mod)
+                                                                                    {
+                                                                                        case 0:
+                                                                                            if (row == (StationCount / 3) || row == (StationCount / 2) + 1 || row == StationCount)
+                                                                                            {
+                                                                                                @Html.Raw(ViewBag.end);
+                                                                                            }
+                                                                                            break;
+                                                                                        case 1:
+                                                                                            if (row == (StationCount / 2) || row == (StationCount / 2) + mod || row == (StationCount))
+                                                                                            {
+                                                                                                @Html.Raw(ViewBag.end);
+
+                                                                                            }
+                                                                                            break;
+                                                                                        case 2:
+                                                                                            if (row == (StationCount / 2) || row == (StationCount / 2) + mod || row == (StationCount))
+                                                                                            {
+                                                                                                @Html.Raw(ViewBag.end);
+
+                                                                                            }
+                                                                                            break;
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    @Html.Raw(ViewBag.end);
+                                                                                }
+
+                                                                                row++;
+                                                                            }
+                                                                        }
+                                                                        @*</div>
+        </div>*@
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            nI++;
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <!-- ./section:elements.tab -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.widget-box -->
+
+                    </div>
+                </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+        }
+        <!-- PAGE CONTENT END -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.row -->
+
+@section Script {
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+ 
+        //--------------------------------------------------------------------------------
+        $('#btnSave').click(function () {
+                $("#main-form").submit();
+        });
+        $(() => {
+            $('#btnReset').click(() => {
+                $(':input', '#main-form')
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .removeAttr('checked')
+                    .removeAttr('selected');
+            });
+        });
+        //--------------------------------------------------------------------------------      
+        (function ($) {
+
+            $('.spinner .btn:first-of-type').on('click', function () {
+                //var self = $(this).attr('id');
+                var InputId = $(this).val();
+                if (parseInt($('#' + InputId).val(), 10) < 4) {
+                    $('#' + InputId).val(parseInt($('#' + InputId).val(), 10) + 1);
+                }
+            });
+            $('.spinner .btn:last-of-type').on('click', function () {
+                //var self = $(this).attr('id');
+                var InputId = $(this).val();
+                if (parseInt($('#' + InputId).val(), 10) > 1) {
+                    $('#' + InputId).val(parseInt($('#' + InputId).val(), 10) - 1);
+                }
+            });
+        })(jQuery);
+        //function BtnUp(BtnId, InputId) {
+        //     return InputId;
+        //};
+        //function BtnDonw(BtnId, InputId) {
+        //    return InputId;
+        //};
+       
+    
+    </script>
+}
+
+

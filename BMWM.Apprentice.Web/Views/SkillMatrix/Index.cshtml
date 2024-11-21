@@ -1,0 +1,211 @@
+﻿@*@using Toptier.WMS.Models;*@
+@using Toptier.WMS.Web;
+@*@using Tracesys.Authorization.Models;
+    @using Tracesys.Authorization.Web;*@
+@using Toptier.Web.Resource;
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "SkillMatrix";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+
+@section ButtonAction{
+    @*@if (ViewBag.btnNewVisible == true)
+    {
+        <button class="btn btn-xs btn-info" onclick="window.location.href = '@Url.Action("manage")';">
+            <i class="ace-icon fa fa-plus"></i>
+            @lang.GetValue("New")
+        </button>
+    }*@
+}
+<style>
+    .txt-dte {
+        padding: 2px !important;
+        height: 24px;
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .breadcrumbs.sitemap {
+        display: block;
+    }
+
+    #divBtnAction {
+        display: none;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col">
+                <label class="col-sm-12 ctLBL" style="color:white">-</label>
+                <div class="col-sm-2">
+                    <button class="btn btn-xs btn-warning" type="button" onclick="Report()">
+                        <i class="ace-icon fa fa-bar-chart-o"></i>
+                        View
+                    </button>
+                </div>
+                @*<div class="col-sm-10">
+                    <button class="btn btn-xs bigger-200 btn-info" type="button" onclick="window.location.href = '@Url.Action("WorkStationMain")';">
+                        <i class="ace-icon fa fa-cubes"></i>
+                        Work Station
+                    </button>
+                </div>*@
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="dt" class="table table-striped table-bordered table-hover text-left" data-selected-action-class="selected-action-dt" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                <label class="position-relative">
+                                    <input type="checkbox" class="ace selectall" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>@lang.GetValue("FullName")</th>
+                            <th>@lang.GetValue("Email")</th>
+                            <th>@lang.GetValue("Status")</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.row -->
+
+@section Script {
+    <!-- page specific plugin scripts -->
+    @*<script src="@Url.Content("~/js/jquery.dataTables.min.js")"></script>
+        <script src="@Url.Content("~/js/jquery.dataTables.bootstrap.js")"></script>*@
+    @Scripts.Render("~/bundles/dataTable/js")
+    @Scripts.Render("~/bundles/dataTableFileExport/js")
+<script>
+        $(function () {
+            $('#dt').dataTable({
+                "dom": '<"row"<"col-xs-2"l><"col-xs-3"B><"col-xs-7"f>r>t<"row"<"col-xs-5"i><"col-xs-7"p>>',
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "buttons": [
+                    //{ extend: 'excel', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-excel-o"></i> Excel' },
+                    //{ extend: 'pdf', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-pdf-o"></i> PDF' },
+                    //{ extend: 'print', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-print"></i> Print' },
+                ],
+                "ajax": {
+                    "url": "@Url.Action("GEToDataTable")",
+                    "type": "POST",
+                    "async": true
+                },
+                "order": [1, 'asc'],
+                "columns": [
+                    {
+                        "data": null,
+                        "orderable": false,
+                        "class": "center",
+                        "width": 60,
+                        "render": function (data, type, full, meta) {
+                            return '<label class="position-relative"><input type="checkbox" name="ids" value="' + full.Id + '" class="ace select" onclick="handleSelectedAction(this);" /><span class="lbl"></span></label>';
+                        }
+                    },
+                        {
+                            "data": null,
+                            "orderable": false,
+                            "render": function (data, type, full, meta) {
+                                return full.Status? full.Displayname :"<a href='@Url.Action("Manage")?id=" + full.Id + "'>" + full.Displayname + '</a>';
+                                  //return "<a href='@Url.Action("Manage")?id=" + full.Id + "'>" + full.Displayname + '</a>';
+                            }
+                        },
+
+                        { "data": "Email", "name": "Email" },
+                        {
+                            "data": "Status",
+                            "name": "Status",
+                            "class": "center",
+                            "render": function (data, type, full, meta) {
+                                return (data ? "Yes" : "No");
+                            }
+                        }
+                ]
+            }).on('draw.dt', function () {
+                handleSelectedAction(this);
+            });
+
+            //checkbox check all
+            $('.selectall').click(function () {
+                var table = $(this).closest('table');
+                $('input.select:checkbox', table).prop('checked', this.checked);
+                handleSelectedAction(this);
+            });
+
+        });
+
+        function handleSelectedAction(e) {
+            var table = $(e).closest('table');
+            var className = $(table).attr("data-selected-action-class");
+            $('.' + className).toggle($('input.select:checkbox:checked', table).length > 0);
+        }
+
+    //    function manageItem(tableSelector, url) {
+    //        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+    //        var selectedCount = checkboxs.serializeArray().length;
+    //        bootbox.confirm("Are you sure you want to perform action these " + selectedCount + " items?", function (result) {
+    //            if (result) {
+    //                $.ajax({
+    //                    type: 'POST',
+    //                    async: false,
+    //                    url: url,
+    //                    data: checkboxs.serialize(),
+    //                    success: function (res) {
+    //                        if (!res.success) {
+    //                            alert("Maximum number of enabled user over!");
+    //                        }else{
+    //                            $(tableSelector).DataTable().ajax.reload(); //reload datatable
+    //                        }
+    //                    }
+    //                });
+    //            }
+    //        });
+    //}
+    function Report() {
+        var tableSelector = "#dt";
+        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+        var selectedCount = checkboxs.serializeArray().length;
+        if (selectedCount > 0) {
+             $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Action("Report")',
+                    data: checkboxs.serialize(),
+                    success: function (res) {
+                        //window.location.href = "/ReportViewer.aspx?rptsid=" + res.Id;
+                        window.open("./ReportViewer.aspx?rptsid=" + res.Id, "_blank");
+                    }
+                });
+        } else {
+            alert("Please Select UserList!!")
+        }
+
+        @*bootbox.confirm("Are you sure you want to print these " + selectedCount + " items?", function (result) {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Action("Report")',
+                    data: checkboxs.serialize(),
+                    success: function (res) {
+                        //$('#dt').DataTable().ajax.reload(); //reload datatable
+                        //$('#alert').show();
+                    }
+                });
+            }
+        });*@
+    }
+
+</script>
+}

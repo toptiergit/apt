@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "LicenseInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "dv-lic";
+}
+
+
+
+<div class="page-header">
+    <h1>
+        License Info       
+    </h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-10">
+
+        <!-- #section:pages/profile.info -->
+        <div class="profile-user-info profile-user-info-striped">
+            <div class="profile-info-row">
+                <div class="profile-info-name"> LicenseKey </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@ViewBag.LicenseKey</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Signature </div>
+
+                <div class="profile-info-value">                   
+                    
+                    <span class="editable">@ViewBag.Signature</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Remark </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@ViewBag.Remark</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Expire Date </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@ViewBag.ExpireDate</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> MachineName </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@ViewBag.MachineName</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> MACAddress </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@ViewBag.MACAddress</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Maximum Number Of User </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@ViewBag.MaximumNumberOfUser</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Maximum Number Of Enabled User </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@ViewBag.MaximumNumberOfEnabledUser</span>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+
+@section Style {
+    
+    }
+
+@section Script {
+    <style>
+        .profile-info-name {
+            width:30%;
+        }
+</style>
+}

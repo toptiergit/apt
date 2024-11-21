@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "dv-enum";    
+}
+
+<div class="row">
+    <div class="col-lg-6 col-xs-12">
+        <table id="dt1" class="table table-striped table-bordered table-hover" data-selected-action-class="selected-action-dt" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Table</th>
+                    <th>Column</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="col-lg-6 col-xs-12">
+        <table id="dt2" class="table table-striped table-bordered table-hover" data-selected-action-class="selected-action-dt" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Table</th>
+                    <th>Column</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Style {
+    @Styles.Render("~/bundles/dataTable/css")
+    <style type="text/css">
+        .table.dataTable tr.dtrg-group.dtrg-level-0 td {            
+            color: red;
+        }
+    </style>
+}
+
+@section Script {
+    @Scripts.Render("~/bundles/dataTable/js")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#dt1').dataTable({
+                "dom": '<"row"<"col-xs-5"l><"col-xs-7"f>r>t<"row"<"col-xs-5"i><"col-xs-7"p>>',
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "pageLength": 50,
+                "ajax": {
+                    "url": "@Url.Action("GetEnumDataTable1")",
+                    "type": "POST",
+                    "async": true
+                },
+                "order": [0, 'asc'],
+                "rowGroup": {
+                    "dataSrc": "Name"
+                },
+                "columns": [
+                    { "data": "Name", "name": "Name", "class": "left", "orderable": true },
+                    { "data": "UpdatedBy", "name": "UpdatedBy", "class": "left", "orderable": true },
+                    { "data": "Seq", "name": "Seq", "class": "center", "orderable": true },
+                    { "data": "Description", "name": "Description", "class": "left", "orderable": true },
+
+                ]
+            }).on('draw.dt', function () {
+                //handleSelectedAction(this);
+            });
+
+            $('#dt2').dataTable({
+                "dom": '<"row"<"col-xs-5"l><"col-xs-7"f>r>t<"row"<"col-xs-5"i><"col-xs-7"p>>',
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "pageLength": 50,
+                "ajax": {
+                    "url": "@Url.Action("GetEnumDataTable2")",
+                    "type": "POST",
+                    "async": true
+                },
+                "order": [0, 'asc'],
+                "rowGroup": {
+                    "dataSrc": "Name"
+                },
+                "columns": [
+                    { "data": "Name", "name": "Name", "class": "left", "orderable": true },
+                    { "data": "UpdatedBy", "name": "UpdatedBy", "class": "left", "orderable": true },
+                    { "data": "Seq", "name": "Seq", "class": "center", "orderable": true },
+                    { "data": "Description", "name": "Description", "class": "left", "orderable": true },
+
+                ]
+            }).on('draw.dt', function () {
+                //handleSelectedAction(this);
+            });
+        });
+    </script>
+}
+

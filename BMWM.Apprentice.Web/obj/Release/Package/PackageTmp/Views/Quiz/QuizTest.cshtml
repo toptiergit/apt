@@ -1,0 +1,915 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@using BMWM.Apprentice.Web.AuthWebService
+@model IQueryable<ApplicationForm.Models.QuestionVM>
+
+@{
+    /**/
+
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Quiz - " + ViewBag.QuizType;
+    ViewBag.ActiveMenuId = "quiz-" + ViewBag.QuizType;
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 1, countR = 0;
+    var sItemCode = UserAuthentication.User.UserItems.ToList().FirstOrDefault().ItemCode;
+}
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <h5 class="lighter">
+            <i class="ace-icon fa fa-file-o"></i>
+            @ViewBag.QuizType
+        </h5>
+        @if (ViewBag.NoQuiz)
+        {
+            <div class="alert alert-block alert-warning">
+                <button type="button" class="close" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times"></i>
+                </button>
+
+                <i class="ace-icon fa fa-exclamation-triangle bigger-120"></i>
+
+                Quiz not upload.
+            </div>
+        }
+        else if (@ViewBag.CheckTested)
+        {
+            <div>
+                @Html.Partial("QuizCompleted")
+            </div>
+        }
+        else if (Model != null && Model.Any())
+        {
+            <div class="form-group-lg">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4 style="margin-top: 0%;"> <span class="label label-info">Questions :</span> </h4>
+                    </div>
+                    @if (sItemCode == "ADMIN")
+                    {
+                        <div class="col-md-1" style="padding-left:5px">
+                            <button class="btn btn-info btn-sm right" style="margin-right: 10px;" onclick="CreateQuiz();"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                        </div>
+                    }
+                </div>
+
+                @foreach (var question in Model)
+                {
+                    <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 100%; border-radius: 4px; margin-top: 20px; background-color: #e8e8e8; padding: 8px;">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="Question" style="padding: 1%;">
+                                    <span class="label label-warning"> @string.Format("{0}{1}.", "Q", count)</span>
+                                    <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QuestionID</span>
+                                    <p style="display: inline; padding: 1%;white-space: pre-wrap;" id="@string.Format("{0}{1}", "Q", count)">@question.QuestionText</p>
+                                    @* <textarea style="display: inline;" class="form-control" id="@string.Format("{0}{1}", "Q", count)" readonly>@question.QuestionText</textarea>*@
+                                    @if (@question.Image != "" && @question.Image != null)
+                                    {
+                                        <br>
+                                        <img src="@question.Image" style="margin-left:45px" class="img-responsive" width="140" height="100">
+                                    }
+
+                                </div>
+                            </div>
+                            @if (sItemCode == "ADMIN")
+                            {
+                                <div class="col-md-2" style="padding-left:15px">
+                                    <span id="Question_Address" style="display:none;"></span>
+                                    <span id="Choices_Address" style="display:none;"></span>
+                                    <button class="btn btn-warning btn-sm" onclick="EditData('@question.QuestionID','@count','@countR');"><span class="glyphicon glyphicon-edit"></span>Edit</button>
+                                    <button class="btn btn-dark btn-sm " onclick="DeleteQuiz('@question.QuestionID'); "><span class="glyphicon glyphicon-floppy-remove"></span>Delete</button>
+
+                                </div>
+                            }
+
+                        </div>
+                        <div class="Choices" style="margin-left: 8%;">
+                            @foreach (var choice in question.Choices)
+                            {
+                                <label class="radio-inline" id="ChoicesText1">
+                                    <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions", count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@choice.ChoiceID" style="margin-left: -16px;" required="required"> @choice.ChoiceText
+                                </label><br />
+                                if (choice.Image != "" && choice.Image != null)
+                                {
+                                    <img src="@choice.Image" class="img-responsive" width="80" height="60">
+                                    <br>
+                                }
+                                countR++;
+                            }
+                            <div class="form-group row">
+                                <div class="col-xs-6" hidden>
+                                    <textarea class="form-control" id="@string.Format("{0}{1}", "AnswerText", count)"></textarea>
+                                </div>
+
+                            </div>
+
+                        </div> <!--END Choices-->
+
+                        <div id="@string.Format("{0}{1}{2}", "Ans", "Q", count)">
+
+                        </div>
+                    </div> <!-- END BlockQ -->
+                    count++;
+                }
+                <span id="countQuections" style="display:none;">@count</span>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <button type="button" id="SubmitQuiz" class="btn btn-warning radius-6" style="margin-top: 10px"><span class="glyphicon glyphicon-ok"></span>   Submit </button>
+                    </div>
+                    <div class="col-sm-2">
+                        <a style="margin-left:80px" href="#">Go to top<span class="glyphicon glyphicon-arrow-up"></span></a>
+                    </div>
+                </div>
+
+            </div> <!-- END QUIZ -->
+
+
+            <div class="modal fade" id="EditQuiz" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="container">
+                                <h1>Add new question</h1>
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <input type="hidden" class="form-control" id="QuestionId" name="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-1" for="">Questions :</label>
+                                        <div class="col-sm-4">
+                                            <textarea class="form-control" id="QuestionText" rows="3"></textarea>
+                                        </div>
+                                        <div id="BlogQuestion" class="col-sm-1" style="padding-left:0">
+                                            <div>
+                                                <img id="QuestionImage" class="img-responsive" width="100" height="100">
+                                            </div>
+                                            <div class="col-sm-12" style="padding-left:25px">
+                                                <a id="DelQuestImg" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">Image:</label>
+                                        <div class="col-sm-3" style="">
+                                            <input type="file" accept="image/*" id="QuestionFile" name="QuestionFile" class="form-control-static" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">Choice</label>
+                                    </div>
+                                    @* Choice1*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">1:</label>
+                                        <div class="col-sm-4">
+                                            <span id="ChoiceId_1" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Choice1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="FileChoice1" name="FileChoice1" class="form-control-static" />
+                                        </div>
+                                        <div id="BlogChoice1" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="ImageChoice1" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left: 25px;padding-top:6px">
+                                                <a id="DelImgChoice1" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Choice2*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">2:</label>
+                                        <div class="col-sm-4">
+                                            <span id="ChoiceId_2" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Choice2" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="FileChoice2" name="FileChoice2" class="form-control-static" />
+                                        </div>
+                                        <div id="BlogChoice2" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="ImageChoice2" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left:25px;padding-top:6px">
+                                                <a id="DelImgChoice2" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Choice3*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">3:</label>
+                                        <div class="col-sm-4">
+                                            <span id="ChoiceId_3" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Choice3" placeholder="" name="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="FileChoice3" name="FileChoice3" class="form-control-static" />
+                                        </div>
+                                        <div id="BlogChoice3" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="ImageChoice3" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left: 25px;padding-top:6px">
+                                                <a id="DelImgChoice3" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Choice4*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">4:</label>
+                                        <div class="col-sm-4">
+                                            <span id="ChoiceId_4" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Choice4" placeholder="" name="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="FileChoice4" name="FileChoice4" class="form-control-static" />
+                                        </div>
+                                        <div id="BlogChoice4" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="ImageChoice4" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left: 25px;padding-top:6px">
+                                                <a id="DelImgChoice4" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">Answer:</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group spinner">
+                                                <span id="AnswerId" style="display:none;"></span>
+                                                <input type="text" class="form-control" value="1" readonly>
+                                                <div class="input-group-btn-vertical">
+                                                    <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                                    <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer text-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="SaveChanges" type="button" class="btn btn-warning" onclick="SaveChanges();">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="CreateQuiz" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="container">
+                                <h1>Edit Question</h1>
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <input type="hidden" class="form-control" id="QuestionId" name="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-1" for="">Questions :</label>
+                                        <div class="col-sm-4">
+                                            <textarea class="form-control" id="Create_QuestionText" rows="3"></textarea>
+                                        </div>
+                                        <div id="Create_BlogQuestion" class="col-sm-1" style="padding-left:0">
+                                            <div>
+                                                <img id="Create_QuestionImage" class="img-responsive" width="100" height="100">
+                                            </div>
+                                            <div class="col-sm-12" style="padding-left:25px">
+                                                <a id="Create_DelQuestImg" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">Image:</label>
+                                        <div class="col-sm-3" style="">
+                                            <input type="file" accept="image/*" id="Create_QuestionFile" name="Create_QuestionFile" class="form-control-static" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">Choice</label>
+                                    </div>
+                                    @* Choice1*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">1:</label>
+                                        <div class="col-sm-4">
+                                            <span id="Create_ChoiceId_1" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Create_Choice1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="Create_FileChoice1" name="Create_FileChoice1" class="form-control-static" />
+                                        </div>
+                                        <div id="Create_BlogChoice1" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="Create_ImageChoice1" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left: 25px;padding-top:6px">
+                                                <a id="Create_DelImgChoice1" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Choice2*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">2:</label>
+                                        <div class="col-sm-4">
+                                            <span id="Create_ChoiceId_2" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Create_Choice2" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="Create_FileChoice2" name="Create_FileChoice2" class="form-control-static" />
+                                        </div>
+                                        <div id="Create_BlogChoice2" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="Create_ImageChoice2" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left:25px;padding-top:6px">
+                                                <a id="Create_DelImgChoice2" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Choice3*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">3:</label>
+                                        <div class="col-sm-4">
+                                            <span id="Create_ChoiceId_3" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Create_Choice3" placeholder="" name="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="Create_FileChoice3" name="Create_FileChoice3" class="form-control-static" />
+                                        </div>
+                                        <div id="Create_BlogChoice3" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="Create_ImageChoice3" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left: 25px;padding-top:6px">
+                                                <a id="Create_DelImgChoice3" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Choice4*@
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">4:</label>
+                                        <div class="col-sm-4">
+                                            <span id="Create_ChoiceId_4" style="display:none;"></span>
+                                            <input type="text" class="form-control" id="Create_Choice4" placeholder="" name="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for=""></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" id="Create_FileChoice4" name="Create_FileChoice4" class="form-control-static" />
+                                        </div>
+                                        <div id="Create_BlogChoice4" class="col-sm-2" style="">
+                                            <div class="col-sm-4" style="margin-left:30px">
+                                                <img id="Create_ImageChoice4" class="img-responsive" width="40" height="40">
+                                            </div>
+                                            <div class="col-sm-4" style="padding-left: 25px;padding-top:6px">
+                                                <a id="Create_DelImgChoice4" href="#" style="text-decoration: none;font-weight:bold">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1" for="">Answer:</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group spinner">
+                                                <span id="Create_AnswerId" style="display:none;"></span>
+                                                <input type="text" class="form-control" value="1" readonly>
+                                                <div class="input-group-btn-vertical">
+                                                    <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                                    <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer text-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="CreateQuiz" type="button" class="btn btn-warning" onclick="CreateData();">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="DeleteQuiz" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Question</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Confirm Delete Question.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-warning" onclick="DeleteData();">Confirm </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div id="loadingDiv" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+        }
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div>
+
+@section Style {
+    <style type="text/css">
+
+        .txt-dte {
+            padding: 2px !important;
+            height: 24px;
+            width: 80px;
+            font-size: 12px !important;
+            text-align: center;
+        }
+
+        #divBtnAction {
+            display: none;
+        }
+    </style>
+}
+
+@section Script{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#SubmitQuiz').on('click', function () {
+
+                //count Questions
+                var sel = $('#countQuections').text();
+
+                console.log(sel);
+
+                var resultQuiz = [], countQuestion = parseInt(sel), question = {}, j = 1;
+
+                for (var i = 1; i < countQuestion; i++) {
+                    question = {
+                        QuestionID: $('#ID_Q'+ i).text(),
+                        QuestionText: $('#Q' + i).text(),
+                        AnswerId: $('input[name=inlineRadioOptions' + i + ']:checked').val(),
+                        AnswerText: $('#AnswerText' + i).val()
+                    }
+
+                    resultQuiz.push(question);
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("QuizTest", "Quiz")',
+                    data: { resultQuiz },
+                    success: function (response) {
+                        if (response.result.length > 0)
+                        {
+                            setTimeout(
+                              function () {
+                                  location.reload();
+                            }, 0001);
+                        }
+                        else
+                        {
+                            alert("กรุณา ทำข้อสอบให้ครบ");
+                        }
+                    },
+                    error: function (response) {
+                    }
+                });
+            });
+
+
+        });
+        function EditData(data, Question_Address, Choices_Address) {
+            $.ajax(
+                {
+                    url: '@Url.Action("EditQuizData", "Quiz")',
+                    dataType: "json",
+                    data: JSON.stringify(
+                        {
+                            "QuestionID": data
+                        }),
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    success: function (response) {
+                        $.each(response, function (index, QuizItem) {
+                            $("#QuestionId").val(QuizItem.QuestionID);
+                            $("#QuestionText").val(QuizItem.QuestionText);
+                            $("#QuestionImage").attr("src", QuizItem.Image);
+                            $("#QuestionImage").val(QuizItem.Image) ;
+                            if (QuizItem.Image == "" || QuizItem.Image == null) {
+                                $("#BlogQuestion").hide();
+                            } else {
+                                $("#BlogQuestion").show();
+                            }
+                            $.each(QuizItem.Choices, function (index, QuizItemChoice) {
+                                $("#Choice" + (index + 1)).css('background-color', 'white');
+                                $("#Choice" + (index + 1)).css('color', 'black');
+                                $("#Choice" + (index + 1)).val(QuizItemChoice.ChoiceText);
+                                $("#ChoiceId_" + (index + 1)).val(QuizItemChoice.ChoiceID);
+                                $("#ImageChoice" + (index + 1)).attr("src", QuizItemChoice.Image);
+                                $("#ImageChoice" + (index + 1)).val(QuizItemChoice.Image);
+                                if (QuizItem.AnswerId == QuizItemChoice.ChoiceID) {
+                                    $('.spinner input').val(index + 1);
+                                    $("#Choice" + (index + 1)).css('background-color', '#F48E23');
+                                    $("#Choice" + (index + 1)).css('color', 'white');
+                                    $("#AnswerId").val(QuizItem.AnswerId);
+                                }
+                                if (QuizItemChoice.Image == "" || QuizItemChoice.Image == null) {
+                                    $("#BlogChoice" + (index + 1)).hide();
+                                } else {
+                                    $("#BlogChoice" + (index + 1)).show();
+                                }
+                            });
+
+                        });
+                        $('#EditQuiz').modal('show');
+                        console.log(Question_Address);
+                        $('#Question_Address').val(Question_Address);
+                        $('#Choices_Address').val(Choices_Address);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+        }
+        function DeleteQuiz(data) {
+            $('#F').modal('show');
+            $('#QuestionId').val(data);
+        }
+        function DeleteData(data) {
+            $('#DeleteQuiz').modal('hide');
+            $.ajax(
+                {
+                    url: '@Url.Action("DeleteQuizData", "Quiz")',
+                    dataType: "json",
+                    data: JSON.stringify(
+                        {
+                            "QuestionID": $('#QuestionId').val()
+                        }),
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    success: function (response) {
+
+                        if (response=="Error") {
+                            alert("This question cannot be deleted. Because the exam has been done.");
+                        } else {
+                            alert("Delete success");
+                            location.reload();
+                        }
+                    },
+                    error: function (data) {
+
+                    }
+                });
+        }
+        function SaveChanges(data) {
+            var oFileData = FromDataByAjax("");
+             $.ajax(
+                {
+                    url: '@Url.Action("SaveChanges", "Quiz")',
+                     data: oFileData,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    type: "POST",
+                    success: function (response) {
+                        $('#EditQuiz').modal('hide');
+                        console.log(response.QuestionText);
+                        location.reload();
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+        }
+        function FromDataByAjax(prefixId) {
+            var QuestionFile = '#' + prefixId+'QuestionFile';
+            var FileChoice1 = '#' + prefixId +'FileChoice1';
+            var FileChoice2 = '#' + prefixId +'FileChoice2';
+            var FileChoice3 = '#' + prefixId +'FileChoice3';
+            var FileChoice4 = '#' + prefixId + 'FileChoice4';
+            var QuestionImage = '#' + prefixId +'QuestionImage';
+            var QuestionId = '#' + prefixId +'QuestionId';
+            var QuestionText = '#' + prefixId +'QuestionText';
+            var AnswerId = '#' + prefixId +'AnswerId';
+            var ChoiceId_1 = '#' + prefixId +'ChoiceId_1';
+            var ChoiceId_2 = '#' + prefixId +'ChoiceId_2';
+            var ChoiceId_3 = '#' + prefixId +'ChoiceId_3';
+            var ChoiceId_4 = '#' + prefixId +'ChoiceId_4';
+            var Choice1 = '#' + prefixId +'Choice1';
+            var Choice2 = '#' + prefixId +'Choice2';
+            var Choice3 = '#' + prefixId +'Choice3';
+            var Choice4 = '#' + prefixId +'Choice4';
+            var ImageChoice1 = '#' + prefixId +'ImageChoice1';
+            var ImageChoice2 = '#' + prefixId +'ImageChoice2';
+            var ImageChoice3 = '#' + prefixId +'ImageChoice3';
+            var ImageChoice4 = '#' + prefixId + 'ImageChoice4';
+
+            var oQuestionFile = $(QuestionFile).get(0).files;
+            var sImageChoice1 = $(FileChoice1).get(0).files;
+            var sImageChoice2 = $(FileChoice2).get(0).files;
+            var sImageChoice3 = $(FileChoice3).get(0).files;
+            var sImageChoice4 = $(FileChoice4).get(0).files;
+            var oFileData = new FormData();
+
+            var sDateTime = moment(new Date()).format('YYYYMMDDHHmm');
+             sDateTime += "-";
+             // Looping over all files and add it to FormData object
+             for (var i = 0; i < oQuestionFile.length; i++) {
+                 oFileData.append(oQuestionFile[i].name, oQuestionFile[i]);
+             }
+             for (var i = 0; i < sImageChoice1.length; i++) {
+                 oFileData.append(sImageChoice1[i].name, sImageChoice1[i]);
+             }
+             for (var i = 0; i < sImageChoice2.length; i++) {
+                 oFileData.append(sImageChoice2[i].name, sImageChoice2[i]);
+             }
+             for (var i = 0; i < sImageChoice3.length; i++) {
+                 oFileData.append(sImageChoice3[i].name, sImageChoice3[i]);
+             }
+             for (var i = 0; i < sImageChoice4.length; i++) {
+                 oFileData.append(sImageChoice4[i].name, sImageChoice4[i]);
+             }
+             // Adding one more key to FormData object
+            oFileData.append('QuestionFile', oQuestionFile.length > 0 ? sDateTime + oQuestionFile[0].name : $(QuestionImage).val());
+             oFileData.append('QuestionType', '@ViewBag.QuizType');
+             oFileData.append('QuestionID', $(QuestionId).val());
+             oFileData.append('QuestionText',$(QuestionText).val());
+             oFileData.append('AnswerId', prefixId == "Create_" ? parseInt($('.spinner input').val(), 10) : $(AnswerId).val());
+             oFileData.append('Choices', JSON.stringify(
+                        {
+                     Choices: [{ ChoiceID: $(ChoiceId_1).val() == "" ? 0 : $(ChoiceId_1).val(), ChoiceText: $(Choice1).val(), Image: sImageChoice1.length > 0 ? sDateTime + sImageChoice1[0].name : $(ImageChoice1).val() }
+                                , { ChoiceID: $(ChoiceId_2).val() == "" ? 0 : $(ChoiceId_2).val(), ChoiceText: $(Choice2).val(), Image: sImageChoice2.length > 0 ? sDateTime + sImageChoice2[0].name : $(ImageChoice2).val()}
+                                , { ChoiceID: $(ChoiceId_3).val() == "" ? 0 : $(ChoiceId_3).val(), ChoiceText: $(Choice3).val(), Image: sImageChoice3.length > 0 ? sDateTime + sImageChoice3[0].name : $(ImageChoice3).val()}
+                                , { ChoiceID: $(ChoiceId_4).val() == "" ? 0 : $(ChoiceId_4).val(), ChoiceText: $(Choice4).val(), Image: sImageChoice4.length > 0 ? sDateTime + sImageChoice4[0].name : $(ImageChoice4).val()}]
+                        }));
+            return oFileData;
+        }
+        function CreateQuiz() {
+            $('#CreateQuiz').modal('show');
+        }
+        function CreateData() {
+            var oFileData = FromDataByAjax("Create_");
+             $.ajax(
+                {
+                    url: '@Url.Action("CreateData", "Quiz")',
+                     data: oFileData,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    type: "POST",
+                    success: function (response) {
+                        $('#CreateQuiz').modal('hide');
+                        console.log(response.QuestionText);
+                        location.reload();
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+        }
+        (function ($) {
+            $('.spinner .btn:first-of-type').on('click', function () {
+                if (parseInt($('.spinner input').val(), 10) > 1) {
+                    $('.spinner input').val(parseInt($('.spinner input').val(), 10) - 1);
+                    $("#AnswerId").val($("#ChoiceId_" + parseInt($('.spinner input').val(), 10)).val());
+                    SETxChoiceColor();
+
+                }
+            });
+            $('.spinner .btn:last-of-type').on('click', function () {
+                if (parseInt($('.spinner input').val(), 10) < 4) {
+                    $('.spinner input').val(parseInt($('.spinner input').val(), 10) + 1);
+                    $("#AnswerId").val($("#ChoiceId_" + parseInt($('.spinner input').val(), 10)).val());
+                    SETxChoiceColor();
+                }
+            });
+        })(jQuery);
+        function SETxChoiceColor (){
+           for (var nI = 1; nI <= 4; nI++) {
+               $("#Choice" + nI).css('background-color', 'white');
+               $("#Choice" + nI).css('color', 'black');
+               $("#Create_Choice" + nI).css('border-color', 'white');
+               //$("#Create_Choice" + nI).css('color', 'black');
+            }
+            $("#Choice" + parseInt($('.spinner input').val(), 10)).css('background-color', '#F48E23');
+            $("#Choice" + parseInt($('.spinner input').val(), 10)).css('color', 'white');
+            $("#Create_Choice" + parseInt($('.spinner input').val(), 10)).css('border-color', '#F48E23');
+            //$("#Create_Choice" + parseInt($('.spinner input').val(), 10)).css('color', 'white');
+        }
+        function ReadURL(input, obj) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $(obj).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        //Start Edit------------------------------------------------------------------------------------
+        $("#QuestionFile").change(function () {
+            ReadURL(this, "#QuestionImage");
+            $('#BlogQuestion').show();
+        });
+        $("#FileChoice1").change(function () {
+            ReadURL(this, "#ImageChoice1");
+            $('#BlogChoice1').show();
+        });
+        $("#FileChoice2").change(function () {
+            ReadURL(this, "#ImageChoice2");
+            $('#BlogChoice2').show();
+        });
+        $("#FileChoice3").change(function () {
+            ReadURL(this, "#ImageChoice3");
+            $('#BlogChoice3').show();
+        });
+        $("#FileChoice4").change(function () {
+            ReadURL(this, "#ImageChoice4");
+            $('#BlogChoice4').show();
+        });
+        $('#DelQuestImg').click(()=>{
+            $('#QuestionImage').attr('src', "");
+            $("#QuestionImage").val("");
+            CLEARxChooseFile('#QuestionFile');
+            HIDExBlogImg('#QuestionImage', '#BlogQuestion');
+        });
+        $('#DelImgChoice1').click(() => {
+            BlogFuncEdit('1')
+        });
+        $('#DelImgChoice2').click(() => {
+            BlogFuncEdit('2')
+        });
+        $('#DelImgChoice3').click(() => {
+            BlogFuncEdit('3')
+        });
+        $('#DelImgChoice4').click(() => {
+            BlogFuncEdit('4')
+        });
+        function BlogFuncEdit(NumId) {
+            $('#ImageChoice' + NumId).attr('src', "");
+            CLEARxChooseFile('#FileChoice' + NumId);
+            HIDExBlogImg('#ImageChoice' + NumId, '#BlogChoice' + NumId);
+            $("#ImageChoice" + NumId).val("");
+        }
+        //End Edit----------------------------------------------------------------------------------------
+        //Start Create------------------------------------------------------------------------------------
+        $("#Create_QuestionFile").change(function () {
+            ReadURL(this, "#Create_QuestionImage");
+            $('#Create_BlogQuestion').show();
+        });
+        $("#Create_FileChoice1").change(function () {
+            ReadURL(this, "#Create_ImageChoice1");
+            $('#Create_BlogChoice1').show();
+        });
+        $("#Create_FileChoice2").change(function () {
+            ReadURL(this, "#Create_ImageChoice2");
+            $('#Create_BlogChoice2').show();
+        });
+        $("#Create_FileChoice3").change(function () {
+            ReadURL(this, "#Create_ImageChoice3");
+            $('#Create_BlogChoice3').show();
+        });
+        $("#Create_FileChoice4").change(function () {
+            ReadURL(this, "#Create_ImageChoice4");
+            $('#Create_BlogChoice4').show();
+        });
+        $('#Create_DelQuestImg').click(() => {
+            $('#Create_QuestionImage').attr('src', "");
+            $("#Create_QuestionImage").val("");
+            CLEARxChooseFile('#Create_QuestionFile');
+            HIDExBlogImg('#Create_QuestionImage', '#Create_BlogQuestion');
+        });
+        $('#Create_DelImgChoice1').click(() => {
+            BlogFuncCreate('1')
+        });
+        $('#Create_DelImgChoice2').click(() => {
+            BlogFuncCreate('2')
+        });
+        $('#Create_DelImgChoice3').click(() => {
+            BlogFuncCreate('3')
+        });
+        $('#Create_DelImgChoice4').click(() => {
+            BlogFuncCreate('4')
+        });
+        function BlogFuncCreate(NumId) {
+            $('#Create_ImageChoice' + NumId).attr('src', "");
+            CLEARxChooseFile('#Create_FileChoice' + NumId);
+            HIDExBlogImg('#Create_ImageChoice' + NumId, '#Create_BlogChoice' + NumId);
+            $("#Create_ImageChoice"+NumId).val("");
+        }
+        //End Create------------------------------------------------------------------------------------
+
+        function CLEARxChooseFile(ID) {
+            var $el = $(ID);
+            $el.wrap('<form>').closest('form').get(0).reset();
+            $el.unwrap();
+        }
+        function HIDExBlogImg(ImgId,BlogId) {
+            var QuestionImage = $(ImgId).attr('src');
+            if (QuestionImage == "" || QuestionImage == null) {
+                $(BlogId).hide();
+            }
+        }
+        $('#loadingDiv')
+            .hide()  // Hide it initially
+            .ajaxStart(function () {
+                $(this).show();
+            })
+            .ajaxStop(function () {
+                $(this).hide();
+            })
+            ;
+
+        //$(() => {
+        //    var xx = $('#QuestionImage').attr('src');
+        //    if (xx==""||xx==null) {
+        //        alert('5555555555');
+        //    }
+        //});
+        @* function SaveChanges(data) {
+
+            $.ajax(
+                {
+                    url: '@Url.Action("SaveChanges", "Quiz")',
+                    dataType: "json",
+                    data: JSON.stringify(
+                        {
+                            QuestionID: $("#QuestionId").val(),
+                            QuestionText: $("#QuestionText").val(),
+                            AnswerId: $("#AnswerId").val(),
+                            Choices: [{ ChoiceID: $("#ChoiceId_1").val(), ChoiceText: $("#Choice1").val() }
+                                , { ChoiceID: $("#ChoiceId_2").val(), ChoiceText: $("#Choice2").val() }
+                                , { ChoiceID: $("#ChoiceId_3").val(), ChoiceText: $("#Choice3").val() }
+                                , { ChoiceID: $("#ChoiceId_4").val(), ChoiceText: $("#Choice4").val() }]
+                        }),
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    success: function (response) {
+                        $('#EditQuiz').modal('hide');
+                        console.log(response.QuestionText);
+                        location.reload();
+                        //$('#Q' + $('#Question_Address').val()).text(response.QuestionText);
+                        //var nIndex = parseInt($('#Choices_Address').val());
+                        //$('#ChoicesText1').text("55555555555");
+
+                        //$.each(response.Choices, function (index, QuizItemChoice) {
+
+                        //    $('#inlineRadio' + nIndex).val(QuizItemChoice.ChoiceText);
+                        //    console.log('#inlineRadio' + nIndex);
+                        //    console.log(QuizItemChoice.ChoiceText);
+                        //    //console.log($('#Choices_Address').val());
+                        //    //console.log(nIndex);
+                        //    //console.log("----------");
+                        //    nIndex++;
+                        //    });
+
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+        } *@
+    </script>
+}

@@ -1,0 +1,117 @@
+﻿@model List<ApplicationForm.Models.MessageBox>
+@using BMWM.Apprentice.Web.AuthWebService
+@{
+    var sUser = UserAuthentication.UserId;
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+
+    <div id="Content" class="timeline-container">
+        <div class="timeline-label">
+            @* #section:pages/timeline.label*@
+            <span class="label label-primary label-lg arrowed-in-right">
+                <b>Today</b>
+            </span>
+
+            @* /section:pages/timeline.label*@
+        </div>
+        @foreach (var oMsg in Model)
+        {
+            //var UserImage = oMsg.UserId == oMsg.SenderUserId ? "/images/MessageBox/avatar.png" : @ViewBag.UserImage;
+            var HeadColor = oMsg.SenderUserId == sUser ? "background-color:#C2F3F7" : "";
+
+            <!-- #section:pages/timeline --><div class="timeline-items">
+                <!-- #section:pages/timeline.item -->
+                <div class="timeline-item clearfix">
+                    <!-- #section:pages/timeline.info -->
+                    <div class="timeline-info">
+                        @if (oMsg.UserId == oMsg.SenderUserId)
+                        {
+                            <img alt="Susan't Avatar" src="~/images/MessageBox/avatar1.png">
+
+                        }
+                        else
+                        {
+                            <img alt="Susan't Avatar" src="~/images/MessageBox/avatar2.png">
+                        }
+                        <span class="label label-info label-sm">@oMsg.CreatedOn.ToString("hh:mm tt")</span>
+                    </div>
+
+                    <!-- /section:pages/timeline.info -->
+                    <div class="widget-box transparent">
+                        <div id="Widget-Header" class="widget-header widget-header-small" style=@HeadColor>
+                            <h5 class="widget-title smaller">
+                                <a href="#" class="blue">@oMsg.SenderUserId</a>
+                                <span class="grey">:</span>
+                            </h5>
+
+                            <span class="widget-toolbar no-border">
+                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                @if (oMsg.CreatedOn != DateTime.Now)
+                                {
+                                    @oMsg.CreatedOn.ToString("yyyy-MM-dd hh:mm tt");
+                                }
+
+                            </span>
+
+                            <span class="widget-toolbar">
+                                <a href="#" data-action="reload">
+                                    <i class="ace-icon fa fa-refresh"></i>
+                                </a>
+
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            </span>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                @oMsg.Message
+                                @* <span class="item-black">...</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.timeline-items -->
+        }
+    </div><!-- /.timeline-container -->
+</div>
+@using (Html.BeginForm("Details", "MessageBox", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col col-sm-10 col-sm-offset-1 align-right">
+            <div>
+                <input type="text" id="Msg" name="Msg" class="input-xxlarge" placeholder="Type a message">
+                <button id="Submit" type="submit" class="btn btn-info btn-sm">
+                    <i class="ace-icon fa fa-send-o bigger-110"></i>Send
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    @*function Send() {
+                 $.ajax({
+                        type: 'POST',
+                     async: false,
+                     data: {
+                         Msg: $("#msg").val()
+                     },
+                        url: '@Url.Action("Create")',
+                        success: function (data,res) {
+                            $("#Content").html(data); //reload datatable
+                        }
+                    });
+    };*@
+    $(document).scrollTop($(document).height());
+    $("#Msg").focus();
+    $('#msg').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            $("#Submit").click();
+        }
+    })
+</script>

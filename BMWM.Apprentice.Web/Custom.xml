@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CATALOG>
+  <RedirectPages>
+    <!-- Goto web custom please input "?ssid=". Example: "http://localhost/ti.invs.custom/qcinspection?ssid=" -->
+    <page>
+      <Id>1</Id>
+      <Name>Receipt</Name>
+      <Url>http://localhost/ti.invs/receipt</Url>
+    </page>
+    <page>
+      <Id>2</Id>
+      <Name>QC Inspection</Name>
+      <Url>http://localhost/ti.invs.custom/qcinspection?ssid=</Url>
+    </page>
+  </RedirectPages>
+  <CustomMenus>
+    <!-- [Target] new tab input: "_blank" -->
+    <workorder>
+      <Id>ctwo-procReq</Id>
+      <Text>Process Requirement</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/ProcessReq</Url>
+      <Target></Target>
+    </workorder>
+    <workorder>
+      <Id>ctwo-wo</Id>
+      <Text>Work Order Custom</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/workorder</Url>
+      <Target></Target>
+    </workorder>
+    <workorder>
+      <Id>ctwo-UnitPrint</Id>
+      <Text>Unit Print</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/unitprint</Url>
+      <Target></Target>
+    </workorder>
+    <workorder>
+      <Id>ctwo-WeightConfirm</Id>
+      <Text>Weight Confirm</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/WeightConfirm</Url>
+      <Target></Target>
+    </workorder>
+    <workorder>
+      <Id>ctwo-FGConfirm</Id>
+      <Text>FG Confirm</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/FGConfirm</Url>
+      <Target></Target>
+    </workorder>
+    <qcInspection>
+      <Id>ctqc-id</Id>
+      <Text>QC Inspection</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/qcInspection</Url>
+      <Target></Target>
+    </qcInspection>
+    <productionReport>
+      <Id>ctqc-id</Id>
+      <Text>Dashboard</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/dashboard</Url>
+      <Target>_blank</Target>
+    </productionReport>
+    <inventoryReport>
+      <Id>ctwo-SalesReport</Id>
+      <Text>Sales</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/SalesReport/index</Url>
+      <Target>_blank</Target>
+    </inventoryReport>
+    <inventoryReport>
+      <Id>ctwo-StockBalanceReport</Id>
+      <Text>Stock Balance</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/stockbalance/index</Url>
+      <Target>_blank</Target>
+    </inventoryReport>
+    <inventoryReport>
+      <Id>ct-Cancel</Id>
+      <Text>Cancel Document</Text>
+      <Url>http://localhost/TI.INVS.CUSTOM/report/CancelDocument</Url>
+      <Target></Target>
+    </inventoryReport>
+  </CustomMenus>
+  <CustomDashboard>
+    <!--<item>
+      <Id>inventory</Id>
+      <Url></Url>
+    </item>-->
+    <item>
+      <Id>production</Id>
+      <Url>http://localhost/TI.INVS.Custom/Dashboard</Url>
+    </item>
+    <!--<item>
+      <Id>sales</Id>
+      <Url></Url>
+    </item>-->    
+  </CustomDashboard>
+</CATALOG>

@@ -1,0 +1,175 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@using System.Globalization;
+@{
+    /**/
+
+    ViewBag.Title = "Quiz - Upload";
+    ViewBag.ActiveMenuId = "quiz-upload";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div class="row">
+    <div class="col-xs-12">
+        <h5 class="lighter">
+            <i class="ace-icon fa fa-upload"></i>
+            Upload Quiz
+        </h5>
+
+        @if (ViewBag.UploadSuccess)
+        {
+            <div class="alert alert-block alert-success">
+                <button type="button" class="close" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times"></i>
+                </button>
+
+                <i class="ace-icon fa fa-check green"></i>
+
+                Upload successfully.
+            </div>
+        }
+    <form id="upload-form" action="@Url.Action("upload")" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+        @*Upload Quiz type*@
+        <div class="container">
+
+            <div class="row">
+                <div class="col-xs-11">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Quiz type</label>
+                        <div class="col-sm-5">
+                            <div class="clearfix">
+                                @Html.DropDownList("QuizType", null, WMSSettings.DropDownListOptionLabel, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Quiz Name</label>
+                        <div class="col-sm-5">
+                            <input type="text" id="sName" name="sName" placeholder="" class="col-xs-10 col-sm-9"required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">@lang.GetValue("DateFrom")</label>
+                        <div class="col-sm-3">
+                            <div class="clearfix">
+                                <input class="input-sm" type="date" id="dDateFrom" name="dDateFrom" placeholder="" value="@DateTime.Now.Date.ToString("yyyy-MM-dd",new CultureInfo("en-US"))" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">@lang.GetValue("DateTo")</label>
+                        <div class="col-sm-3">
+                            <div class="clearfix">
+                                <input class="input-sm" type="date" id="dDateTo" name="dDateTo" placeholder="" value="@DateTime.Now.Date.ToString("yyyy-MM-dd",new CultureInfo("en-US"))" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*Upload file*@
+            <div class="row">
+                <div class="col-xs-11">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Select file</label>
+                        <div class="col-sm-5">
+                            <input name="oFile" id="upload-file" type="file" required />
+                            @* <a href="#" onclick="ExportTemplate()">Show Template</a>*@
+                        <div class="align-right">
+                            <a href="../Files/QuizTemplate.xlsx" download="QuizTemplate.xlsx">Download Template</a>
+                        </div>
+                          
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+                        <div class="col-sm-5">
+                            <button class="btn btn-xs btn-warning" type="submit">
+                                <i class="ace-icon fa fa-upload"></i>
+                                Upload
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div>
+
+@section Style {
+    <style type="text/css">
+        .txt-dte {
+            padding: 2px !important;
+            height: 24px;
+            width: 80px;
+            font-size: 12px !important;
+            text-align: center;
+        }
+
+        #divBtnAction {
+            display: none;
+        }
+    </style>
+}
+
+
+@section Script {
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#upload-file').ace_file_input({
+                no_file: 'No File ...',
+                btn_choose: 'Choose',
+                btn_change: 'Change',
+                droppable: false,
+                onchange: null,
+                thumbnail: false, //| true | large
+                'allowExt': ['xlsx']
+            }).on('file.error.ace', function (event, info) {
+                alert('Only Excel(.xlsx) file is allowed.');
+                event.preventDefault();
+            });
+
+            //validation
+            $('#upload-form').validate();
+
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMsg))
+            {
+                @:bootbox.alert("<i class='ace-icon fa fa-exclamation-triangle orange bigger-110'></i> Upload failed! Transactions has been terminated.<br/>Error: @ViewBag.ErrorMsg");
+                if (!string.IsNullOrEmpty(ViewBag.ErrorDetail))
+                {
+                    @:/* @ViewBag.ErrorDetail */
+                }
+            }
+
+
+        });
+       
+        @*function SaveData()
+        {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("SaveData")',
+                data: { fileName: $("#fileName").val() },
+                success: function (res) {
+                    if (res.success)
+                        window.location.href = '@Url.Action("index")';
+                    else {
+                        bootbox.alert({
+                            title: '<i class="ace-icon fa fa-exclamation-triangle bigger-120 text-danger"></i> <font class="text-danger">Warning</font>',
+                            message: res.data
+                        });
+                    }
+
+                }
+            });
+        }*@
+
+    </script>
+}

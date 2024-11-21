@@ -1,0 +1,315 @@
+﻿
+@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@model BMWM.Apprentice.Web.AuthModels.User
+@{
+
+    ViewBag.Title = "Export Data";
+    ViewBag.ActiveMenuId = "Export";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+
+}
+
+<div class="page-header">
+    <h1>
+        @*Application Report*@
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="widget-box">
+                    <div class="widget-header tooltip-warning" data-rel="tooltip" data-placement="top" title="@lang.GetValue("ClickToSearch")" onclick="CollapseSearch()">
+                        <h5 class="widget-title">@lang.GetValue("Search")</h5>
+
+                        <div class="widget-toolbar">
+                            <a href="javascript:void(0)">
+                                <i class="ace-icon fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main padding-6 no-padding-left no-padding-right">
+                            <form id="frmSearch" class="" role="form" method="post">
+                                <input type="hidden" name="advSearch" id="hdAdvSearch" value="false" />
+
+                                <div class="row ctRow">
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 ctLBL">@lang.GetValue("Name")</label>
+                                        <div class="col-sm-12">
+                                            <div class="clearfix">
+                                                @Html.Editor("FNmae", new { @class = "form-control", @id = "FNmae" })
+                                                @*@Html.DropDownList("WarehourseId", null, null, new { @class = "form-control", @id = "f_Warehourse", @onchange = "GetZoneByWarehouse()" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 ctLBL">@lang.GetValue("Surname")</label>
+                                        <div class="col-sm-12">
+                                            <div class="clearfix">
+                                                @Html.Editor("LName", new { @class = "form-control", @id = "LName" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 ctLBL">@lang.GetValue("Sex")</label>
+                                        <div class="col-sm-12">
+                                            <div class="clearfix">
+                                                <select name="sex" id="sex" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Male">ชาย (Male)</option>
+                                                    <option value="Female">หญิง (Female)</option>
+                                                    <option value="Other">อื่นๆ (Other)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 ctLBL">@lang.GetValue("DateFrom")</label>
+                                        <div class="col-sm-12">
+                                            <div class="clearfix">
+                                                <input class="input-sm" type="date" id="DateFrom" name="DateFrom" placeholder="" value="@DateTime.Now.AddMonths(-1).Date.ToString("yyyy-MM-dd")">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 ctLBL">@lang.GetValue("DateTo")</label>
+                                        <div class="col-sm-12">
+                                            <div class="clearfix">
+                                                <input class="input-sm" type="date" id="DateTo" name="DateTo" placeholder="" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 ctLBL" style="color:white">-</label>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-xs btn-info" type="button" onclick="Search()">
+                                                <i class="ace-icon fa fa-search"></i>
+                                                @lang.GetValue("Search")
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div><!-- ./widget-main -->
+                    </div><!-- ./widget-body -->
+                </div><!-- ./widget-box transparent -->
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:4px;margin-left:0">
+            <div class="btn-group">
+                <button class="btn btn-xs btn-info" onclick="Export();">
+                    <i class="ace-icon fa fa-plus"></i>
+                    Export Data
+                </button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-xs btn-warning" onclick="Delete();">
+                    <i class="ace-icon fa fa-close"></i>
+                    Delete
+                </button>
+            </div>
+            @*   <a href="data:application/xml;charset=utf-8,your code here" download="filename.html">Save</a>*@
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="dt" class="table table-striped table-bordered table-hover" data-selected-action-class="selected-action-dt" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                <label class="position-relative">
+                                    <input type="checkbox" class="ace selectall" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>ลำดับ (No.)</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>วันที่สมัตร (Register Date)</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="modal" id="DeleteUser" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete User Data</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure Delete?.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning" onclick="DeleteData();">Confirm </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+@section Script {
+    @Scripts.Render("~/bundles/dataTable/js")
+    @Scripts.Render("~/bundles/dataTableFileExport/js")
+
+
+    <script type="text/javascript">
+    $(function () {
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $('#dt').dataTable({
+            "dom": '<"row"<"col-xs-2"l><"col-xs-3"B><"col-xs-7"f>r>t<"row"<"col-xs-5"i><"col-xs-7"p>>',
+            "processing": true,
+            "serverSide": true,
+            "responsive": true,
+            "pageLength": 20,
+            "lengthMenu": [[20, 50, 100, 200,-1], [20, 50, 100, 200,"All"]],
+            "buttons": [
+                { extend: 'excel', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-excel-o"></i> Excel' },
+      ],
+            "ajax": {
+                "url": "@Url.Action("GETDataTable")",
+            "data": function (d) {
+                return $.extend({}, d,
+                    $('#frmSearch').serializeObject()
+                ); //adv search
+            },
+            "type": "POST",
+            "async": true
+        },
+            "order": [1, 'asc'],
+            "columns": [
+                {
+                    "data": null,
+                    "orderable": false,
+                    "class": "center",
+                    "width": 70,
+                    "render": function (data, type, full, meta) {
+                        return '<label class="position-relative"><input type="checkbox" name="Id" value="' + full.Id + '" class="ace select" onclick="handleSelectedAction(this);" /><span class="lbl"></span></label>';
+                    }
+                },
+                //{ "class": "center", "width": 60, "orderable": false, "render": function (data, type, full, meta) { return "<a target='_blank' href='./Report/Applicant?ApplicantId=" + full.Id + "'>" + (meta.row + 1) + '</a>' } },
+                { "class": "center", "width": 80, "orderable": false, "render": function (data, type, full, meta) { return  (meta.row + 1)} },
+
+                { "data": "ThName", "name": "ThName", "class": "left", "orderable": true },
+               {
+                   "data": "RegistDate", "name": "RegistDate", "class": "center", "width": 150, "orderable": true,
+                    "render": function (data, type, full, meta) {
+                        return (data == null ? "" : new Date(parseInt(data.substr(6))).toString("@WMSSettings.DisplayDateTimeFormat"));
+                    }
+                }
+            ]
+        }).on('draw.dt', function () {
+            handleSelectedAction(this);
+        });
+
+        $('.selectall').click(function () {
+            var table = $(this).closest('table');
+            $('input.select:checkbox', table).prop('checked', this.checked);
+            handleSelectedAction(this);
+        });
+    });
+
+    function Search() {
+        $('#frmSearch #hdAdvSearch').val(true);
+        $('#dt').DataTable().ajax.reload(); //reload datatable
+    }
+
+    function handleSelectedAction(e) {
+        var table = $(e).closest('table');
+        var className = $(table).attr("data-selected-action-class");
+        $('.' + className).toggle($('input.select:checkbox:checked', table).length > 0);
+    }
+    function Export() {
+
+        //$.get("file:d://", function (response) {
+        //    document.write(response);
+        //    getNames();
+        //});
+
+        var tableSelector = "#dt";
+        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+        var selectedCount = checkboxs.serializeArray().length;
+        if (selectedCount > 0) {
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: '@Url.Action("ExportData")',
+                data: checkboxs.serialize(),
+                success: function (res) {
+                    window.location.href = "./Files/Exportfile/" + res.ZipFileName +"";
+                }
+            });
+        } else {
+            alert("Please Select UserList!!")
+        }
+        }
+
+        function Delete() {
+            $('#DeleteUser').modal('show');
+        }
+        function DeleteData() {
+        $('#DeleteUser').modal('hide');
+        var tableSelector = "#dt";
+        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+        var selectedCount = checkboxs.serializeArray().length;
+        if (selectedCount > 0) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("DeleteData")',
+                data: checkboxs.serialize(),
+                success: function (res) {
+                    bootbox.dialog({
+                        message: "Successfull!!",
+                        title: 'Alert',
+                        className: "modal-darkorange",
+                        buttons: {
+                            success: {
+                                label: "OK",
+                                className: "btn-info",
+                                callback: function () {
+                                    location.reload();
+                                    //$('#cbConsent').prop("checked", true);
+                                    //$('#btnSubmit').prop('disabled', false);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            alert("Please Select UserList!!")
+        }
+    }
+    //var filenames = [], foldernames = [];
+
+    //function getNames() {
+    //    var files = document.querySelectorAll("a.icon.file");
+    //    var folders = document.querySelectorAll("a.icon.dir");
+    //    files.forEach(function (item) { filenames.push(item.textContent) })
+    //    folders.forEach(function (item) { foldernames.push(item.textContent.slice(0, -1)) })
+    //    console.log(filenames);
+    //    console.log(foldernames);
+    //}
+    </script>
+}

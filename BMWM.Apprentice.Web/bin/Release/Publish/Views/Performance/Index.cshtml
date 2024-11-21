@@ -1,0 +1,362 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@{
+    ViewBag.Title = "Performance Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "Performance";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+
+@section ButtonAction{
+    @*@if (ViewBag.btnNewVisible == true)
+        {
+            <button class="btn btn-xs btn-info" onclick="window.location.href = '@Url.Action("manage")';">
+                <i class="ace-icon fa fa-plus"></i>
+                @lang.GetValue("New")
+            </button>
+        }*@
+}
+<style>
+    .txt-dte {
+        padding: 2px !important;
+        height: 24px;
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .breadcrumbs.sitemap {
+        display: block;
+    }
+
+    #divBtnAction {
+        display: none;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            @*<div class="col-xs-12">
+                    <div class="widget-box">
+                        <div class="widget-header tooltip-warning" data-rel="tooltip" data-placement="top" title="@lang.GetValue("ClickToSearch")" onclick="CollapseSearch()">
+                            <h5 class="widget-title">@lang.GetValue("Search")</h5>
+
+                            <div class="widget-toolbar">
+                                <a href="javascript:void(0)">
+                                    <i class="ace-icon fa fa-chevron-down"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>*@
+
+            <div class="row">
+
+                @*<label class="col-sm-12 ctLBL" style="color:white">-</label>*@
+                @*<label >Select Quarter:</label>*@
+                @*<div class="col-sm-2">
+                        <div class="clearfix">
+                            @Html.DropDownList("Half", null, "Select Period", new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>*@
+                <div class="col-sm-2">
+                    <form id="frmSearch" class="" role="form" method="post">
+                        <div class="clearfix">
+                            @Html.DropDownList("UserGroup", null, "Select Group", new { @class = "form-control", required = "required" })
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-xs btn-info" onclick="SummaryReport();">
+                        <i class="ace-icon fa fa-plus"></i>
+                        Summery Report
+                    </button>
+                </div>
+            </div>
+            <br>
+            <input type="hidden" id="HalfId" />
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <table id="dt" class="table table-striped table-bordered table-hover text-left" data-selected-action-class="selected-action-dt" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="center">
+                                    <label class="position-relative">
+                                        <input type="checkbox" class="ace selectall" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </th>
+                                <th>Employee ID</th>
+                                <th>@lang.GetValue("FullName")</th>
+                                <th>Department</th>
+                                <th>Group</th>
+                                @*<th>Status</th>*@
+                                @*<th>@lang.GetValue("Preview")</th>*@
+                                <th>1st Half</th>
+                                <th>2nd Half</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.col-xs-12 -->
+    </div><!-- /.row -->
+</div><!-- /.row -->
+@section Script {
+    @Scripts.Render("~/bundles/dataTable/js")
+    @Scripts.Render("~/bundles/dataTableFileExport/js")
+    <script>
+        $(function () {
+
+            $('#dt').dataTable({
+                "dom": '<"row"<"col-xs-3"l><"col-xs-2"B><"col-xs-7"f>r>t<"row"<"col-xs-5"i><"col-xs-7"p>>',
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "buttons": [
+                    //{ extend: 'excel', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-excel-o"></i> Excel' },
+                    //{ extend: 'pdf', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-file-pdf-o"></i> PDF' },
+                    //{ extend: 'print', exportOptions: { modifier: { search: 'applied', order: 'applied' } }, text: '<i class="ace-icon fa fa-print"></i> Print' },
+                ],
+                "ajax": {
+                    "url": "@Url.Action("GEToUserList")",
+                    "data": function (d) {
+                        return $.extend({}, d,
+                            $('#frmSearch').serializeObject()
+                        ); //adv search
+                    },
+                    "type": "POST",
+                    "async": true
+                },
+                "order": [1, 'asc'],
+                "columns": [
+                    {
+                        "data": null,
+                        "orderable": false,
+                        "class": "center",
+                        "width": 60,
+                        "render": function (data, type, full, meta) {
+                            return '<label class="position-relative"><input type="checkbox" name="Id" value="' + full.Id + '" class="ace select" onclick="handleSelectedAction(this);" /><span class="lbl"></span></label>';
+                        }
+                    },
+                        @*{
+                            "data": null,
+                            "orderable": false,
+                            "width":100,
+                            "render": function (data, type, full, meta) {
+                                //return "<a href='@Url.Action("PerformanceForm")?id=" + full.Id + $('#Quarter').val() + "'>" + full.Id + '</a>';
+                                //return "<a href='#' style='text-decoration:none' onclick='HalfTick(" + full.Id + ")'>" + full.Id + '</a>';
+                                return '<a href="#" style="text-decoration:none" onclick="HalfTick(\'' + full.Id + '\')">' + full.Id + "</a>";
+
+                            }
+                        },*@
+                    { "data": "Id", "name": "Id", "width": 80 },
+                    { "data": "FullName", "name": "FullName", "width": 100 },
+                    { "data": "Department", "name": "Department", "width": 80 },
+                    { "data": "UserGroup", "name": "UserGroup", "class": "center", "width": 45 },
+                    //{
+                    //    "class": "center",
+                    //    "width": 250,
+                    //    "render": function (data, type, full, meta) {
+                    //        var Status = "1,1,0,0";
+                    //        var xx = Status.split(',');
+                    //        return  xx[0]=="1"?"Q1<input type='radio'checked >":"";
+                    //    }
+                    //},
+                        //{
+                        //    "class": "center",
+                        //    "width": 100,
+                        //    "render": function (data, type, full, meta) {
+                        //        return '<a href="#" style="text-decoration:none" onclick="Preview(\''+ full.Id +'\')">' + "Click" + "</a>";
+                        //}
+                /*}*/
+                    {
+                        "class": "left",
+                        "width": 65,
+                        "render": function (data, type, full, meta) {
+                            return full.Half1 ? '<button class="btn btn-xs btn-info"style="margin-right: 10px" onclick="HalfTick(\'' + full.Id + '\',\'1\')"><i class="menu-icon  fa fa-pencil-square-o"></i></button> <button class="btn btn-xs btn-info"style="margin-right: 10px" onclick="Preview(\'' + full.Id + '\',\'1\')"><i class="menu-icon  fa fa-eye"></i></button>'
+                                : '<button class="btn btn-xs btn-info"style="margin-right: 10px" onclick="HalfTick(\'' + full.Id + '\',\'1\')"><i class="menu-icon  fa fa-pencil-square-o"></i></button>';
+                        }
+                    },
+                    {
+                        "class": "left",
+                        "width": 65,
+                        "render": function (data, type, full, meta) {
+                            return full.Half2 ? '<button class="btn btn-xs btn-info"style="margin-right: 10px" onclick="HalfTick(\'' + full.Id + '\',\'2\')"><i class="menu-icon  fa fa-pencil-square-o"></i></button> <button class="btn btn-xs btn-info"style="margin-right: 10px" onclick="Preview(\'' + full.Id + '\',\'2\')"><i class="menu-icon  fa fa-eye"></i></button>'
+                                : '<button class="btn btn-xs btn-info"style="margin-right: 10px" onclick="HalfTick(\'' + full.Id + '\',\'2\')"><i class="menu-icon  fa fa-pencil-square-o"></i></button>';
+                        }
+                    }
+                ]
+            }).on('draw.dt', function () {
+                handleSelectedAction(this);
+            });
+
+            //checkbox check all
+            $('.selectall').click(function () {
+                var table = $(this).closest('table');
+                $('input.select:checkbox', table).prop('checked', this.checked);
+                handleSelectedAction(this);
+            });
+
+        });
+        function handleSelectedAction(e) {
+            var table = $(e).closest('table');
+            var className = $(table).attr("data-selected-action-class");
+            $('.' + className).toggle($('input.select:checkbox:checked', table).length > 0);
+        }
+        function Search() {
+             $('#frmSearch').val(true);
+             $('#dt').DataTable().ajax.reload(); //reload datatable
+         }
+        function HalfTick(Id) {
+            //var valorAccion = $('#Table tr:eq(0) td:eq(1)').text();
+            if ($('#Half').val() == "") {
+                bootbox.dialog({
+                    message: "Select Half Now!!",
+                    title: 'Alert',
+                    className: "modal-darkorange",
+                    buttons: {
+                        success: {
+                            label: "OK",
+                            className: "btn-info",
+                            callback: function () {
+                                //$('#cbConsent').prop("checked", true);
+                                //$('#btnSubmit').prop('disabled', false);
+                            }
+                        }
+                    }
+                });
+            } else {
+                window.location.href = '@Url.Action("PerformanceForm")?id=' + Id + '&Half=' + $('#Half').val();
+            }
+         };
+        function HalfTick(Id, Half) {
+                window.location.href = '@Url.Action("PerformanceForm")?id=' + Id + '&Half=' + Half;
+         };
+    function Preview(Id) {
+            if ($('#Half').val() == "") {
+                bootbox.dialog({
+                    message: "Select Half Now!!",
+                    title: 'Alert',
+                    className: "modal-darkorange",
+                    buttons: {
+                        success: {
+                            label: "OK",
+                            className: "btn-info",
+                            callback: function () {
+                                //$('#cbConsent').prop("checked", true);
+                                //$('#btnSubmit').prop('disabled', false);
+                            }
+                        }
+                    }
+                });
+             } else {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Action("Report")',
+                    data: { Id: Id, Half: $('#Half').val() } ,
+                    success: function (res) {
+                        if (res != "") {
+                            //window.location.href = "./ReportViewer.aspx?rptsid=" + res.Id;
+                            window.open("./ReportViewer.aspx?rptsid=" + res.Id, "_blank");
+                        } else {
+                            bootbox.dialog({
+                                message: "Data is not found!!",
+                                title: 'Alert',
+                                className: "modal-darkorange",
+                                buttons: {
+                                    success: {
+                                        label: "OK",
+                                        className: "btn-info",
+                                        callback: function () {
+                                            //$('#cbConsent').prop("checked", true);
+                                            //$('#btnSubmit').prop('disabled', false);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+        }
+        function Preview(Id, Half) {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Action("Report")',
+                    data: { Id: Id, Half: Half } ,
+                    success: function (res) {
+                        if (res != "") {
+                            //window.location.href = "./ReportViewer.aspx?rptsid=" + res.Id;
+                            window.open("./ReportViewer.aspx?rptsid=" + res.Id, "_blank");
+                        } else {
+                            bootbox.dialog({
+                                message: "Data is not found!!",
+                                title: 'Alert',
+                                className: "modal-darkorange",
+                                buttons: {
+                                    success: {
+                                        label: "OK",
+                                        className: "btn-info",
+                                        callback: function () {
+                                            //$('#cbConsent').prop("checked", true);
+                                            //$('#btnSubmit').prop('disabled', false);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+         }
+        function SummaryReport() {
+        var tableSelector = "#dt";
+        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+        var selectedCount = checkboxs.serializeArray().length;
+        if (selectedCount > 0) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("SummaryReport")',
+                data: checkboxs.serialize(),
+                success: function (res) {
+                    if (res != "") {
+                        //window.location.href = "./ReportViewer.aspx?rptsid=" + res.Id;
+                        window.open("./ReportViewer.aspx?rptsid=" + res.Id, "_blank");
+                    } else {
+                        bootbox.dialog({
+                            message: "Data is null!!",
+                            title: 'Alert',
+                            className: "modal-darkorange",
+                            buttons: {
+                                success: {
+                                    label: "OK",
+                                    className: "btn-info",
+                                    callback: function () {
+                                        //$('#cbConsent').prop("checked", true);
+                                        //$('#btnSubmit').prop('disabled', false);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        } else {
+            alert("Please Select UserList!!")
+        }
+        }
+        $("#UserGroup").change(function () {
+            //var sUserGroup = this.value;
+            //var firstDropVal = $('#pick').val();
+            Search();
+        });
+    </script>
+}
+

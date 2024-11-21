@@ -1,0 +1,203 @@
+﻿/* ------------- Search for index page ------------- */
+.cust-lbl {
+    font-size: 13px;
+}
+
+.cust-txt {
+    height: 28px;
+}
+
+.cust-div {
+    margin-bottom: 6px;
+}
+
+/*.btn {
+    border-radius: 3px !important;
+}
+
+.btn-group > .btn {
+    border-radius: 3px !important;
+}
+
+.btn-warning {
+    background-color: #F89406 !important;
+}*/
+
+/* ------------- Datatables ------------- */
+/* Tab display records */
+.dataTables_wrapper .row:first-child {
+    padding-top: 3px;
+    padding-bottom: 0px;
+}
+
+.dataTables_filter, .dt-buttons {
+    display: inline;
+}
+
+.dataTables_wrapper > .row > .col-xs-5 {
+    text-align: left;
+}
+
+.dataTables_wrapper > .row > .col-xs-7 {
+    text-align: right;
+}
+
+.dataTables_wrapper .row:first-child {
+    border: 1px solid #e0e0e0;
+    border-bottom: 0px;
+}
+
+.dataTables_wrapper .row:last-child {
+    border: 1px solid #e0e0e0;
+    border-top: 0px;
+}
+
+.dataTables_filter input[type=search], .dataTables_filter input[type=text] {
+    width: 120px;
+}
+
+.table-bordered, .table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
+    border: none;
+}
+
+/* Headder */
+.table > thead > tr > th {
+    padding: 4px;
+    border: 1px solid #ddd;
+}
+
+.table > thead:first-child > tr:first-child > th {
+    background-color: #F1F1F1 !important;
+}
+
+/* Header Custom Field */
+    .table > thead:first-child > tr:first-child > th[class*=thCF] {
+        background-color: antiquewhite !important;
+    }    
+
+/* body */
+.table > tbody > tr > td {
+    padding: 2px;
+    /*border-bottom: 1px solid #ddd;*/
+    border: 1px solid #ddd;
+    background-color: #FFF;
+}
+
+/* footter */
+.dataTables_wrapper .row:last-child {
+    padding-top: 4px;
+    padding-bottom: 0px;
+}
+
+.table > tfoot > tr > th {
+    padding: 4px !important;
+    font-weight: normal !important;
+    border: 1px solid #ddd !important;
+}
+
+.dataTables_info {
+    font-size: 13px;
+}
+
+/* buttom Previous & Next */
+.pagination > li > a {
+    padding: 3px 6px;
+}
+
+/* From */
+.form-group {
+    margin-bottom: 6px;
+}
+
+.form-control {
+    height: 30px;
+}
+
+.form-group > label[class*=col-sm-12],
+.form-group > .row > .col-sm-4 > label[class*=col-sm-12],
+.form-group > .row > .col-sm-6 > label[class*=col-sm-12] {
+    margin: 0px 0px 0px 12px !important;
+    padding: 0px !important;
+}
+
+label {
+    font-size: 13px;
+}
+
+input {
+    font-size: 13px;
+}
+
+/* ------------- Form Control ------------- */
+.no-padding-left {
+    padding-left: 12px !important;
+    text-align: left !important;
+}
+
+/* ------------- Modal ------------- */
+.modal-header {
+    padding: 4px !important;
+}
+
+div.modal-header {
+    margin-left: 8px !important;
+}
+
+.transparent > .widget-body .widget-main .table-bordered > tbody > tr:last-child > td, .widget-main.no-padding .table-bordered > tbody > tr:last-child > td {
+    border-bottom-width: 1px !important;
+}
+
+.transparent > .widget-body .widget-main .table-bordered > thead > tr > th:last-child, .widget-main.no-padding .table-bordered > tbody > tr > td:last-child, .widget-main.no-padding .table-bordered > tfoot > tr > td:last-child, .widget-main.no-padding .table-bordered > thead > tr > th:last-child {
+    border-right-width: 1px !important;
+}
+
+.transparent > .widget-body .widget-main .table-bordered > tbody > tr > td:last-child, .transparent > .widget-body .widget-main .table-bordered > tfoot > tr > td:last-child, .transparent > .widget-body .widget-main .table-bordered > thead > tr > th:last-child, .widget-main.no-padding .table-bordered > tbody > tr > td:last-child, .widget-main.no-padding .table-bordered > tfoot > tr > td:last-child, .widget-main.no-padding .table-bordered > thead > tr > th:last-child {
+    border-right-width: 1px !important;
+}
+
+/* ------------- From Search ------------- */
+.ctRow {
+    margin-bottom: 5px !important;
+}
+
+.ctLBL {
+    margin-bottom: 0px !important;
+}
+
+.tooltip-warning {
+    cursor: pointer !important;
+}
+
+.form-search .row .col-sm-2, .form-search .row .col-sm-3 {
+    padding: 0px 4px 0px 4px;
+}
+
+.form-search .row .col-sm-2 .col-sm-12, .form-search .row .col-sm-3 .col-sm-12 {
+    padding: 0px;
+}
+/* ------------- Select 2 Control ------------- */
+.select2-container--bootstrap .select2-selection__clear {
+    color: #999 !important;
+    font-weight: normal !important;
+    margin-right: 3px !important;
+}
+
+.select2-selection--single {
+    height: 30px !important;
+    border-radius: 0px !important;
+}
+
+.select2-selection.select2-selection--multiple{
+    height: 30px !important;
+    border-radius: 0px !important;
+}
+
+.input-hilight {
+    /* background-color:antiquewhite !important; */
+    border-color: orange !important;
+}

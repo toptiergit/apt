@@ -1,0 +1,148 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@model ApplicationForm.Models.Station
+@{
+    ViewBag.Title = "WorkStationMtn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "Workstation";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+@section ButtonAction
+{
+    <div class="btn-group">
+        <button class="btn btn-xs" type="button" style="line-height:2;" onclick="window.history.back();">
+            <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+            @lang.GetValue("Back")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-info" style="line-height:2;" type="button" id="btnSave">
+            <i class="ace-icon fa fa-save bigger-110"></i>
+            @lang.GetValue("Save")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-warning" style="line-height:2;" type="reset" id="btnReset">
+            <i class="ace-icon fa fa-undo bigger-110"></i>
+            @lang.GetValue("Reset")
+        </button>
+    </div>
+}
+<style>
+    .txt-dte {
+        padding: 2px !important;
+        height: 24px;
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .breadcrumbs.sitemap {
+        display: block;
+    }
+
+    #divBtnAction {
+        display: block;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        @using (Html.BeginForm("WorkStationMtn", "SkillMatrix", new { area = "" }, FormMethod.Post, new { @id = "main-form", @class = "form-horizontal", @role = "form", @enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <input type="hidden" name="Action" value="@(ViewBag.action)" />
+                        @* <input type="hidden" name="AuthenticateBy" value="@Model.AuthenticateBy" />*@
+                        @* <input type="hidden" name="CreatedOn" value="@Model.CreatedOn" />*@
+                        <input type="hidden" name="Id" value="@Model.Id" />
+
+                        <div class="widget-box" id="user-info-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@(ViewBag.action) Work Station </h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-11">
+                                            <!-- right col -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">Station Name</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Name" class="form-control" value="@Model.Name" @(ViewBag.action == "update" ? "readonly" : "") required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">Area</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Area" class="form-control" value="@Model.Area" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div>
+                        </div><!-- /.widget-box transparent -->
+
+
+
+                    </div>
+                </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+        }
+        <!-- PAGE CONTENT END -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.row -->
+
+@section Script {
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+
+        //--------------------------------------------------------------------------------
+        $('#btnSave').click(function () {
+                $("#main-form").submit();
+        });
+
+        $(() => {
+            $('#btnReset').click(() => {
+                $(':input', '#main-form')
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .removeAttr('checked')
+                    .removeAttr('selected');
+            });
+        });
+        $("#main-form").validate({
+            rules: {
+                // simple rule, converted to {required:true}
+                name: "required",
+                // compound rule
+                email: {
+                    required: true,
+                    email: true
+                }
+            }
+        });
+    </script>
+}
+

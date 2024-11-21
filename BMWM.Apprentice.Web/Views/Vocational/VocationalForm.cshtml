@@ -1,0 +1,602 @@
+﻿@model ApplicationForm.Models.Vocational
+@{
+    ViewBag.Title = "Vocational Form";
+    ViewBag.ActiveMenuId = "Vocational";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+<div class="page-header">
+    <h1>
+        Vocational Student Performance Form
+    </h1>
+</div>
+@section Style {
+    <style type="text/css">
+        .txt-dte {
+            padding: 2px !important;
+            height: 24px;
+            width: 80px;
+            font-size: 12px !important;
+            text-align: center;
+        }
+
+        .breadcrumbs.sitemap {
+            display: none;
+        }
+
+        #divBtnAction {
+            display: none;
+        }
+
+        .modal-body {
+            height: 500px;
+            overflow-y: scroll;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        @using (Html.BeginForm("VocationalForm", "Vocational", FormMethod.Post, new { @id = "main-form", @class = "form-horizontal", @role = "form", @enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="col-xs-12 col-sm-12">
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title"></h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.Quarter, new { htmlAttributes = new { @type = "hidden" } })
+                                            <label class="col-sm-3 control-label no-padding-right"> Name – Surname: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "input-large", @type = "text", placeholder = "Name", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"> Emp. No:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "input-large input-sm", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Hire date: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.HireDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "input-sm", @type = "date", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Position Title: </label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.PositionTitle, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Cost Center:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.CostCenter, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">Review Period:</label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.ReviewPeriod, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    @*  การประเมินผลการปฏิบัติงานโดยผู้จัดการกระบวนการ (Performance evaluation by Process Manager)*@
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-9 control-label no-padding-right">
+                                                @*Poor Performance: Received a formal corrective action for safety. = 1 <br>
+                                                    Requires Improvement:Received an NOC for safety.= 2 <br>
+                                                    Meets Expectations = 3 <br>
+                                                    Exceeds Expectations: Safety exceeds expectations/requirements = 4 <br>
+                                                    Exemplary Performance: Safety significantly exceeds expectations/requirements.= 5*@
+                                            </label>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                1. Safety:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>Evaluate adherence to safety rules and guidelines, use of protective equipment, etc. Examine the degree of involvement in safety improvements.</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.SafetyRank, 1)1
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.SafetyRank, 2)2
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.SafetyRank, 3)3
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.SafetyRank, 4)4
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.SafetyRank, 5)5
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.SafetyRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.SafetyRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Comment)" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                2. Quality:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>Evaluate accuracy, thoroughness and appearance of work produced compared to the requirements of the job. Examine the degree of involvement in improving quality.</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QualityRank, 1)1
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QualityRank, 2)2
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QualityRank, 3)3
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QualityRank, 4)4
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.QualityRank, 5)5
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.QualityRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.QualityRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Comment)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                3. Productivity/Job Knowledge
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="3" readonly>Evaluate the depth of knowledge and the quantity of satisfactory work produced compared to requirements of the job. Examine effective use of time in completing work. Examine the degree of involvement in improving </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.ProJKnRank, 1)1
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.ProJKnRank, 2)2
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.ProJKnRank, 3)3
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.ProJKnRank, 4)4
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.ProJKnRank, 5)5
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.ProJKnRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.ProJKnRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Comment)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                4. Team Work:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>Evaluatestudent's interpersonal and team skills. To cooperate for working and help each others about the common resolve the conflict in organisation.</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TeamWorkRank, 1)1
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TeamWorkRank, 2)2
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TeamWorkRank, 3)3
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TeamWorkRank, 4)4
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.TeamWorkRank, 5)5
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.TeamWorkRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.TeamWorkRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Comment)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right">
+                                                5. Punctuallity:
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control align-left" rows="2" readonly>Punctuallity in workplace during working / study time.</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 control-label"></div>
+                                            <div class="col-sm-3 control-label no-padding-left">ระดับผลงาน(Performance rating) :</div>
+                                            <div class="col-sm-4">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PunctuallityRank, 1)1
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PunctuallityRank, 2)2
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PunctuallityRank, 3)3
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PunctuallityRank, 4)4
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(i => i.PunctuallityRank, 5)5
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.PunctuallityRank, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.PunctuallityRecord, new { htmlAttributes = new { @class = "input-xxlarge", @type = "text", placeholder = "บันทึก(Comment)" } })
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-24"></div>
+                                    </div>
+                                    <div class="widget-box">
+                                        <div class="widget-header">
+                                            <h4 class="widget-title">
+                                                Areas for improvement or development and objectives for next year (including Associate training plan)
+                                            </h4>
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-horizontal" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label no-padding-right"></label>
+                                                        <div class="col-sm-9">
+                                                            @Html.EditorFor(model => model.AreasforImp, new { htmlAttributes = new { @class = "input-xxlarge input-sm", @type = "text", rows = "6", placeholder = "" } })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-box">
+                                        <div class="widget-header">
+                                            <h4 class="widget-title">
+                                                Overall Rating Point System
+                                            </h4>
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-horizontal" role="form">
+
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12 control-label no-padding-left">
+                                                            <label>
+                                                                Points are accumulated based on rating of 1-5 for each category above. A rating of 1, 2, 4, or 5 in any category must have <br>
+                                                                supporting comments and documentation.
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right"> Safety:</label>
+                                                        <div class="col-sm-1">
+                                                            <input class="input-small align-center" type="text" id="Safety" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right"> Quality:</label>
+                                                        <div class="col-sm-1">
+                                                            <input class="input-small align-center" type="text" id="Quality" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right">Productivity/Job Knowledge:</label>
+                                                        <div class="col-sm-1">
+                                                            <input class="input-small align-center" type="text" id="ProJKn" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right">Conduct :</label>
+                                                        <div class="col-sm-1">
+                                                            <input class="input-small align-center" type="text" id="TeamWork" />
+                                                          </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right">Attendance :</label>
+                                                        <div class="col-sm-1">
+                                                            <input class="input-small align-center" type="text" id="Punctuallity" />
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget-box">
+                                        <div class="widget-header">
+                                            <h4 class="widget-title">
+                                                Overall Rating Scale
+                                            </h4>
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-horizontal" role="form">
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-9 control-label no-padding-right fa-font bigger-120">Total Points (5-25) :</label>
+                                                        <div class="col-sm-1">
+                                                            @Html.EditorFor(model => model.OverallTotalpoint, new { htmlAttributes = new { @class = "input-small align-center", @type = "text", placeholder = "" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.OverallTotalpoint, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            Poor Performance is far below acceptable standards.
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallRatingPointSystem, 1) 5-7 Point
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            Performance requires improvement.
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallRatingPointSystem, 2) 8-12 Point
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            Performance meets expectations.
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallRatingPointSystem, 3) 13-17 Point
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            Performance exceeds expectations/ requirements.
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallRatingPointSystem, 4) 18-22 Point
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9 control-label no-padding-right">
+                                                            Performance significantly exceeds expectations/ requirements.
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(i => i.OverallRatingPointSystem, 5) 23-25 Point
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title">
+                                    Student Comment
+                                </h4>
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right"></label>
+                                            <div class="col-sm-9">
+                                                @Html.EditorFor(model => model.StudentComments, new { htmlAttributes = new { @class = "input-xxlarge input-sm", @type = "text", rows = "6", placeholder = "" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1" style="padding-left:0">
+                            <button id="btnSubmit" class="btn btn-info" type="submit">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        }
+
+    </div><!-- /.row -->
+</div>
+@section Script {
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+        $("#main-form").validate({
+            rules: {
+                // simple rule, converted to {required:true}
+                name: "required",
+                // compound rule
+                '.radio-inline': {
+                    required: true,
+                    maxlength: 2
+                },
+                messages: {
+                    '.radio-inline': {
+                        required: "You must check at least 1 box",
+                        maxlength: "Check no more than {0} boxes"
+                    }
+                },
+                email: {
+                    required: true,
+                    email: true
+                }
+            }
+        });
+        $(() => {
+            var nSafetyRank = parseInt($('[name="SafetyRank"]:checked').val());
+            $("#Safety").val(nSafetyRank ? nSafetyRank:0);
+            var nQualityRank = parseInt($('[name="QualityRank"]:checked').val());
+            $("#Quality").val(nQualityRank ? nQualityRank:0);
+            var nProJKnRank = parseInt($('[name="ProJKnRank"]:checked').val());
+            $("#ProJKn").val(nProJKnRank ? nProJKnRank:0);
+            var nTeamWorkRank = parseInt($('[name="TeamWorkRank"]:checked').val());
+            $("#TeamWork").val(nTeamWorkRank ? nTeamWorkRank:0);
+            var nPunctuallityRank = parseInt($('[name="PunctuallityRank"]:checked').val());
+            $("#Punctuallity").val(nPunctuallityRank ? nPunctuallityRank:0);
+        });
+       
+        $('input[type=radio][name=SafetyRank]').change(function () {
+            var nSafetyRank = parseInt($('[name="SafetyRank"]:checked').val());
+            $("#Safety").val(nSafetyRank);
+            SUMTotalPoints();
+        });
+        $('input[type=radio][name=QualityRank]').change(function () {
+            var nQualityRank = parseInt($('[name="QualityRank"]:checked').val());
+            $("#Quality").val(nQualityRank);
+            SUMTotalPoints();
+        });
+        $('input[type=radio][name=ProJKnRank]').change(function () {
+            var nProJKnRank = parseInt($('[name="ProJKnRank"]:checked').val());
+            $("#ProJKn").val(nProJKnRank);
+            SUMTotalPoints();
+        });
+        $('input[type=radio][name=TeamWorkRank]').change(function () {
+            var nTeamWorkRank = parseInt($('[name="TeamWorkRank"]:checked').val());
+            $("#TeamWork").val(nTeamWorkRank);
+            SUMTotalPoints();
+        });
+        $('input[type=radio][name=PunctuallityRank]').change(function () {
+            var nPunctuallityRank = parseInt($('[name="PunctuallityRank"]:checked').val());
+            $("#Punctuallity").val(nPunctuallityRank);
+            SUMTotalPoints();
+        });
+
+        function SUMTotalPoints() {
+            var nSafetyRank= parseInt($('[name="SafetyRank"]:checked').val());
+            var nQualityRank = parseInt($('[name="QualityRank"]:checked').val());
+            var nProJKnRank = parseInt($('[name="ProJKnRank"]:checked').val());
+            var nTeamWorkRank = parseInt($('[name="TeamWorkRank"]:checked').val());
+            var nPunctuallityRank= parseInt($('[name="PunctuallityRank"]:checked').val());
+            var nSUMTotalPoints = (nSafetyRank ? nSafetyRank : 0 )+ (nQualityRank ? nQualityRank : 0 )+ (nProJKnRank ? nProJKnRank : 0 )+ (nTeamWorkRank ? nTeamWorkRank : 0 )+ (nPunctuallityRank ? nPunctuallityRank:0);
+            $("#OverallTotalpoint").val(nSUMTotalPoints);
+            var nRank = 0;
+            if (nSUMTotalPoints < 8) {
+                nRank = 1;//5-8
+            } else if (nSUMTotalPoints < 13) {
+                nRank = 2;//8-12
+            } else if (nSUMTotalPoints < 18) {
+                nRank = 3;//13-17
+            } else if (nSUMTotalPoints < 23) {
+                nRank = 4;//18-22
+            } else if (nSUMTotalPoints >= 23) {
+                nRank = 5;//23-25
+            }
+            $("input[name=OverallRatingPointSystem][value=" + nRank + "]").prop('checked', true);
+        }
+      
+    </script>
+}
+
+

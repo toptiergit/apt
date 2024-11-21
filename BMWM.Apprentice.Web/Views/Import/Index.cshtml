@@ -1,0 +1,142 @@
+﻿
+@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@model BMWM.Apprentice.Web.AuthModels.User
+@{
+
+    ViewBag.Title = "Import Data";
+    ViewBag.ActiveMenuId = "Import";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+
+}
+@if (ViewBag.ImportStatus)
+{
+    <div class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+        <i class="ace-icon fa fa-check green"></i>
+        Import successfully.
+    </div>
+    //ViewBag.ImportStatus = false;
+}
+else
+{
+    <label class="col-sm-12 ctLBL">@ViewBag.Error</label>
+}
+<div class="page-header">
+    <h1>
+        @*Application Report*@
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <form id="upload-form" action="@Url.Action("Index")" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+            <div class="col-md-3" @*style="padding-top:6px"*@>
+                <input type="file" id="FileImport" name="FileImport" required />
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-xs btn-warning" type="submit">
+                    <i class="fas fa-upload"></i>
+                    Import Data
+                </button>
+            </div>
+        </form>
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+@section Script {
+    @Scripts.Render("~/bundles/dataTable/js")
+    @Scripts.Render("~/bundles/dataTableFileExport/js")
+
+
+    <script type="text/javascript">
+ $(function () {
+     $('#FileImport').ace_file_input({
+                no_file: 'No File ...',
+                btn_choose: 'Choose',
+                btn_change: 'Change',
+                droppable: false,
+                onchange: null,
+                thumbnail: false, //| true | large
+                'allowExt': ['Zip']
+            }).on('file.error.ace', function (event, info) {
+                alert('Only Excel(.Zip) file is allowed.');
+                event.preventDefault();
+            });
+
+            //validation
+            $('#upload-form').validate();
+
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMsg))
+            {
+                @:bootbox.alert("<i class='ace-icon fa fa-exclamation-triangle orange bigger-110'></i> Upload failed! Transactions has been terminated.<br/>Error: @ViewBag.ErrorMsg");
+                if (!string.IsNullOrEmpty(ViewBag.ErrorDetail))
+                {
+
+                }
+            }
+          });
+
+
+    function Export() {
+
+        //$.get("file:d://", function (response) {
+        //    document.write(response);
+        //    getNames();
+        //});
+
+        var tableSelector = "#dt";
+        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+        var selectedCount = checkboxs.serializeArray().length;
+        if (selectedCount > 0) {
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: '@Url.Action("ExportData")',
+                data: checkboxs.serialize(),
+                success: function (res) {
+                  window.location.href = "./Files/" + res.ZipFileName +"";
+                }
+            });
+        } else {
+            alert("Please Select UserList!!")
+        }
+    }
+    function Delete() {
+        var tableSelector = "#dt";
+        var checkboxs = $(tableSelector + ' input.select:checkbox:checked');
+        var selectedCount = checkboxs.serializeArray().length;
+        if (selectedCount > 0) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("DeleteData")',
+                data: checkboxs.serialize(),
+                success: function (res) {
+                    bootbox.dialog({
+                        message: "Successfull!!",
+                        title: 'Alert',
+                        className: "modal-darkorange",
+                        buttons: {
+                            success: {
+                                label: "OK",
+                                className: "btn-info",
+                                callback: function () {
+                                    location.reload();
+                                    //$('#cbConsent').prop("checked", true);
+                                    //$('#btnSubmit').prop('disabled', false);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            alert("Please Select UserList!!")
+        }
+    }
+
+    </script>
+}

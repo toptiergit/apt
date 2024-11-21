@@ -1,0 +1,564 @@
+﻿@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "dv-dev";
+}
+
+
+<div class="row">
+    <div class="col-xs-12">
+
+
+        <div id="accordion" class="accordion-style1 panel-group">
+            <!-- Movement -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseMovement">
+                            <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                            &nbsp;Movement
+                        </a>
+                    </h4>
+                </div>
+
+                <div class="panel-collapse collapse in" id="collapseMovement">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 class="header smaller lighter blue">Update ReceiptDetailId and OrderDetailId</h4>
+                                Tag ID : <input type="text" class="jq-number0" id="txtConStart" /> - <input type="text" class="jq-number0" id="txtConEnd" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" onclick="UpdateMovenent()">
+                                        <i class="ace-icon fa fa-cogs"></i> Update Movenent
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ReceiptItem -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseReceiptItem">
+                            <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                            &nbsp;ReceiptItem
+                        </a>
+                    </h4>
+                </div>
+
+                <div class="panel-collapse collapse" id="collapseReceiptItem">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Import ReceiptItem From ContainerHistory</h4>
+                                <p>
+                                    110 Initial Entry of Stock Balances <br />
+                                    310 Scan In for Normal GR <br />
+                                    325 Scan In for Production<br />
+                                    330 Scan In for GR-Returns <br />
+                                    370 Scan In for GR-Part Convert
+                                </p>
+                                Receipt ID : <input type="text" id="txtReceiptId" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CteRDItem('normal');">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create ReceiptItem From ContainerHistory
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Import ReceiptItem from Container</h4>
+                                <p>
+                                    330 Scan In for GR-Returns <br />
+                                    350 Scan In for GR-Transfer(WH to WH) <br />
+                                    <font color="red">*** หมายเหตุ ได้ข้อมูลที่รับแบบ Return หรือ Transfer ที่เป็นปัจจุบันเท่านั้น</font>
+                                </p>
+                                Receipt ID : <input type="text" id="txt" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CteRDItem('return');">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create ReceiptItem From Container
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Import ReceiptItem from Movement</h4>
+                                Tag ID : <input type="text" class="jq-number0" id="txtStart" /> - <input type="text" class="jq-number0" id="txtEnd" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CteRDItem('movement');">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create ReceiptItem From Movement
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- StcokSummary -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseStcokSummary">
+                            <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                            &nbsp;StcokSummary
+                        </a>
+                    </h4>
+                </div>
+
+                <div class="panel-collapse collapse" id="collapseStcokSummary">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Create StockSummary Manual</h4>
+                                <p>
+                                    - StockCloseFrequency is Weekly. <br />
+                                    - DayStartOfWeek is Monday.
+                                </p>
+
+                                Part ID : <input type="text" class="jq-number0" id="txtPartIdStart" /> - <input type="text" class="jq-number0" id="txtPartIdEnd" />
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CreateStockSummary();">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create StockSummary
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <h4 class="header smaller lighter blue">Create StockSummary From Current Inventory </h4>
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CreateStockSummaryCurrInv();">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create StockSummary
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <h4 class="header smaller lighter blue">Adjust StockSummary</h4>
+
+                                <div class="col-sm-2">
+                                    Year : @Html.DropDownList("Year", null, WMSSettings.DropDownListOptionLabel, new { @class = "form-control", @id = "ddlYear", @onchange = "GetWeeks()" })
+                                </div>
+                                <div class="col-sm-3">
+                                    Week Start : <select id="ddlWeekNoStart" class="form-control"></select>
+                                </div>
+                                <div class="col-sm-3">
+                                    Week End : <select id="ddlWeekNoEnd" class="form-control"></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    Part ID: <input type="text" class="jq-number0" id="txtAdjustPartId" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="AdjustStockSummary();">
+                                            <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                            Adjust StockSummary
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- ./col-sm-12 -->
+</div> <!-- ./row -->
+
+
+@section Style {
+    <style type="text/css">
+        #divBtnAction {
+            display: none;
+        }
+    </style>
+}
+
+@section Script {
+    <script type="text/javascript">
+        function test() {
+            $.blockUI();
+            setTimeout($.unblockUI, 2000);
+        }
+
+        function UpdateMovenent() {
+            var key = $('#ddlKey').val().split("-");
+            $.blockUI();
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: '@Url.Action("DeveloperUpdateMovementRD_OD", "MovementType")',
+                data: {
+                    startId: key[0],
+                    endId: key[1]
+                },
+                success: function (res) {
+                    $.unblockUI();
+                    alert("Success: " + res.msg);
+                }
+            });
+        }//UpMovenent
+
+        function CteRDItem(type)
+        {
+            if (confirm("Confirm Create ReceiptItem?"))
+            {
+                $.blockUI();
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: '@Url.Action("DeveloperCreateReceiptItem", "Receipt")',
+                    data: {
+                        mmType : type,
+                        receiptId: $('#txtReceiptId').val(),
+                        startConId: $('#txtStart').val(),
+                        endConId: $('#txtEnd').val(),
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            $.unblockUI();
+                            alert("Successfully");
+                        }
+                    }
+                });
+            }
+        } //CteRDItem
+
+        function CreateStockSummary()
+        {
+            if (confirm("Confirm Create StockSummary?")) {
+                $.blockUI();
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: '@Url.Action("DeveloperCreateStockSummary", "MovementType")',
+                    data: {
+                        partIdStart: $('#txtPartIdStart').val(),
+                        partIdEnd: $('#txtPartIdEnd').val(),
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            $.unblockUI();
+                            alert("Successfully");
+                        }
+                    }
+                });
+            }
+        }//CreateStockSummary
+
+        function CreateStockSummaryCurrInv() {
+            if (confirm("Confirm Create StockSummary From Current Inventory?")) {
+                $.blockUI();
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: '@Url.Action("DeveloperCreateStockSummaryCurrInv", "MovementType")',
+                    data: {
+                        //partIdStart: $('#txtPartIdStart').val(),
+                        //partIdEnd: $('#txtPartIdEnd').val(),
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            $.unblockUI();
+                            alert("Successfully");
+                        }
+                    }
+                });
+            }
+        } //CreateStockSummaryCurrInv
+
+    </script>
+
+    <!-- Adjust Stock Summary -->
+    <script type="text/javascript">
+        function GetWeeks() {
+            $("#ddlWeekNoStart").empty();
+            $("#ddlWeekNoStart").append("<option value=''></option>");
+
+            $("#ddlWeekNoEnd").empty();
+            $("#ddlWeekNoEnd").append("<option value=''></option>");
+
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("GetWeekIds", "report")',
+                data: { year: $("#ddlYear").val() },
+                success: function (res) {
+                    if (res.success) {
+                        for (i = 0; i < res.data.length; i++) {
+                            var optionhtml = '<option value="' + res.data[i].value + '">' + res.data[i].text + '</option>';
+                            $("#ddlWeekNoStart").append(optionhtml);
+                            $("#ddlWeekNoEnd").append(optionhtml);
+                        }
+                    }
+                }
+            });
+        } //GetWeeks
+
+        function AdjustStockSummary() {
+            if ($("#ddlYear").val() == ""){
+                alert("Please select year!");
+            }
+            else if ($("#ddlWeekNoStart").val() == "") {
+                alert("Please select week number start!");
+            }
+            else if ($("#ddlWeekNoEnd").val() == "") {
+                alert("Please select week number end!");
+            }
+            else {
+                if (confirm("Confirm Adjust StockSummary?")) {
+                    $.blockUI();
+                    $.ajax({
+                        type: 'POST',
+                        async: true,
+                        url: '@Url.Action("DeveloperAdjustStockSummary", "MovementType")',
+                        data: {
+                            year: $('#ddlYear').val(),
+                            weekNoStart: $('#ddlWeekNoStart').val(),
+                            weekNoEnd: $('#ddlWeekNoEnd').val(),
+                            partId: $('#txtAdjustPartId').val(),
+                        },
+                        success: function (res) {
+                            if (res.success) {
+                                $.unblockUI();
+                                alert("Successfully");
+                            }
+                        }
+                    });
+                }
+            }
+        } //AdjustStockSummary
+    </script>
+}
+
+
+@*
+    <div class="row">
+        <div class="col-xs-12">
+
+
+            <!-- ::: Movement ::: -->
+            <div class="widget-box collapsed">
+                <div class="widget-header tooltip-warning" data-rel="tooltip" data-placement="top" title="" onclick="CollapseSearch()">
+                    <h5 class="widget-title">Movement</h5>
+
+                    <div class="widget-toolbar">
+                        <a href="javascript:void(0)">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main padding-6 no-padding-left no-padding-right">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 class="header smaller lighter blue">Update Movement [ReceiptDetailId & OrderDetailId]</h4>
+
+                                <div class="col-sm-1">ContainerID</div>
+                                <div class="col-sm-2">
+                                    <select id="ddlKey" class="form-control">
+                                        <option value="1-500">1-500</option>
+                                        <option value="501-1000">501-1000</option>
+                                        <option value="1001-1500">1001-1500</option>
+                                        <option value="1501-2000">1501-2000</option>
+                                        <option value="2001-2500">2001-2500</option>
+                                        <option value="2501-3000">2501-3000</option>
+                                        <option value="3001-3500">3001-3500</option>
+                                        <option value="3501-4000">3501-4000</option>
+                                        <option value="4001-4500">4001-4500</option>
+                                        <option value="4501-5000">4501-5000</option>
+                                        <option value="5001-5500">5001-5500</option>
+                                        <option value="5501-6000">5501-6000</option>
+                                        <option value="5001-5500">6001-6500</option>
+                                        <option value="5501-6000">6501-7000</option>
+                                        <option value="5501-6000">7001-7500</option>
+                                        <option value="5501-6000">7501-8000</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-xs btn-danger" type="button" onclick="UpdateMovenent()">
+                                        <i class="ace-icon fa fa-cogs"></i> Update Movenent
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- ./widget-main -->
+                </div><!-- ./widget-body -->
+            </div><!-- ./widget-box transparent -->
+            <!-- ::: ReceiptItem ::: -->
+            <div class="widget-box collapsed">
+                <div class="widget-header tooltip-warning" data-rel="tooltip" data-placement="top" title="" onclick="CollapseSearch()">
+                    <h5 class="widget-title">ReceiptItem</h5>
+
+                    <div class="widget-toolbar">
+                        <a href="javascript:void(0)">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main padding-6 no-padding-left no-padding-right">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Import ReceiptItem From ContainerHistory</h4>
+                                <p>
+                                    110 Initial Entry of Stock Balances <br />
+                                    310 Scan In for Normal GR <br />
+                                    325 Scan In for Production<br />
+                                    330 Scan In for GR-Returns <br />
+                                    370 Scan In for GR-Part Convert
+                                </p>
+                                Receipt ID : <input type="text" id="txtReceiptId" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CteRDItem('normal');">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create ReceiptItem From ContainerHistory
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Import ReceiptItem from Container</h4>
+                                <p>
+                                    330 Scan In for GR-Returns <br />
+                                    350 Scan In for GR-Transfer(WH to WH) <br />
+                                    <font color="red">*** หมายเหตุ ได้ข้อมูลที่รับแบบ Return หรือ Transfer ที่เป็นปัจจุบันเท่านั้น</font>
+                                </p>
+                                Receipt ID : <input type="text" id="txt" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CteRDItem('return');">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create ReceiptItem From Container
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Import ReceiptItem from Movement</h4>
+                                Tag ID : <input type="text" class="jq-number0" id="txtStart" /> - <input type="text" class="jq-number0" id="txtEnd" />
+
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CteRDItem('movement');">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create ReceiptItem From Movement
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div><!-- ./widget-main -->
+                </div><!-- ./widget-body -->
+            </div><!-- ./widget-box transparent -->
+            <!-- ::: StockSumary ::: -->
+            <div class="widget-box collapsed">
+                <div class="widget-header tooltip-warning" data-rel="tooltip" data-placement="top" title="" onclick="CollapseSearch()">
+                    <h5 class="widget-title">StockSummary </h5>
+
+                    <div class="widget-toolbar">
+                        <a href="javascript:void(0)">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main padding-6 no-padding-left no-padding-right">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <h4 class="header smaller lighter blue">Create StockSummary Manual</h4>
+                                <p>
+                                    - StockCloseFrequency is Weekly. <br />
+                                    - DayStartOfWeek is Monday.
+                                </p>
+
+                                Part ID : <input type="text" class="jq-number0" id="txtPartIdStart" /> - <input type="text" class="jq-number0" id="txtPartIdEnd" />
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CreateStockSummary();">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create StockSummary
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <h4 class="header smaller lighter blue">Create StockSummary From Current Inventory </h4>
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="CreateStockSummaryCurrInv();">
+                                        <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                        Create StockSummary
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <h4 class="header smaller lighter blue">Adjust StockSummary</h4>
+
+                                <div class="col-sm-2">
+                                    Year : @Html.DropDownList("Year", null, WMSSettings.DropDownListOptionLabel, new { @class = "form-control", @id = "ddlYear", @onchange = "GetWeeks()" })
+                                </div>
+                                <div class="col-sm-3">
+                                    Week Start : <select id="ddlWeekNoStart" class="form-control"></select>
+                                </div>
+                                <div class="col-sm-3">
+                                    Week End : <select id="ddlWeekNoEnd" class="form-control"></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    Part ID: <input type="text" class="jq-number0" id="txtAdjustPartId" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-danger" type="button" style="line-height:2;" onclick="AdjustStockSummary();">
+                                            <i class="ace-icon fa fa-cogs bigger-110"></i>
+                                            Adjust StockSummary
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- ./widget-main -->
+                </div><!-- ./widget-body -->
+            </div><!-- ./widget-box transparent -->
+
+        </div>
+    </div>
+*@

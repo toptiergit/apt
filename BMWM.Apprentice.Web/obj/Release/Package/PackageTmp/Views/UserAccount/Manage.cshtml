@@ -1,0 +1,355 @@
+﻿@using Toptier.WMS.Web;
+@using Toptier.Web.Resource;
+@model BMWM.Apprentice.Web.AuthModels.User
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActiveMenuId = "UserAccount";
+    var lang = Toptier.Web.Resource.ResourceManager.LanguageResource;
+}
+@section ButtonAction
+{
+    <div class="btn-group">
+        <button class="btn btn-xs" type="button" style="line-height:2;" onclick="window.history.back();">
+            <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+            @lang.GetValue("Back")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-info" style="line-height:2;" type="button" id="btnSave">
+            <i class="ace-icon fa fa-save bigger-110"></i>
+            @lang.GetValue("Save")
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-xs btn-warning" style="line-height:2;" type="reset" id="btnReset">
+            <i class="ace-icon fa fa-undo bigger-110"></i>
+            @lang.GetValue("Reset")
+        </button>
+    </div>
+}
+<style>
+    .txt-dte {
+        padding: 2px !important;
+        height: 24px;
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .breadcrumbs.sitemap {
+        display: block;
+    }
+
+    #divBtnAction {
+        display: block;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        @switch (ViewBag.IsRegister)
+        {
+            case "U":
+                <div class="alert alert-block alert-success">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <i class="ace-icon fa fa-close orange"></i>
+                    User นี้มีในระบบแล้ว!!
+                </div>
+                break;
+
+        }
+        <!-- PAGE CONTENT BEGINS -->
+        @using (Html.BeginForm("manage", "UserAccount", new { area = "" }, FormMethod.Post, new { @id = "main-form", @class = "form-horizontal", @role = "form", @enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <input type="hidden" name="@(ViewBag.action == "create" ? "create" : "update")" value="@(ViewBag.action == "create" ? "create" : "update")" />
+                        @* <input type="hidden" name="AuthenticateBy" value="@Model.AuthenticateBy" />*@
+                        <input type="hidden" name="CreatedOn" value="@Model.CreatedOn" />
+                        <input type="hidden" name="CreatedUserId" value="@Model.CreatedUserId" />
+
+                        <div class="widget-box" id="user-info-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@lang.GetValue("UserInformation")</h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <!-- right col -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Username")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Id" class="form-control" value="@Model.Id" @(ViewBag.action == "update" ? "readonly" : "") required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("FullName")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="DisplayName" class="form-control" value="@Model.DisplayName" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Email")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="Email" class="form-control" value="@Model.Email" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">Department</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="CFStr3" class="form-control" value="@Model.CFStr3" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">Group</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="text" name="CFInt1" class="form-control" value="@Model.CFInt1" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.right col -->
+                                            <!-- left col -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("AccountAuthenticateBy")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="radio">
+                                                            @if (Model.AuthenticateBy.ToString() == "" || Model.AuthenticateBy == 0)
+                                                            {
+                                                                foreach (var item in Enum.GetNames(typeof(BMWM.Apprentice.Web.AuthModels.UserAuthenticateBy)))
+                                                                {
+                                                                    <label>
+                                                                        <input name="AuthenticateBy" type="radio" class="ace" onclick="AuthenChange('@item')" value="@item" @(item == "DB" ? "checked" : "")>
+                                                                        <span class="lbl"> @item</span>
+                                                                    </label>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var item in Enum.GetNames(typeof(BMWM.Apprentice.Web.AuthModels.UserAuthenticateBy)))
+                                                                {
+                                                                    <label>
+                                                                        <input name="AuthenticateBy" type="radio" class="ace" onclick="AuthenChange('@item')" value="@item" @(Model.AuthenticateBy.ToString() == item ? "checked" : "")>
+                                                                        <span class="lbl"> @item</span>
+                                                                    </label>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right" id="lblAuthenBy">@lang.GetValue("Password")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <input type="password" name="Password" class="form-control" value="@Model.Password" id="txtPassword" required />
+                                                            <input type="text" name="LDAPUsername" class="form-control" id="txtLDAP" value="@Model.LDAPUsername" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Active")</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="clearfix">
+                                                            <label>
+                                                                @*<input name="IsActive" id="IsActive" class="ace ace-switch ace-switch-5" type="checkbox" value="true" onchange="CheckLicense(this.checked)" @(Model.IsActive ? "checked" : "") />*@
+                                                                <input name="IsActive" id="IsActive" class="ace ace-switch ace-switch-5" type="checkbox" value="true" checked />
+                                                                <span class="lbl"></span>
+                                                                @*<input type="hidden" id="hdIsActive" value="@(ViewBag.action=="create" ? "YES" : (Model.IsActive ? "YES" : "NO"))" />*@
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (ViewBag.action == "update")
+                                                {
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label no-padding-right">@lang.GetValue("Created")</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="clearfix">
+                                                                <label>
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                    @Model.CreatedOn.ToString(WMSSettings.DisplayDateTimeFormat)
+
+                                                                    <i class="fa fa-user"></i>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <!-- /.left col -->
+                                        </div>
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div>
+                        </div><!-- /.widget-box transparent -->
+
+                        <div class="widget-box" id="auth-role-section">
+                            <div class="widget-header">
+
+                                <h5 class="widget-title">@lang.GetValue("AuthorizationRole")</h5>
+
+                                <!-- #section:custom/widget-box.toolbar -->
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                                <!-- /section:custom/widget-box.toolbar -->
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="row">
+                                        <div class="col-xs-11">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2"></label>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        @{
+                                                            var obj = BMWM.Apprentice.Web.AuthService.ManagerService.GetAllItems().Where(e => e.IsActive);
+                                                            int row = 1;
+                                                            foreach (var item in obj)
+                                                            {
+                                                                string chk = "";
+                                                                var model = BMWM.Apprentice.Web.AuthService.ManagerService.GetUserItems(Model.Id);
+                                                                foreach (var tmp in model)
+                                                                {
+                                                                    if (item.Code == tmp.Code) { chk = "checked"; break; }
+                                                                }
+
+                                                                if (row == 1 || row == (obj.Count() / 2) + 1)
+                                                                { @Html.Raw(ViewBag.start);
+                                                            }
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="ace" name="@item.Code" value="@item.Code" @chk>
+                                                                    <span class="lbl"> @item.Name</span>
+                                                                </label>
+                                                            </div>
+
+                                                            if (row == obj.Count() / 2 || row == obj.Count())
+                                                            { @Html.Raw(ViewBag.end);
+                                                        }
+
+                                                        row++;
+                                                    }
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.widget-box -->
+
+                    </div>
+                </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+        }
+        <!-- PAGE CONTENT END -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.row -->
+
+@section Script {
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/js/jquery.validate.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            //validation
+            $('#main-form').validate();
+            AuthenChange('@(ViewBag.action == "update" ? Model.AuthenticateBy : BMWM.Apprentice.Web.AuthModels.UserAuthenticateBy.DB)');
+        });
+
+        @*function CheckLicense(val) {
+            if (val == true && $("#hdIsActive").val() == "NO") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Action("CheckLicenseNumberOfEnabledUser")',
+                    data: null,
+                    success: function (res) {
+                        if (!res.success) {
+                            alert("Maximum number of enabled user over!");
+                            $('#IsActive').prop('checked', false);
+                        }
+                    }
+                });
+
+            }
+        }*@
+        //--------------------------------------------------------------------------------
+        $('#btnSave').click(function () {
+            if ($('input[name=AuthenticateBy]:checked').length <= 0) {
+                alert("Please select [Account Authenticate By!]");
+            } else {
+                $("#main-form").submit();
+            }
+        });
+        $(() => {
+            $('#btnReset').click(() => {
+                $(':input', '#main-form')
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .removeAttr('checked')
+                    .removeAttr('selected');
+            });
+        });
+        //--------------------------------------------------------------------------------
+        function AuthenChange(val)
+        {
+            $('#lblAuthenBy').html('');
+            $('#txtPassword').css("display", "none");
+            $('#txtLDAP').css("display", "none");
+            $('#AuthenticateBy').val(val);
+            if (val == '@BMWM.Apprentice.Web.AuthModels.UserAuthenticateBy.LDAP'){
+                $('#lblAuthenBy').html('LDAP Account');
+                $('#txtLDAP').css("display", "");
+            }
+            else {
+                $('#lblAuthenBy').html('Password');
+                $('#txtPassword').css("display", "");
+            }
+        }
+        @*$(() => {
+            //$('#AuthenticateBy').val("DB");
+            if (@Model.AuthenticateBy.ToString() == "" || @Model.AuthenticateBy == 0)
+            {
+                $("#AuthenticateBy").val("DB");
+             }
+        });*@
+
+    </script>
+}
+
